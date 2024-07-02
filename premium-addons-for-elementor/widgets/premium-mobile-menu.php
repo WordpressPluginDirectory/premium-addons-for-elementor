@@ -592,6 +592,17 @@ class Premium_Mobile_Menu extends Widget_Base {
 			)
 		);
 
+        $repeater->add_control(
+			'home_page',
+			array(
+				'label'       => __( 'Is Homepage', 'premium-addons-for-elementor' ),
+				'type'        => Controls_Manager::SWITCHER,
+				'condition'   => array(
+					'action'      => 'link',
+				),
+			)
+		);
+
 		$repeater->add_control(
 			'offcanvas_id',
 			array(
@@ -935,7 +946,7 @@ class Premium_Mobile_Menu extends Widget_Base {
 		$this->add_responsive_control(
 			'menu_custom_hpos',
 			array(
-				'label'      => __( 'Horizontal Offset (%)', 'premium-addons-pro' ),
+				'label'      => __( 'Horizontal Offset', 'premium-addons-pro' ),
 				'type'       => Controls_Manager::SLIDER,
 				'size_units' => array( 'px', '%' ),
 				'range'      => array(
@@ -991,12 +1002,6 @@ class Premium_Mobile_Menu extends Widget_Base {
 			array(
 				'label'     => __( 'Vertical Offset (%)', 'premium-addons-pro' ),
 				'type'      => Controls_Manager::SLIDER,
-				'range'     => array(
-					'px' => array(
-						'min' => 0,
-						'max' => 800,
-					),
-				),
 				'default'   => array(
 					'size' => 0,
 					'unit' => '%',
@@ -1602,6 +1607,8 @@ class Premium_Mobile_Menu extends Widget_Base {
 
 		$current_page_url = $_SERVER['REQUEST_URI'];
 
+        $is_home = is_front_page();
+
 		$this->add_render_attribute( 'wrap', 'class', 'premium-mobile-menu__wrap' );
 
 		$carousel = 'yes' === $settings['carousel'] ? true : false;
@@ -1719,8 +1726,14 @@ class Premium_Mobile_Menu extends Widget_Base {
 
                                 if( $is_edit_mode && $index == 2 ) {
                                     $this->add_render_attribute( 'menu-item-' . $index, 'class', 'active-menu-item' );
-                                } elseif ( false !== strpos( $link, $current_page_url ) ) {
-                                    $this->add_render_attribute( 'menu-item-' . $index, 'class', 'active-menu-item' );
+                                } else {
+
+                                    if ( false !== strpos( $link, $current_page_url ) && ! $is_home ) {
+                                        $this->add_render_attribute( 'menu-item-' . $index, 'class', 'active-menu-item' );
+                                    } elseif( 'yes' === $item['home_page'] && $is_home ) {
+                                        $this->add_render_attribute( 'menu-item-' . $index, 'class', 'active-menu-item' );
+                                    }
+
                                 }
 
 
