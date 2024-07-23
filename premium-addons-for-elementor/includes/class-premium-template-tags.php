@@ -243,9 +243,6 @@ class Premium_Template_Tags {
 
 		$frontend = Plugin::$instance->frontend;
 
-        //To replace the &#8211; in templates names with dash.
-        $title = html_entity_decode( $title );
-
 		$custom_temp = apply_filters( 'pa_temp_id', false );
 
 		if ( $custom_temp ) {
@@ -254,6 +251,13 @@ class Premium_Template_Tags {
 
 		if ( ! $id ) {
 			$id = $this->get_id_by_title( $title );
+
+            if( ! $id ){
+                //To replace the &#8211; in templates names with dash.
+                $decoded_title = html_entity_decode( $title );
+                $id = $this->get_id_by_title( $decoded_title );
+            }
+
 
 			$id = apply_filters( 'wpml_object_id', $id, 'elementor_library', true );
 		} else {

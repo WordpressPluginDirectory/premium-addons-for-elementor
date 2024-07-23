@@ -5,41 +5,69 @@
         var trigger = $scope.find('.pa-txt-sc__outer-container').hasClass('pa-trigger-on-viewport') ? 'viewport' : 'hover',
             hasGrowEffect = $scope.find('.pa-txt-sc__effect-grow').length;
 
-        if ( hasGrowEffect ) { // grow always triggered on viewport.
-            elementorFrontend.waypoint($scope, function () {
-                $scope.find('.pa-txt-sc__effect-grow').css('clip-path', 'inset(0 0 0 0)');
-            }, {
-                offset: '100%',
-            });
-        }
-
+        // unsing IntersectionObserverAPI.
         $scope.off('.PaTextualHandler');
 
-        if ( 'viewport' === trigger ) {
+        var eleObserver = new IntersectionObserver(function(entries) {
+            entries.forEach(function(entry) {
+                if (entry.isIntersecting) {
 
-            elementorFrontend.waypoint($scope, function () {
-                triggerItemsEffects();
-            }, {
-                offset: '100%',
+                    if (hasGrowEffect) {// grow always triggered on viewport.
+                        $scope.find('.pa-txt-sc__effect-grow').css('clip-path', 'inset(0 0 0 0)');
+                    }
+
+                    if ('viewport' === trigger) {
+                        triggerItemsEffects();
+                    }
+
+                    eleObserver.unobserve(entry.target); // to only excecute the callback func once.
+                }
             });
+        }, {
+            rootMargin: "100% 0px 0px 0px"
+        });
 
-        } else {
+        eleObserver.observe($scope[0]);
 
-            $scope.on( "mouseenter.PaTextualHandler mouseleave.PaTextualHandler", function(){
+        if ('viewport' !== trigger) {
+            $scope.on("mouseenter.PaTextualHandler mouseleave.PaTextualHandler", function () {
                 triggerItemsEffects();
             });
         }
 
+        // if (hasGrowEffect) { // grow always triggered on viewport.
+        //     elementorFrontend.waypoint($scope, function () {
+        //         $scope.find('.pa-txt-sc__effect-grow').css('clip-path', 'inset(0 0 0 0)');
+        //     }, {
+        //         offset: '100%',
+        //     });
+        // }
+
+
+        // if ('viewport' === trigger) {
+
+        //     elementorFrontend.waypoint($scope, function () {
+        //         triggerItemsEffects();
+        //     }, {
+        //         offset: '100%',
+        //     });
+
+        // } else {
+
+        //     $scope.on("mouseenter.PaTextualHandler mouseleave.PaTextualHandler", function () {
+        //         triggerItemsEffects();
+        //     });
+        // }
+
         function triggerItemsEffects() {
-            $scope.find('.pa-txt-sc__item-container:not(.pa-txt-sc__effect-none)').each(function() {
+            $scope.find('.pa-txt-sc__item-container:not(.pa-txt-sc__effect-none)').each(function () {
 
-                var effectName = this.className.match(/pa-txt-sc__effect-\S+/)[0].replace('pa-txt-sc__effect-','');
-
-                if ( 'grow' === effectName) {
+                var effectName = this.className.match(/pa-txt-sc__effect-\S+/)[0].replace('pa-txt-sc__effect-', '');
+                if ('grow' === effectName) {
                     return true;
                 }
 
-                if ( ['outline', 'curly', 'circle', 'x', 'h-underline','underline-zigzag', 'double-underline', 'diagonal', 'strikethrough'].includes(effectName) ) {
+                if (['outline', 'curly', 'circle', 'x', 'h-underline', 'underline-zigzag', 'double-underline', 'diagonal', 'strikethrough'].includes(effectName)) {
                     $(this).find('svg').toggleClass('outline');
                 } else {
                     $(this).toggleClass(effectName);
@@ -78,19 +106,30 @@
             $(this).text('').append(html);
         });
 
-        elementorFrontend.waypoint($scope, function () {
-            if ( txtShowcaseElem.length ) {
+        // unsing IntersectionObserverAPI.
+        var eleObserver = new IntersectionObserver(function(entries) {
+            entries.forEach(function(entry) {
+                if (entry.isIntersecting) {
 
-                $(txtShowcaseElem).addClass('premium-mask-active');
+                    if ( txtShowcaseElem.length ) {
 
-            } else {
-                $($scope).addClass('premium-mask-active');
-            }
+                        $(txtShowcaseElem).addClass('premium-mask-active');
+
+                    } else {
+                        $($scope).addClass('premium-mask-active');
+                    }
+
+                    eleObserver.unobserve(entry.target); // to only excecute the callback func once.
+                }
+            });
         });
+
+        eleObserver.observe($scope[0]);
     };
 
     $(window).on('elementor/frontend/init', function () {
-        elementorFrontend.hooks.addAction('frontend/element_ready/premium-textual-showcase.default',  [PremiumTextualShowcaseHandler,PremiumMaskHandler]);
+        elementorFrontend.hooks.addAction('frontend/element_ready/premium-textual-showcase.default', PremiumTextualShowcaseHandler);
+        elementorFrontend.hooks.addAction('frontend/element_ready/premium-textual-showcase.default', PremiumMaskHandler);
     });
  })(jQuery);
 
