@@ -102,6 +102,10 @@ class Premium_Fancytext extends Widget_Base {
 		return array( 'pa', 'premium', 'premium animated text', 'fancy', 'typing', 'headline', 'heading', 'animation' );
 	}
 
+	protected function is_dynamic_content(): bool {
+		return false;
+	}
+
 	/**
 	 * Retrieve Widget Categories.
 	 *
@@ -325,6 +329,19 @@ class Premium_Fancytext extends Widget_Base {
 				'condition' => array(
 					'style' => 'switch',
 				),
+			)
+		);
+
+		$this->add_control(
+			'trigger',
+			array(
+				'label'   => __( 'Trigger On', 'premium-addons-for-elementor' ),
+				'type'    => Controls_Manager::SELECT,
+				'options' => array(
+					'page_load' => __( 'Page Load', 'premium-addons-for-elementor' ),
+					'viewport'  => __( 'Visible on Viewport', 'premium-addons-for-elementor' ),
+				),
+				'default' => 'page_load',
 			)
 		);
 
@@ -641,18 +658,28 @@ class Premium_Fancytext extends Widget_Base {
 			)
 		);
 
-		$title = __( 'Getting started »', 'premium-addons-for-elementor' );
-
-		$doc_url = Helper_Functions::get_campaign_link( 'https://premiumaddons.com/docs/fancy-text-widget-tutorial/', 'editor-page', 'wp-editor', 'get-support' );
-
-		$this->add_control(
-			'doc_1',
-			array(
-				'type'            => Controls_Manager::RAW_HTML,
-				'raw'             => sprintf( '<a href="%s" target="_blank">%s</a>', $doc_url, $title ),
-				'content_classes' => 'editor-pa-doc',
-			)
+		$docs = array(
+			'https://premiumaddons.com/docs/elementor-animated-text-widget-tutorial/' => __( 'Getting started »', 'premium-addons-for-elementor' ),
+			'https://www.youtube.com/watch?v=Q5aRlJdXFw0' => __( 'Check the video tutorial »', 'premium-addons-for-elementor' ),
 		);
+
+		$doc_index = 1;
+		foreach ( $docs as $url => $title ) {
+
+			$doc_url = Helper_Functions::get_campaign_link( $url, 'editor-page', 'wp-editor', 'get-support' );
+
+			$this->add_control(
+				'doc_' . $doc_index,
+				array(
+					'type'            => Controls_Manager::RAW_HTML,
+					'raw'             => sprintf( '<a href="%s" target="_blank">%s</a>', $doc_url, $title ),
+					'content_classes' => 'editor-pa-doc',
+				)
+			);
+
+			++$doc_index;
+
+		}
 
 		$this->end_controls_section();
 
@@ -1187,6 +1214,8 @@ class Premium_Fancytext extends Widget_Base {
 
 		if ( 'switch' === $settings['style'] ) {
 
+			$this->add_render_attribute( 'wrapper', 'data-start-effect', $settings['trigger'] );
+
 			$loading_bar = 'yes' === $settings['loading_bar'];
 
 			$pause = '';
@@ -1427,6 +1456,12 @@ class Premium_Fancytext extends Widget_Base {
 		<?php
 	}
 
+	/**
+	 * Render Draw shape
+	 *
+	 * @since 4.10.34
+	 * @access protected
+	 */
 	protected function render_draw_shape() {
 
 		$settings = $this->get_settings_for_display();
