@@ -974,6 +974,7 @@ class Mini_Cart extends Widget_Base {
 				'label'        => __( 'Layout', 'premium-addons-for-elementor' ),
 				'type'         => Controls_Manager::SELECT,
 				'prefix_class' => 'pa-show-',
+				// 'render_type' => 'template',
 				'options'      => array(
 					'layout-1' => __( 'Layout 1', 'premium-addons-for-elementor' ),
 					'layout-2' => apply_filters( 'pa_pro_label', __( 'Layout 2 (Pro)', 'premium-addons-for-elementor' ) ),
@@ -1359,24 +1360,30 @@ class Mini_Cart extends Widget_Base {
 				'label'     => __( 'Vertical Alignment', 'premium-addons-for-elementor' ),
 				'type'      => Controls_Manager::CHOOSE,
 				'options'   => array(
-					'align-self: flex-start;' => array(
+					'start' => array(
 						'title' => __( 'Top', 'premium-addons-for-elementor' ),
 						'icon'  => 'eicon-align-start-v',
 					),
-					'align-self: center;'     => array(
+					'center'     => array(
 						'title' => __( 'Center', 'premium-addons-for-elementor' ),
 						'icon'  => 'eicon-align-center-v',
 					),
-					'align-self: flex-end;'   => array(
+					'end'   => array(
 						'title' => __( 'Bottom', 'premium-addons-for-elementor' ),
 						'icon'  => 'eicon-align-end-v',
 					),
-					''                        => array(
+					'stretch'                        => array(
 						'title' => __( 'stretch', 'premium-addons-for-elementor' ),
 						'icon'  => 'eicon-align-stretch-v',
 					),
 				),
-				'default'   => 'align-self: center;',
+				'selectors_dictionary' => array(
+					'start'  => 'align-self: flex-start',
+					'center' => 'align-self: center',
+					'end'   => 'align-self: flex-end',
+					'stretch'   => 'stretch'
+				),
+				'default'   => 'center',
 				'toggle'    => false,
 				'selectors' => array(
 					'{{WRAPPER}} .pa-woo-mc__product-data' => '{{VALUE}};',
@@ -3759,6 +3766,8 @@ class Mini_Cart extends Widget_Base {
 			}
 		}
 
+        update_option( 'pa_mc_layout', $settings['content_layout'] );
+
 		$icon_type = $settings['icon_type'];
 		$cart_txt  = $settings['cart_txt'];
 
@@ -4016,7 +4025,7 @@ class Mini_Cart extends Widget_Base {
 			<div class="pa-woo-mc__cart-buttons">
 				<?php if ( $view_cart ) : ?>
 				<a href="<?php echo esc_url( wc_get_cart_url() ); ?>" class="pa-woo-mc__mc-btn pa-woo-mc__view-cart">
-					<span class="pa-woo-mc__btn-txt"><?php echo esc_html__( 'View Cart', 'woocommerce' ); // phpcs:ignore WordPress.WP.I18n ?></span>
+					<span class="pa-woo-mc__btn-txt"><?php echo esc_html__( 'View cart', 'woocommerce' ); // phpcs:ignore WordPress.WP.I18n ?></span>
 				</a>
 				<?php endif; ?>
 				<?php if ( $checkout ) : ?>

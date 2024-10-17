@@ -20,8 +20,15 @@ if ( ! function_exists( 'pa_render_cart_item' ) ) {
 		$product_price     = apply_filters( 'woocommerce_cart_item_price', WC()->cart->get_product_price( $_product ), $cart_item, $cart_item_key );
 		$product_name      = apply_filters( 'woocommerce_cart_item_name', $_product->get_name(), $cart_item, $cart_item_key );
 
-		pa_render_first_layout( $_product, $cart_item_key, $cart_item, $thumbnail, $product_permalink, $product_name, $product_price );
-		pa_render_second_layout( $_product, $cart_item_key, $cart_item, $thumbnail, $product_permalink, $product_name, $product_price );
+        $rendered_layout = get_option('pa_mc_layout', 'layout-1');
+
+        if( 'layout-1' === $rendered_layout ) {
+
+            pa_render_first_layout( $_product, $cart_item_key, $cart_item, $thumbnail, $product_permalink, $product_name, $product_price );
+        } else {
+            pa_render_second_layout( $_product, $cart_item_key, $cart_item, $thumbnail, $product_permalink, $product_name, $product_price );
+        }
+
 	}
 }
 
@@ -156,7 +163,7 @@ $cart_items = WC()->cart->get_cart();
 ?>
 	<div class="pa-woo-mc__items-wrapper">
 		<?php if ( empty( $cart_items ) ) { ?>
-		<div class="pa-woo-mc__empty-msg">Your Cart Has No items</div>
+		<div class="pa-woo-mc__empty-msg"><?php echo __('Your cart is currently empty!', 'woocommerce'); ?></div>
 			<?php
 		} else {
 

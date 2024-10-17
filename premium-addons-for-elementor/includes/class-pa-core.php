@@ -113,7 +113,7 @@ if ( ! class_exists( 'PA_Core' ) ) {
 
 			if ( ! $install_time ) {
 
-				$current_time = date( 'j F, Y', time() );
+				$current_time = gmdate( 'j F, Y', time() );
 
 				update_option( 'pa_install_time', $current_time );
 
@@ -223,7 +223,7 @@ if ( ! class_exists( 'PA_Core' ) ) {
 		 */
 		public function init() {
 
-			if ( \PremiumAddons\Admin\Includes\Admin_Helper::check_premium_templates() ) {
+			if ( is_user_logged_in() && \PremiumAddons\Admin\Includes\Admin_Helper::check_premium_templates() ) {
 				require_once PREMIUM_ADDONS_PATH . 'includes/templates/templates.php';
 			}
 		}

@@ -445,7 +445,7 @@ class Premium_Nav_Menu extends Widget_Base {
 			array(
 				'label'       => __( 'Full Width Dropdown', 'premium-addons-for-elementor' ),
 				'type'        => Controls_Manager::SWITCHER,
-				'description' => __( 'Enable this option to set the dropdown width to the same width of the parent section', 'premium-addons-for-elementor' ),
+				'description' => __( 'Enable this option to set the dropdown width to the same width of the parent container', 'premium-addons-for-elementor' ),
 				'condition'   => array(
 					'item_type' => 'menu',
 				),
@@ -4502,7 +4502,7 @@ class Premium_Nav_Menu extends Widget_Base {
 		$this->add_render_attribute(
 			'wrapper',
 			array(
-				'data-settings' => json_encode( $menu_settings ),
+				'data-settings' => wp_json_encode( $menu_settings ),
 				'class'         => array(
 					'premium-nav-widget-container',
 					'premium-nav-pointer-' . $settings['pointer'],

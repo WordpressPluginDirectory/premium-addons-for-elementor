@@ -273,13 +273,21 @@ because it's rendered as div with custom SVG code.
 .premium-svg-drawer * {
   -webkit-transition: all 0.3s ease-in-out;
   transition: all 0.3s ease-in-out;
-  -webkit-transition-property: stroke, fill, background-color;
-  transition-property: stroke, fill, background-color;
+  -webkit-transition-property: stroke, fill, background-color !important;
+  transition-property: stroke, fill, background-color !important;
 }
 .premium-svg-nodraw .no-transition,
 .premium-svg-drawer .no-transition {
   -webkit-transition: none !important;
   transition: none !important;
+}
+
+/**
+This is added to give a default Path Thickness because the Icon will be invisible if icon color has no value.
+*/
+.premium-svg-drawer * {
+  stroke-width: 15px;
+  stroke: #000;
 }
 
 /** Common Animation */

@@ -128,7 +128,7 @@ class Addons_Integration {
 
 			add_action( 'elementor/editor/before_enqueue_scripts', array( $this, 'enqueue_editor_cp_scripts' ), 99 );
 
-			Addons_Cross_CP::get_instance();
+            add_action( 'elementor/editor/init', array( $this, 'load_cp_module' ) );
 
 		}
 	}
@@ -206,8 +206,8 @@ class Addons_Integration {
 			wp_send_json_error( 'Insufficient user permission' );
 		}
 
-		$temp_id   = sanitize_text_field( wp_unslash( $_POST['templateID'] ) );
-		$temp_type = sanitize_text_field( wp_unslash( $_POST['tempType'] ) );
+		$temp_id   = isset( $_POST['templateID'] ) ? sanitize_text_field( wp_unslash( $_POST['templateID'] ) ) : '';
+		$temp_type = isset( $_POST['tempType'] ) ? sanitize_text_field( wp_unslash( $_POST['tempType'] ) ) : '';
 
 		if ( 'loop' === $temp_type ) {
 			/** @var LoopDocument $document */
@@ -363,21 +363,32 @@ class Addons_Integration {
 				array(
 					'ajaxurl' => esc_url( admin_url( 'admin-ajax.php' ) ),
 					'nonce'   => wp_create_nonce( 'pa-blog-widget-nonce' ),
+                    'unused_nonce'             => wp_create_nonce( 'pa-disable-unused' ),
 				)
 			);
 		}
 
 		$time_limit = ini_get( 'max_execution_time' );
 
-		if ( $time_limit < 300 ) {
+		if ( $time_limit < 400 ) {
 
 			$link = Helper_Functions::get_campaign_link( 'https://premiumaddons.com/docs/fix-elementor-editor-panel-loading-issues/', 'editor-page', 'wp-editor', 'panel-issues' );
 
+            $disable_unused_url = add_query_arg(
+                array(
+                    'page'     => 'premium-addons',
+                    'pa-action' => 'unused',
+                    '#tab'     => 'elements',
+                ),
+                esc_url( admin_url( 'admin.php' ) )
+            );
+
 			wp_localize_script(
 				'pa-eq-editor',
-				'PremiumEditorLink',
+				'PremiumEditorLinks',
 				array(
 					$link,
+                    $disable_unused_url
 				),
 			);
 
@@ -1480,7 +1491,7 @@ class Addons_Integration {
 			'post_author'  => $current_user->ID,
 			'post_title'   => sprintf(
 				__( 'Form | %s', 'premium-addons-for-elementor' ),
-				date( 'Y-m-d H:i' )
+				gmdate( 'Y-m-d H:i' )
 			),
 		);
 
@@ -1699,6 +1710,20 @@ class Addons_Integration {
 			Wrapper_Link::get_instance();
 		}
 	}
+
+
+    /**
+     * Load Copy Paste Module
+     *
+     * @since 4.10.57
+     * @access public
+     */
+    public function load_cp_module() {
+
+        Addons_Cross_CP::get_instance();
+
+    }
+
 
 	/**
 	 *

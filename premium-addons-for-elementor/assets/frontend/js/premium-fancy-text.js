@@ -128,7 +128,17 @@
                                 if (settings.effect === "custom")
                                     animationClass = "animated " + settings.animation;
 
-                                $stringsWrap.css('transition', 'width 0.5s');
+                                if (
+                                    (settings.effect === 'custom') &&
+                                    (settings.animation !== 'slideInUp' &&
+                                        settings.animation !== 'slideInDown' &&
+                                        settings.animation !== 'fadeInUp' &&
+                                        settings.animation !== 'fadeInDown')
+                                ) {
+                                    $stringsWrap.css('transition', 'width 0.5s');
+                                } else if (settings.effect === 'rotate') {
+                                    $stringsWrap.css('transition', 'width 0.2s  0.5s')
+                                }
 
                                 //Show current active item
                                 $item.eq(current).addClass("premium-fancy-item-visible " + animationClass).removeClass("premium-fancy-item-hidden");

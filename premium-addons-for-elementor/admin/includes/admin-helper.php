@@ -333,6 +333,7 @@ class Admin_Helper {
 				'settings'               => array(
 					'ajaxurl'           => admin_url( 'admin-ajax.php' ),
 					'nonce'             => wp_create_nonce( 'pa-settings-tab' ),
+                    'unused_nonce'             => wp_create_nonce( 'pa-disable-unused' ),
 					'generate_nonce'    => wp_create_nonce( 'pa-generate-nonce' ),
 					'site_cursor_nonce' => wp_create_nonce( 'pa-site-cursor-nonce' ),
 					'theme'             => $theme_slug,
@@ -480,7 +481,7 @@ class Admin_Helper {
 			wp_unslash( $_POST['settings'] ) // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 		);
 
-		update_post_meta( $settings['item_id'], 'pa_megamenu_item_meta', json_encode( $settings, JSON_UNESCAPED_UNICODE ) );
+		update_post_meta( $settings['item_id'], 'pa_megamenu_item_meta', wp_json_encode( $settings, JSON_UNESCAPED_UNICODE ) );
 
 		wp_send_json_success( $settings );
 	}
@@ -495,6 +496,10 @@ class Admin_Helper {
 	public function save_pa_mega_item_content() {
 
 		check_ajax_referer( 'pa-live-editor', 'security' );
+
+        if ( ! current_user_can( 'edit_theme_options' ) ) {
+			wp_send_json_error( 'Insufficient user permission' );
+		}
 
 		if ( ! isset( $_POST['template_id'] ) ) {
 			wp_send_json_error( 'template id is not set!' );
@@ -1252,7 +1257,7 @@ class Admin_Helper {
 	 */
 	public function get_unused_widgets() {
 
-		check_ajax_referer( 'pa-settings-tab', 'security' );
+		check_ajax_referer( 'pa-disable-unused', 'security' );
 
 		if ( ! current_user_can( 'install_plugins' ) ) {
 			wp_send_json_error();
@@ -1281,7 +1286,9 @@ class Admin_Helper {
 
 		check_ajax_referer( 'pa-generate-nonce', 'security' );
 
-		$this->clear_dynamic_assets_data();
+        $post_id = isset( $_POST['id'] ) ? sanitize_text_field( wp_unslash( $_POST['id'] ) ) : '';
+
+		$this->clear_dynamic_assets_data( $post_id );
 
 		wp_send_json_success( 'Cached Assets Cleared' );
 	}
@@ -1295,20 +1302,20 @@ class Admin_Helper {
 	 *
 	 * @access public
 	 * @since 4.10.51
+     *
+     * @param string $id post ID.
 	 */
-	public function clear_dynamic_assets_data() {
+	public function clear_dynamic_assets_data( $id = '' ) {
 
 		if ( ! current_user_can( 'manage_options' ) ) {
 			wp_send_json_error( __( 'You are not allowed to do this action', 'premium-addons-for-elementor' ) );
 		}
 
-		$post_id = isset( $_POST['id'] ) ? sanitize_text_field( wp_unslash( $_POST['id'] ) ) : '';
-
-		if ( empty( $post_id ) ) {
+		if ( empty( $id ) ) {
 			$this->delete_assets_options();
 		}
 
-		$this->delete_assets_files( $post_id );
+		$this->delete_assets_files( $id );
 	}
 
 	/**
@@ -1344,7 +1351,15 @@ class Admin_Helper {
 
 		global $wpdb;
 
-		$query = $wpdb->prepare( "DELETE FROM $wpdb->options WHERE option_name LIKE '%pa_elements_%' OR option_name LIKE '%pa_edit_%' AND autoload = 'no'" );
+		$query = $wpdb->prepare(
+            "DELETE FROM $wpdb->options
+            WHERE (option_name LIKE %s OR option_name LIKE %s)
+            AND autoload = %s",
+            '%pa_elements_%',
+            '%pa_edit_%',
+            'no'
+        );
+
 		$wpdb->query( $query );
 	}
 
@@ -1370,7 +1385,7 @@ class Admin_Helper {
 					continue;
 				}
 
-				unlink( Helper_Functions::get_safe_path( $path . DIRECTORY_SEPARATOR . $file ) );
+				wp_delete_file( Helper_Functions::get_safe_path( $path . DIRECTORY_SEPARATOR . $file ) );
 			}
 		} else {
 
@@ -1378,7 +1393,7 @@ class Admin_Helper {
 
 			$arr = array();
 			foreach ( glob( PREMIUM_ASSETS_PATH . '/*' . $id . '*' ) as $file ) {
-				unlink( Helper_Functions::get_safe_path( $file ) );
+				wp_delete_file( Helper_Functions::get_safe_path( $file ) );
 			}
 		}
 	}
@@ -1522,7 +1537,7 @@ class Admin_Helper {
 			$request = add_query_arg(
 				array(
 					'per_page'   => 3,
-					'categories' => 1,
+					'categories' => 32,
 				),
 				$api_url
 			);
