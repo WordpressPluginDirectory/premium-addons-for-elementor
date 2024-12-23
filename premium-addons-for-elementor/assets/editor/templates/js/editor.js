@@ -965,9 +965,11 @@
 
         init: function () {
 
-            $(document).ready(function () {
-                PremiumEditor.initPremTempsButton();
-            });
+            // $(document).ready(function () {
+            //     PremiumEditor.initPremTempsButton();
+            // });
+
+            window.elementor.on("preview:loaded", window._.bind(PremiumEditor.initPremTempsButton, PremiumEditor))
 
             window.elementor.on('document:loaded', window._.bind(PremiumEditor.onPreviewLoaded, PremiumEditor));
 
@@ -998,17 +1000,37 @@
 
         initPremTempsButton: function () {
 
-            var addPremiumTemplate = '<div class="elementor-add-section-area-button pa-add-section-btn" title="Add Premium Template"><i class="eicon-star"></i></div>',
-                addSectionTmpl = $("#tmpl-elementor-add-section");
+            var interval = setInterval(function () {
 
-            if (addSectionTmpl.length < 1)
-                return;
+                var $elementorNewSection = window.elementor.$previewContents.find(".elementor-add-new-section").length;
 
-            var addSectionTmplHTML = addSectionTmpl.html();
+                if ($elementorNewSection) {
 
-            addSectionTmplHTML = addSectionTmplHTML.replace('<div class="elementor-add-section-area-button', addPremiumTemplate + '<div class="elementor-add-section-area-button');
+                    var addPremiumTemplate = $('<div class="elementor-add-section-area-button pa-add-section-btn" title="Add Premium Template"><i class="eicon-star"></i></div>'),
+                        $elementorButton = window.elementor.$previewContents.find(".elementor-add-section-button");
 
-            addSectionTmpl.html(addSectionTmplHTML);
+                    $elementorButton.before(addPremiumTemplate);
+
+                    var addTemplatesButton = function (e, a) {
+
+                        var $eButton = $(e.target).parents(a).prev(".elementor-add-section").find(".elementor-add-section-button");
+
+                        $eButton.siblings(".pa-add-section-btn").length || $eButton.before(addPremiumTemplate.clone())
+                    };
+
+                    window.elementor.$previewContents.on('click.addPremiumTemplate', ".elementor-editor-section-settings .elementor-editor-element-add", (function (e) {
+                        addTemplatesButton(e, ".elementor-top-section")
+                    }));
+
+                    window.elementor.$previewContents.on('click.addPremiumTemplate', ".elementor-editor-container-settings .elementor-editor-element-add", (function (e) {
+                        addTemplatesButton(e, ".e-parent")
+                    }))
+
+                    clearInterval(interval);
+
+                }
+
+            }, 100);
 
         },
 

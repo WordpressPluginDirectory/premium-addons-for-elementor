@@ -6,6 +6,7 @@
 namespace PremiumAddons\Widgets;
 
 // Elementor Classes.
+use Elementor\Plugin;
 use Elementor\Widget_Base;
 use Elementor\Utils;
 use Elementor\Icons_Manager;
@@ -169,6 +170,10 @@ class Premium_Title extends Widget_Base {
 	public function get_custom_help_url() {
 		return 'https://premiumaddons.com/support/';
 	}
+
+    public function has_widget_inner_wrapper(): bool {
+        return ! Plugin::$instance->experiments->is_feature_active( 'e_optimized_markup' );
+    }
 
 	/**
 	 * Register Title controls.
@@ -733,7 +738,7 @@ class Premium_Title extends Widget_Base {
 			array(
 				'label'       => __( 'Stripe Width (PX)', 'premium-addons-for-elementor' ),
 				'type'        => Controls_Manager::SLIDER,
-				'size_units'  => array( 'px', '%', 'em' ),
+				'size_units'  => array( 'px', '%', 'em', 'vw' ),
 				'default'     => array(
 					'unit' => 'px',
 					'size' => '120',
@@ -1384,7 +1389,7 @@ class Premium_Title extends Widget_Base {
 			array(
 				'label'      => __( 'Margin', 'premium-addons-for-elementor' ),
 				'type'       => Controls_Manager::DIMENSIONS,
-				'size_units' => array( 'px', 'em', '%' ),
+				'size_units' => array( 'px', 'em', '%', 'vw', 'custom' ),
 				'selectors'  => array(
 					'{{WRAPPER}} .premium-title-text' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
 				),
@@ -1396,7 +1401,7 @@ class Premium_Title extends Widget_Base {
 			array(
 				'label'      => __( 'Padding', 'premium-addons-for-elementor' ),
 				'type'       => Controls_Manager::DIMENSIONS,
-				'size_units' => array( 'px', 'em', '%' ),
+				'size_units' => array( 'px', 'em', '%', 'vw', 'custom' ),
 				'selectors'  => array(
 					'{{WRAPPER}} .premium-title-text' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
 				),
@@ -1617,7 +1622,7 @@ class Premium_Title extends Widget_Base {
 			array(
 				'label'      => __( 'Size', 'premium-addons-for-elementor' ),
 				'type'       => Controls_Manager::SLIDER,
-				'size_units' => array( 'px', 'em', '%' ),
+				'size_units' => array( 'px', 'em', '%', 'vw', 'custom' ),
 				'range'      => array(
 					'px' => array(
 						'min' => 10,
@@ -1643,7 +1648,7 @@ class Premium_Title extends Widget_Base {
 			array(
 				'label'      => __( 'Width', 'premium-addons-for-elementor' ),
 				'type'       => Controls_Manager::SLIDER,
-				'size_units' => array( 'px', 'em', '%', 'custom' ),
+				'size_units' => array( 'px', 'em', '%', 'vw', 'custom' ),
 				'range'      => array(
 					'px' => array(
 						'min' => 1,
@@ -1753,7 +1758,7 @@ class Premium_Title extends Widget_Base {
 			array(
 				'label'      => __( 'Margin', 'premium-addons-for-elementor' ),
 				'type'       => Controls_Manager::DIMENSIONS,
-				'size_units' => array( 'px', 'em', '%' ),
+				'size_units' => array( 'px', 'em', '%', 'vw', 'custom' ),
 				'selectors'  => array(
 					'{{WRAPPER}} .premium-title-icon' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}}',
 				),
@@ -1765,7 +1770,7 @@ class Premium_Title extends Widget_Base {
 			array(
 				'label'      => __( 'Padding', 'premium-addons-for-elementor' ),
 				'type'       => Controls_Manager::DIMENSIONS,
-				'size_units' => array( 'px', 'em', '%' ),
+				'size_units' => array( 'px', 'em', '%', 'vw', 'custom' ),
 				'selectors'  => array(
 					'{{WRAPPER}} .premium-title-icon' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}}',
 				),
@@ -1970,27 +1975,27 @@ class Premium_Title extends Widget_Base {
 
 				$this->add_render_attribute( 'icon', 'class', 'premium-drawable-icon' );
 
-				if ( 'icon' === $icon_type ) {
+				// if ( 'icon' === $icon_type ) {
 
-					if ( ! empty( $settings['premium_title_icon'] ) ) {
+				// 	if ( ! empty( $settings['premium_title_icon'] ) ) {
 
-						$this->add_render_attribute(
-							'icon',
-							array(
-								'class'       => array(
-									'premium-title-icon',
-									$settings['premium_title_icon'],
-								),
-								'aria-hidden' => 'true',
-							)
-						);
+				// 		$this->add_render_attribute(
+				// 			'icon',
+				// 			array(
+				// 				'class'       => array(
+				// 					'premium-title-icon',
+				// 					$settings['premium_title_icon'],
+				// 				),
+				// 				'aria-hidden' => 'true',
+				// 			)
+				// 		);
 
-					}
+				// 	}
 
-					$migrated = isset( $settings['__fa4_migrated']['premium_title_icon_updated'] );
-					$is_new   = empty( $settings['premium_title_icon'] ) && Icons_Manager::is_migration_allowed();
+				// 	$migrated = isset( $settings['__fa4_migrated']['premium_title_icon_updated'] );
+				// 	$is_new   = empty( $settings['premium_title_icon'] ) && Icons_Manager::is_migration_allowed();
 
-				}
+				// }
 
 				if ( ( 'yes' === $settings['draw_svg'] && 'icon' === $icon_type ) || 'svg' === $icon_type ) {
 					$this->add_render_attribute( 'icon', 'class', 'premium-title-icon' );
@@ -2007,11 +2012,11 @@ class Premium_Title extends Widget_Base {
 						)
 					);
 
-					if ( 'icon' === $icon_type ) {
+					// if ( 'icon' === $icon_type ) {
 
-						$this->add_render_attribute( 'icon', 'class', $settings['premium_title_icon_updated']['value'] );
+					// 	$this->add_render_attribute( 'icon', 'class', $settings['premium_title_icon_updated']['value'] );
 
-					}
+					// }
 
 					$this->add_render_attribute(
 						'icon',
@@ -2100,7 +2105,7 @@ class Premium_Title extends Widget_Base {
 				<?php if ( 'yes' === $settings['premium_title_icon_switcher'] ) : ?>
 					<?php if ( 'icon' === $icon_type ) : ?>
 						<?php
-						if ( ( $is_new || $migrated ) && 'yes' !== $settings['draw_svg'] ) :
+						if ( 'yes' !== $settings['draw_svg'] ) :
 							Icons_Manager::render_icon(
 								$settings['premium_title_icon_updated'],
 								array(
@@ -2109,9 +2114,13 @@ class Premium_Title extends Widget_Base {
 								)
 							);
 						else :
-							?>
-							<i <?php echo wp_kses_post( $this->get_render_attribute_string( 'icon' ) ); ?>></i>
-						<?php endif; ?>
+
+							echo Helper_Functions::get_svg_by_icon(
+                                $settings['premium_title_icon_updated'],
+                                $this->get_render_attribute_string( 'icon' )
+                            );
+
+						endif; ?>
 
 					<?php elseif ( 'svg' === $icon_type ) : ?>
 						<div <?php echo wp_kses_post( $this->get_render_attribute_string( 'icon' ) ); ?>>

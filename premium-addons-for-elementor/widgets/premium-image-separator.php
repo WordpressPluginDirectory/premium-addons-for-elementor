@@ -7,6 +7,7 @@ namespace PremiumAddons\Widgets;
 
 // Elementor Classes.
 use Elementor\Modules\DynamicTags\Module as TagsModule;
+use Elementor\Plugin;
 use Elementor\Widget_Base;
 use Elementor\Utils;
 use Elementor\Control_Media;
@@ -166,6 +167,10 @@ class Premium_Image_Separator extends Widget_Base {
 	public function get_custom_help_url() {
 		return 'https://premiumaddons.com/support/';
 	}
+
+    public function has_widget_inner_wrapper(): bool {
+        return ! Plugin::$instance->experiments->is_feature_active( 'e_optimized_markup' );
+    }
 
 	/**
 	 * Register Image Controls controls.
@@ -1042,9 +1047,13 @@ class Premium_Image_Separator extends Widget_Base {
 					)
 				);
 			else :
-				?>
-				<i <?php echo wp_kses_post( $this->get_render_attribute_string( 'icon' ) ); ?>></i>
-			<?php endif; ?>
+
+                echo Helper_Functions::get_svg_by_icon(
+                    $settings['separator_icon'],
+                    $this->get_render_attribute_string( 'icon' )
+                );
+
+			endif; ?>
 		<?php elseif ( 'svg' === $type ) : ?>
 			<div <?php echo wp_kses_post( $this->get_render_attribute_string( 'icon' ) ); ?>>
 				<?php $this->print_unescaped_setting( 'custom_svg' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>

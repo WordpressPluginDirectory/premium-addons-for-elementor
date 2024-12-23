@@ -144,6 +144,10 @@ class Premium_Blog extends Widget_Base {
 		return 'https://premiumaddons.com/support/';
 	}
 
+    public function has_widget_inner_wrapper(): bool {
+        return ! Plugin::$instance->experiments->is_feature_active( 'e_optimized_markup' );
+    }
+
 	/**
 	 * Register Blog controls.
 	 *

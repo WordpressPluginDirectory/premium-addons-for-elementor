@@ -6,6 +6,7 @@
 namespace PremiumAddons\Widgets;
 
 // Elementor Classes.
+use Elementor\Plugin;
 use Elementor\Widget_Base;
 use Elementor\Controls_Manager;
 use Elementor\Repeater;
@@ -138,6 +139,10 @@ class Premium_Fancytext extends Widget_Base {
 	public function get_custom_help_url() {
 		return 'https://premiumaddons.com/support/';
 	}
+
+    public function has_widget_inner_wrapper(): bool {
+        return ! Plugin::$instance->experiments->is_feature_active( 'e_optimized_markup' );
+    }
 
 	/**
 	 * Register Testimonials controls.
@@ -988,6 +993,7 @@ class Premium_Fancytext extends Widget_Base {
 				'selectors' => array(
 					'{{WRAPPER}} .premium-atext__text, {{WRAPPER}} .premium-atext__text::after, {{WRAPPER}} .premium-atext__letter, {{WRAPPER}} .text' => 'animation-duration: {{SIZE}}s',
 					'{{WRAPPER}} .premium-atext__shape svg path' => '--pa-animation-duration: {{SIZE}}s',
+                    '{{WRAPPER}}' => '--pa-animation-duration: {{SIZE}}',
 				),
 				'condition' => array(
 					'style'             => 'highlight',
@@ -1006,6 +1012,9 @@ class Premium_Fancytext extends Widget_Base {
 						'min' => 0,
 						'max' => 15,
 					),
+				),
+                'selectors' => array(
+                    '{{WRAPPER}}' => '--pa-animation-delay: {{SIZE}}',
 				),
 				'condition' => array(
 					'style'            => 'highlight',
@@ -1301,11 +1310,6 @@ class Premium_Fancytext extends Widget_Base {
 				'effect' => $effect,
 				'style'  => $settings['style'],
 			);
-
-			if ( 'shape' === $effect ) {
-				$atext_settings['delay']    = $settings['animation_delay']['size'];
-				$atext_settings['duration'] = $settings['animation_speed']['size'];
-			}
 
 			$this->add_render_attribute(
 				'wrapper',

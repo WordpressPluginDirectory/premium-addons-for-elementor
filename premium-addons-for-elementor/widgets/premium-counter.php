@@ -6,6 +6,7 @@
 namespace PremiumAddons\Widgets;
 
 // Elementor Classes.
+use Elementor\Plugin;
 use Elementor\Widget_Base;
 use Elementor\Utils;
 use Elementor\Icons_Manager;
@@ -151,6 +152,10 @@ class Premium_Counter extends Widget_Base {
 	public function get_custom_help_url() {
 		return 'https://premiumaddons.com/support/';
 	}
+
+    public function has_widget_inner_wrapper(): bool {
+        return ! Plugin::$instance->experiments->is_feature_active( 'e_optimized_markup' );
+    }
 
 	/**
 	 * Register Counter controls.
@@ -1435,31 +1440,31 @@ class Premium_Counter extends Widget_Base {
 
 			$this->add_render_attribute( 'icon', 'class', 'premium-drawable-icon' );
 
-			if ( 'icon' === $icon_type ) {
+			// if ( 'icon' === $icon_type ) {
 
-				if ( ! empty( $settings['premium_counter_icon'] ) ) {
-					$this->add_render_attribute(
-						'icon',
-						array(
-							'class'       => $settings['premium_counter_icon'],
-							'aria-hidden' => 'true',
-						)
-					);
+			// 	if ( ! empty( $settings['premium_counter_icon'] ) ) {
+			// 		$this->add_render_attribute(
+			// 			'icon',
+			// 			array(
+			// 				'class'       => $settings['premium_counter_icon'],
+			// 				'aria-hidden' => 'true',
+			// 			)
+			// 		);
 
-				}
+			// 	}
 
-				$migrated = isset( $settings['__fa4_migrated']['premium_counter_icon_updated'] );
-				$is_new   = empty( $settings['premium_counter_icon'] ) && Icons_Manager::is_migration_allowed();
+			// 	$migrated = isset( $settings['__fa4_migrated']['premium_counter_icon_updated'] );
+			// 	$is_new   = empty( $settings['premium_counter_icon'] ) && Icons_Manager::is_migration_allowed();
 
-			}
+			// }
 
 			if ( 'yes' === $settings['draw_svg'] ) {
 
-				if ( 'icon' === $icon_type ) {
+				// if ( 'icon' === $icon_type ) {
 
-					$this->add_render_attribute( 'icon', 'class', $settings['premium_counter_icon_updated']['value'] );
+				// 	$this->add_render_attribute( 'icon', 'class', $settings['premium_counter_icon_updated']['value'] );
 
-				}
+				// }
 
 				$this->add_render_attribute(
 					'icon',
@@ -1476,9 +1481,8 @@ class Premium_Counter extends Widget_Base {
 					)
 				);
 
-			} else {
-				$this->add_render_attribute( 'icon', 'class', 'premium-svg-nodraw' );
 			}
+
 		} elseif ( 'custom' === $icon_type ) {
 			$alt = esc_attr( Control_Media::get_image_alt( $settings['premium_counter_image_upload'] ) );
 
@@ -1519,7 +1523,7 @@ class Premium_Counter extends Widget_Base {
 
 				<?php if ( 'icon' === $icon_type && ( ! empty( $settings['premium_counter_icon_updated']['value'] ) || ! empty( $settings['premium_counter_icon'] ) ) ) : ?>
 					<?php
-					if ( ( $is_new || $migrated ) && 'yes' !== $settings['draw_svg'] ) :
+					if ( 'yes' !== $settings['draw_svg'] ) :
 						Icons_Manager::render_icon(
 							$settings['premium_counter_icon_updated'],
 							array(
@@ -1528,9 +1532,13 @@ class Premium_Counter extends Widget_Base {
 							)
 						);
 					else :
-						?>
-						<i <?php echo wp_kses_post( $this->get_render_attribute_string( 'icon' ) ); ?>></i>
-					<?php endif; ?>
+
+                        echo Helper_Functions::get_svg_by_icon(
+                            $settings['premium_counter_icon_updated'],
+                            $this->get_render_attribute_string( 'icon' )
+                        );
+
+					endif; ?>
 
 				<?php elseif ( 'svg' === $icon_type ) : ?>
 					<div <?php echo wp_kses_post( $this->get_render_attribute_string( 'icon' ) ); ?>>

@@ -6,6 +6,7 @@
 namespace PremiumAddons\Widgets;
 
 // Elementor Classes.
+use Elementor\Plugin;
 use Elementor\Widget_Base;
 use Elementor\Controls_Manager;
 use Elementor\Group_Control_Border;
@@ -129,6 +130,10 @@ class Premium_Lottie extends Widget_Base {
 	public function get_custom_help_url() {
 		return 'https://premiumaddons.com/support/';
 	}
+
+    public function has_widget_inner_wrapper(): bool {
+        return ! Plugin::$instance->experiments->is_feature_active( 'e_optimized_markup' );
+    }
 
 	/**
 	 * Register Testimonials controls.
@@ -380,7 +385,7 @@ class Premium_Lottie extends Widget_Base {
 				'toggle'    => false,
 				'separator' => 'before',
 				'selectors' => array(
-					'{{WRAPPER}} .elementor-widget-container' => 'text-align: {{VALUE}}',
+					'{{WRAPPER}}' => 'text-align: {{VALUE}}',
 				),
 			)
 		);

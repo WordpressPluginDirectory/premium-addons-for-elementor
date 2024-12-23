@@ -68,7 +68,6 @@ class Admin_Notices {
 
 		self::$notices = array(
 			'pa-review',
-            'bf24_hide'
 		);
 
         if ( Helper_Functions::check_hide_notifications() ) {
@@ -90,6 +89,23 @@ class Admin_Notices {
 	public function init() {
 
 		$this->handle_review_notice();
+
+        if ( get_transient( 'pa_activation_redirect' ) ) {
+
+            delete_transient( 'pa_activation_redirect' );
+
+            // Perform the redirection.
+            $redirect = add_query_arg(
+                array(
+                    'page'     => Admin_Helper::$page_slug . '&usage=basic#tab=elements',
+                ),
+                admin_url( 'admin.php' )
+            );
+
+            wp_safe_redirect( $redirect );
+
+            exit;
+        }
 
 	}
 
@@ -114,7 +130,7 @@ class Admin_Notices {
 			}
 		}
 
-        $this->get_bf_notice();
+        // $this->get_bf_notice();
 
 	}
 
@@ -525,7 +541,7 @@ class Admin_Notices {
 
             array_unshift( $stories['posts'], array(
                 'link'=> 'https://premiumaddons.com/docs/upgrad-premium-addons-license/',
-                'title'=> __('Upgrade your Premium Addons Pro subscription to Lifetime and get FLAT 35% OFF using the code: <strong style="font-weight: bold">BFLifetime2024</strong>')
+                'title'=> __('Upgrade your Premium Addons Pro subscription to Lifetime and get FLAT 25% OFF using the code: <strong style="font-weight: bold">XmasLifetime2024</strong>')
             ));
 
         }

@@ -9,6 +9,7 @@ namespace PremiumAddons\Widgets;
 use Elementor\Utils;
 use Elementor\Embed;
 use Elementor\Repeater;
+use Elementor\Plugin;
 use Elementor\Widget_Base;
 use Elementor\Icons_Manager;
 use Elementor\Control_Media;
@@ -161,6 +162,10 @@ class Premium_Media_Wheel extends Widget_Base {
 	public function get_custom_help_url() {
 		return 'https://premiumaddons.com/support/';
 	}
+
+    public function has_widget_inner_wrapper(): bool {
+        return ! Plugin::$instance->experiments->is_feature_active( 'e_optimized_markup' );
+    }
 
 	/**
 	 * Widget preview refresh button.
@@ -2665,15 +2670,15 @@ class Premium_Media_Wheel extends Widget_Base {
 					</div>
 
 					<?php
-					// if ( 'yes' === $lightbox ) {
-						?>
-						<div class="pa-media-icons-wrapper">
-							<div class="pa-media-icons-inner-container">
-								<?php $this->render_icons( $item, $index, $alt ); ?>
-							</div>
-						</div>
-						<?php
-					// }
+                        if ( 'yes' === $lightbox || 'video' === $media_type ) {
+                            ?>
+                            <div class="pa-media-icons-wrapper">
+                                <div class="pa-media-icons-inner-container">
+                                    <?php $this->render_icons( $item, $index, $alt ); ?>
+                                </div>
+                            </div>
+                            <?php
+                        }
 					?>
 
 					<?php
@@ -2863,53 +2868,57 @@ class Premium_Media_Wheel extends Widget_Base {
 				'privacy' => 'yes',
 			);
 
-			if ( 'default' !== $lightbox_type ) {
+            if( 'yes' === $lightbox ) {
 
-				if ( 1 === count( $settings['media_wheel_repeater'] ) || self::$check_self_hosted ) {
+                if ( 'default' !== $lightbox_type ) {
 
-						$lightbox_options = array(
-							'type'         => 'video',
-							'videoType'    => $item['media_wheel_video_type'],
-							'url'          => $item['video_link'],
-							'modalOptions' => array(
-								'id'               => 'elementor-lightbox-' . $id,
-								'videoAspectRatio' => '169',
-							),
-						);
+                    if ( 1 === count( $settings['media_wheel_repeater'] ) || self::$check_self_hosted ) {
 
-						if ( 'hosted' === $type ) {
-							$lightbox_options['videoParams'] = $this->get_hosted_params( $item );
-						}
-				}
+                            $lightbox_options = array(
+                                'type'         => 'video',
+                                'videoType'    => $item['media_wheel_video_type'],
+                                'url'          => $item['video_link'],
+                                'modalOptions' => array(
+                                    'id'               => 'elementor-lightbox-' . $id,
+                                    'videoAspectRatio' => '169',
+                                ),
+                            );
 
-				$this->add_render_attribute(
-					$lightbox_key,
-					array(
-						'data-elementor-open-lightbox'  => 'yes',
-						'data-elementor-lightbox'       => wp_json_encode( $lightbox_options ),
-						'data-elementor-lightbox-video' => $item['video_link'],
-					)
-				);
+                            if ( 'hosted' === $type ) {
+                                $lightbox_options['videoParams'] = $this->get_hosted_params( $item );
+                            }
+                    }
 
-				// Make sure videos slideshow is enabled only when there are no self hosted videos
-				// Self hosted videos causes issue with slideshow
-				if ( ! self::$check_self_hosted ) {
-					$this->add_render_attribute( $lightbox_key, 'data-elementor-lightbox-slideshow', count( $settings['media_wheel_repeater'] ) > 1 ? $this->get_id() : false );
-				}
-			} else {
+                    $this->add_render_attribute(
+                        $lightbox_key,
+                        array(
+                            'data-elementor-open-lightbox'  => 'yes',
+                            'data-elementor-lightbox'       => wp_json_encode( $lightbox_options ),
+                            'data-elementor-lightbox-video' => $item['video_link'],
+                        )
+                    );
 
-				$rel = sprintf( 'prettyPhoto[premium-media-%s]', $this->get_id() );
+                    // Make sure videos slideshow is enabled only when there are no self hosted videos
+                    // Self hosted videos causes issue with slideshow
+                    if ( ! self::$check_self_hosted ) {
+                        $this->add_render_attribute( $lightbox_key, 'data-elementor-lightbox-slideshow', count( $settings['media_wheel_repeater'] ) > 1 ? $this->get_id() : false );
+                    }
+                } else {
 
-				$link = ( 'hosted' === $type ) ? $item['video_link'] : $item['video_link'] . '&iframe=true';
+                    $rel = sprintf( 'prettyPhoto[premium-media-%s]', $this->get_id() );
 
-				$this->add_render_attribute(
-					$lightbox_key,
-					array(
-						'href'     => $link,
-						'data-rel' => $rel,
-					)
-				);
-			}
+                    $link = ( 'hosted' === $type ) ? $item['video_link'] : $item['video_link'] . '&iframe=true';
+
+                    $this->add_render_attribute(
+                        $lightbox_key,
+                        array(
+                            'href'     => $link,
+                            'data-rel' => $rel,
+                        )
+                    );
+                }
+
+            }
 
 			if ( $play_icon_enabled ) {
 

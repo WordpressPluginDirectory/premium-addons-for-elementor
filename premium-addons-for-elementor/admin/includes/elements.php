@@ -361,7 +361,8 @@ $elements = array(
 				'is_pro'     => true,
 				'draw_svg'   => true,
 				'icon'       => 'pa-pro-notification-bar',
-				'action_url' => Helper_Functions::get_campaign_link( 'https://premiumaddons.com/elementor-alert-box-widget/', 'editor-page', 'wp-editor', 'get-pro' ),
+                'tutorial' => 'https://www.youtube.com/watch?v=SMYF1JA_4co',
+				// 'action_url' => Helper_Functions::get_campaign_link( 'https://premiumaddons.com/elementor-alert-box-widget/', 'editor-page', 'wp-editor', 'get-pro' ),
 			),
 			array(
 				'key'        => 'premium-magic-section',
@@ -372,7 +373,8 @@ $elements = array(
 				'is_pro'     => true,
 				'draw_svg'   => true,
 				'icon'       => 'pa-pro-magic-section',
-				'action_url' => Helper_Functions::get_campaign_link( 'https://premiumaddons.com/elementor-off-canvas-widget', 'editor-page', 'wp-editor', 'get-pro' ),
+                'tutorial' => 'https://www.youtube.com/watch?v=t-aosch5Xzo',
+				// 'action_url' => Helper_Functions::get_campaign_link( 'https://premiumaddons.com/elementor-off-canvas-widget', 'editor-page', 'wp-editor', 'get-pro' ),
 			),
 			array(
 				'key'        => 'premium-prev-img',
@@ -721,37 +723,6 @@ $elements = array(
 				'doc'   => Helper_Functions::get_campaign_link( 'https://premiumaddons.com/docs-category/using-widgets/blog/', 'settings-page', 'wp-dash', 'dashboard' ),
 			),
 			array(
-				'key'    => 'premium-smart-post-listing',
-				'name'   => 'premium-smart-post-listing',
-				'title'  => __( 'Smart Post Listing', 'premium-addons-for-elementor' ),
-				'demo'   => Helper_Functions::get_campaign_link( 'https://premiumaddons.com/elementor-smart-post-listing-widget/', 'settings-page', 'wp-dash', 'dashboard' ),
-				'doc'    => Helper_Functions::get_campaign_link( 'https://premiumaddons.com/docs/smart-post-listing-widget/', 'settings-page', 'wp-dash', 'dashboard' ),
-				'is_pro' => true,
-			),
-			array(
-				'key'      => 'premium-post-ticker',
-				'name'     => 'premium-post-ticker',
-				'title'    => __( 'News Ticker', 'premium-addons-for-elementor' ),
-				'demo'     => Helper_Functions::get_campaign_link( 'https://premiumaddons.com/elementor-news-ticker-widget/', 'settings-page', 'wp-dash', 'dashboard' ),
-				'doc'      => Helper_Functions::get_campaign_link( 'https://premiumaddons.com/docs/elementor-news-ticker-widget/', 'settings-page', 'wp-dash', 'dashboard' ),
-				'draw_svg' => true,
-			),
-			array(
-				'key'      => 'premium-notifications',
-				'name'     => 'premium-notifications',
-				'title'    => __( 'Recent Posts Notification', 'premium-addons-for-elementor' ),
-				'demo'     => Helper_Functions::get_campaign_link( 'https://premiumaddons.com/elementor-recent-posts-notification-widget/', 'settings-page', 'wp-dash', 'dashboard' ),
-				'doc'      => Helper_Functions::get_campaign_link( 'https://premiumaddons.com/docs/elementor-recent-posts-notification-widget/', 'settings-page', 'wp-dash', 'dashboard' ),
-				'draw_svg' => true,
-			),
-			array(
-				'key'   => 'premium-tcloud',
-				'name'  => 'premium-tcloud',
-				'title' => __( 'Tags Cloud', 'premium-addons-for-elementor' ),
-				'demo'  => Helper_Functions::get_campaign_link( 'https://premiumaddons.com/elementor-tags-cloud-widget/', 'settings-page', 'wp-dash', 'dashboard' ),
-				'doc'   => Helper_Functions::get_campaign_link( 'https://premiumaddons.com/docs/elementor-tags-cloud-widget/', 'settings-page', 'wp-dash', 'dashboard' ),
-			),
-			array(
 				'key'   => 'premium-nav-menu',
 				'name'  => 'premium-nav-menu',
 				'title' => __( 'Nav/Mega Menu', 'premium-addons-for-elementor' ),
@@ -1096,6 +1067,7 @@ $elements = array(
 				'doc'      => Helper_Functions::get_campaign_link( 'https://premiumaddons.com/docs/alert-box-widget-tutorial/', 'settings-page', 'wp-dash', 'dashboard' ),
 				'is_pro'   => true,
 				'draw_svg' => true,
+                'tutorial' => 'https://www.youtube.com/watch?v=SMYF1JA_4co',
 			),
 			array(
 				'key'      => 'premium-magic-section',
@@ -1105,6 +1077,7 @@ $elements = array(
 				'doc'      => Helper_Functions::get_campaign_link( 'https://premiumaddons.com/docs/elementor-off-canvas-widget/', 'settings-page', 'wp-dash', 'dashboard' ),
 				'is_pro'   => true,
 				'draw_svg' => true,
+                'tutorial' => 'https://www.youtube.com/watch?v=t-aosch5Xzo',
 			),
 			array(
 				'key'      => 'premium-prev-img',

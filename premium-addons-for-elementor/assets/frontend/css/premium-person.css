@@ -228,7 +228,7 @@ ul.premium-person-social-list {
   font-size: 18px;
 }
 
-.elementor-widget-premium-addon-person .elementor-widget-container {
+.elementor-widget-premium-addon-person {
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;

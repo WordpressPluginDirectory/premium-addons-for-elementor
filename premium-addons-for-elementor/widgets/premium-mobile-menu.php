@@ -6,6 +6,7 @@
 namespace PremiumAddons\Widgets;
 
 // Elementor Classes.
+use Elementor\Plugin;
 use Elementor\Widget_Base;
 use Elementor\Utils;
 use Elementor\Icons_Manager;
@@ -144,7 +145,7 @@ class Premium_Mobile_Menu extends Widget_Base {
 	 */
 	public function get_script_depends() {
 		$draw_scripts = $this->check_icon_draw() ? array(
-			'pa-fontawesome-all',
+			// 'pa-fontawesome-all',
 			'pa-tweenmax',
 			'pa-motionpath',
 		) : array();
@@ -169,6 +170,10 @@ class Premium_Mobile_Menu extends Widget_Base {
 	public function get_custom_help_url() {
 		return 'https://premiumaddons.com/support/';
 	}
+
+    public function has_widget_inner_wrapper(): bool {
+        return ! Plugin::$instance->experiments->is_feature_active( 'e_optimized_markup' );
+    }
 
 	/**
 	 * Register Banner controls.
@@ -1756,7 +1761,7 @@ class Premium_Mobile_Menu extends Widget_Base {
                                     $segments    = explode( '/', $link );
                                     $target_link = end( $segments );
 
-                                    $this->add_render_attribute( 'menu-item-' . $index, 'data-target', $target_link );
+                                    $this->add_render_attribute( 'menu-item-' . $index, 'data-target', esc_url( $target_link ) );
 
 								} else {
 									$this->add_render_attribute( $item_link, 'href', $link_url );
@@ -1805,9 +1810,9 @@ class Premium_Mobile_Menu extends Widget_Base {
 													} else {
 														?>
 															<div <?php echo wp_kses_post( $this->get_render_attribute_string( $animation_key ) ); ?>>
-																<i class="<?php echo esc_attr( $item['icon']['value'] ); ?>"></i>
+                                                                <?php echo Helper_Functions::get_svg_by_icon( $item['icon'] ); ?>
 															</div>
-															<?php
+                                                        <?php
 													}
 												} elseif ( 'svg' === $item['icon_type'] ) {
 													?>

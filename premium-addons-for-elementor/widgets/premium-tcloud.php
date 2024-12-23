@@ -7,6 +7,7 @@ namespace PremiumAddons\Widgets;
 
 // Elementor Classes.
 use Elementor\Modules\DynamicTags\Module as TagsModule;
+use Elementor\Plugin;
 use Elementor\Widget_Base;
 use Elementor\Utils;
 use Elementor\Control_Media;
@@ -131,6 +132,10 @@ class Premium_Tcloud extends Widget_Base {
 	public function get_custom_help_url() {
 		return 'https://premiumaddons.com/support/';
 	}
+
+    public function has_widget_inner_wrapper(): bool {
+        return ! Plugin::$instance->experiments->is_feature_active( 'e_optimized_markup' );
+    }
 
 	/**
 	 * Register Image Controls controls.

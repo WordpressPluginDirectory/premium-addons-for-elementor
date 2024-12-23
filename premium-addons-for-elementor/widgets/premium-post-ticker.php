@@ -6,6 +6,7 @@
 namespace PremiumAddons\Widgets;
 
 // Elementor Classes.
+use Elementor\Plugin;
 use Elementor\Utils;
 use Elementor\Repeater;
 use Elementor\Widget_Base;
@@ -152,7 +153,7 @@ class Premium_Post_Ticker extends Widget_Base {
 	public function get_script_depends() {
 
 		$draw_scripts = $this->check_icon_draw() ? array(
-			'pa-fontawesome-all',
+			// 'pa-fontawesome-all',
 			'pa-tweenmax',
 			'pa-motionpath',
 		) : array();
@@ -179,6 +180,10 @@ class Premium_Post_Ticker extends Widget_Base {
 	public function get_custom_help_url() {
 		return 'https://premiumaddons.com/support/';
 	}
+
+    public function has_widget_inner_wrapper(): bool {
+        return ! Plugin::$instance->experiments->is_feature_active( 'e_optimized_markup' );
+    }
 
 	/**
 	 * Register Smart Post Listing controls.
@@ -3769,11 +3774,11 @@ class Premium_Post_Ticker extends Widget_Base {
 
 							$this->add_render_attribute( 'outer-wrapper' . $index, 'class', 'elementor-invisible' );
 
-							if ( 'icon' === $icon_type ) {
+							// if ( 'icon' === $icon_type ) {
 
-								$this->add_render_attribute( 'icon' . $index, 'class', $settings['pa_ticker_icon']['value'] );
+							// 	$this->add_render_attribute( 'icon' . $index, 'class', $settings['pa_ticker_icon']['value'] );
 
-							}
+							// }
 
 							$this->add_render_attribute(
 								'icon' . $index,
@@ -3798,9 +3803,12 @@ class Premium_Post_Ticker extends Widget_Base {
 						}
 
 						if ( 'icon' === $icon_type ) {
-							?>
-							<i <?php echo wp_kses_post( $this->get_render_attribute_string( 'icon' . $index ) ); ?>></i>
-							<?php
+
+                            echo Helper_Functions::get_svg_by_icon(
+                                $settings['pa_ticker_icon'],
+                                $this->get_render_attribute_string( 'icon' . $index )
+                            );
+
 						}
 					}
 
