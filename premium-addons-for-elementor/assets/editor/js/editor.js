@@ -8,23 +8,23 @@
 			$("<a href='" + PremiumEditorLinks[0] + "' target='_blank' class='premium-editor-link'>Check Solution</a>").insertAfter('#elementor-try-safe-mode .elementor-safe-mode-button');
 	});
 
-	window.elementor.on('panel:init', function () {
+	// window.elementor.on('panel:init', function () {
 
-		if ('undefined' !== typeof PremiumEditorLinks) {
+	// 	if ('undefined' !== typeof PremiumEditorLinks) {
 
-			setTimeout(function () {
+	// 		setTimeout(function () {
 
-				$("body.elementor-panel-loading #elementor-panel-state-loading").append("<div class='premium-editor-panel-loader'><p>Still Loading? <br/><a href='" + PremiumEditorLinks[0] + "' target='_blank' class='premium-editor-btn premium-editor-panel-loader-info'>Check Solution</a><a class='premium-editor-btn premium-disable-unused' href='javascript:;'>Disable PA unused widgets</a></div>");
+	// 			$("body.elementor-panel-loading #elementor-panel-state-loading").append("<div class='premium-editor-panel-loader'><p>Still Loading? <br/><a href='" + PremiumEditorLinks[0] + "' target='_blank' class='premium-editor-btn premium-editor-panel-loader-info'>Check Solution</a><a class='premium-editor-btn premium-disable-unused' href='javascript:;'>Disable PA unused widgets</a></div>");
 
-				$('.premium-disable-unused').on('click', function () {
-					window.open(PremiumEditorLinks[1], '_blank');
-				});
+	// 			$('.premium-disable-unused').on('click', function () {
+	// 				window.open(PremiumEditorLinks[1], '_blank');
+	// 			});
 
-			}, 10000);
+	// 		}, 10000);
 
-		}
+	// 	}
 
-	});
+	// });
 
 	var pinterestToken = null;
 
@@ -165,15 +165,15 @@
 
 		onReady: function () {
 			var self = this,
-				type = self.options.elementSettingsModel.attributes.post_type_filter;
+				type = self.model.get('source') || self.options.elementSettingsModel.attributes.post_type_filter;
 
-			if ('post' !== type) {
-				var options = (0 === this.model.get('options').length);
+			// if ('post' !== type) {
+			var options = (0 === this.model.get('options').length);
 
-				if (options) {
-					self.fetchData(type);
-				}
+			if (options) {
+				self.fetchData(type);
 			}
+			// }
 
 			elementor.channels.editor.on('change', function (view) {
 				var changed = view.elementSettingsModel.changed;
@@ -186,6 +186,7 @@
 		},
 
 		fetchData: function (type) {
+
 			var self = this;
 			$.ajax({
 				url: PremiumSettings.ajaxurl,
@@ -194,9 +195,10 @@
 				data: {
 					nonce: PremiumSettings.nonce,
 					action: 'premium_update_filter',
-					post_type: type
+					post_type: 'object' === typeof type ? type : [type]
 				},
 				success: function (res) {
+
 					self.updateFilterOptions(JSON.parse(res.data));
 					self.isUpdated = false;
 

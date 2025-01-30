@@ -6,7 +6,7 @@
 namespace PremiumAddons\Includes;
 
 // PA classes.
-use PremiumAddons\Includes\Premium_Template_Tags;
+use PremiumAddons\Includes\Helper_Functions;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
@@ -250,8 +250,10 @@ class Pa_Nav_Menu_Walker extends \Walker_Nav_Menu {
 			}
 		}
 
-		/** handling active anchor links which redirects to an id in a page */
-		$is_anchor = false !== strpos( $menu_item->url, '#' );
+		/** handling active anchor links which redirects to an id in a page.
+		 *  make sure we exclude URL with the #/ as it's not a valid ID selector.
+		 */
+		$is_anchor = false !== strpos( $menu_item->url, '#' ) && false === strpos( $menu_item->url, '#/' );
 
 		// we can later add other classes here based on the user settings.
 		if ( ! $is_anchor && in_array( 'current-menu-item', $classes, true ) ) {
@@ -490,8 +492,7 @@ class Pa_Nav_Menu_Walker extends \Walker_Nav_Menu {
 			if ( 'true' == $item_meta->mega_content_enabled && class_exists( 'Elementor\Plugin' ) ) {
 
 				$temp_id       = $this->get_mega_content_id( $data_object->ID );
-				$temp_instance = Premium_Template_Tags::getInstance();
-				$content       = $temp_instance->get_template_content( $temp_id, true );
+				$content       = Helper_Functions::render_elementor_template( $temp_id, true );
 				$style         = 'width:' . $item_meta->mega_content_width;
 				$output       .= sprintf( '<div id="premium-mega-content-%1$s" class="premium-mega-content-container" style="%2$s">%3$s</div>', $data_object->ID, $style, $content );
 			}
