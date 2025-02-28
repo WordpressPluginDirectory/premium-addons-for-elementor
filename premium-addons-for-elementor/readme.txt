@@ -5,7 +5,7 @@ Donate Link: https://premiumaddons.com/?utm_source=wp-repo&utm_medium=link&utm_c
 Requires at least: 5.0
 Tested Up To: 6.7.2
 Requires PHP: 7.4
-Stable Tag: 4.10.84
+Stable Tag: 4.10.87
 License: GPL v3.0
 License URI: https://opensource.org/licenses/GPL-3.0
 
@@ -236,6 +236,23 @@ You can report security bugs through the Patchstack Vulnerability Disclosure Pro
 14. Premium Progress Bar Widget
 
 == Changelog ==
+
+= 4.10.87 =
+
+- Tweak: Added option to use SVG icons in Mega Menu widget.
+- Tweak: Improved compatibility between Woo CTA button widget and Woocommerce Subscriptions plugin.
+- Fixed: Some issues related to alignment in Global Tooltips addon.
+- Fixed: Elementor Templates not working on editor in Global Tooltips addon.
+- Fixed: Security issue in Lottie JavaScript file.
+
+= 4.10.86 =
+
+- Tweak: Show message when PHP memory/time limit are low to improve usability.
+- Fixed: Restart option in Countdown Timer widget not working correctly.
+
+= 4.10.85 =
+
+- Tweak: Added notice in Mega Menu Settings popup for better UX and prevent conflicts.
 
 = 4.10.84 =
 
