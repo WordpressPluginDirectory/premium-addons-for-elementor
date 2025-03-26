@@ -62,9 +62,9 @@ class Feedback {
 		if ( ! $anonymous ) {
 			$wordpress['deactivated_plugin']['uninstall_details'] .= ( empty( $wordpress['deactivated_plugin']['uninstall_details'] ) ? '' : PHP_EOL . PHP_EOL ) . 'Domain: ' . self::get_site_domain();
 
-			$wordpress['used_widgets'] = array(
-                'widgets'      => Admin_Helper::get_used_widgets()
-            );
+			// $wordpress['used_widgets'] = array(
+            //     'widgets'      => Admin_Helper::get_used_widgets()
+            // );
 		}
 
 		$body = array(
@@ -243,18 +243,6 @@ class Feedback {
 		// $plugins   = get_plugins();
 		$option    = get_option( 'active_plugins', array() );
 		$active    = array();
-
-		// $installed = array();
-		// foreach ( $plugins as $id => $info ) {
-		// 	if ( in_array( $id, $active ) ) {
-		// 		continue;
-		// 	}
-
-		// 	$id = explode( '/', $id );
-		// 	$id = ucwords( str_replace( '-', ' ', $id[0] ) );
-
-		// 	$installed[] = $id;
-		// }
 
 		foreach ( $option as $id ) {
 			$id = explode( '/', $id );

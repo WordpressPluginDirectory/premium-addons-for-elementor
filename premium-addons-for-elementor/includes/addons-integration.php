@@ -103,10 +103,10 @@ class Addons_Integration {
 
 		add_action( 'wp_ajax_get_elementor_template_content', array( $this, 'get_template_content' ) );
 
-		if ( defined( 'ELEMENTOR_VERSION' ) ) {
+		add_action( 'elementor/controls/register', array( $this, 'init_pa_controls' ) );
+		add_action( 'elementor/widgets/register', array( $this, 'widgets_area' ) );
 
-			add_action( 'elementor/controls/register', array( $this, 'init_pa_controls' ) );
-			add_action( 'elementor/widgets/register', array( $this, 'widgets_area' ) );
+		if ( defined( 'ELEMENTOR_VERSION' ) ) {
 
 			$this->load_pa_extensions();
 
@@ -130,6 +130,8 @@ class Addons_Integration {
 		if ( self::$integrations['premium-wp-optimize-exclude'] ) {
 			add_filter( 'wp-optimize-minify-default-exclusions', array( $this, 'exclude_pa_assets_from_wp_optimize' ) );
 		}
+
+		add_filter('elementor/editor/localize_settings', array( $this, 'add_papro_elements' ) );
 
 	}
 
@@ -369,14 +371,14 @@ class Addons_Integration {
 				esc_url( admin_url( 'admin.php' ) )
 			);
 
-			wp_localize_script(
-				'pa-eq-editor',
-				'PremiumEditorLinks',
-				array(
-					$link,
-					$disable_unused_url,
-				)
-			);
+			// wp_localize_script(
+			// 	'pa-eq-editor',
+			// 	'PremiumEditorLinks',
+			// 	array(
+			// 		$link,
+			// 		$disable_unused_url,
+			// 	)
+			// );
 
 		}
 
@@ -385,7 +387,6 @@ class Addons_Integration {
 			'PremiumPanelSettings',
 			array(
 				'papro_installed' => Helper_Functions::check_papro_version(),
-				// 'papro_widgets'   => Admin_Helper::get_pro_elements(),
 			)
 		);
 
@@ -455,7 +456,7 @@ class Addons_Integration {
 
 		$badge_text = Helper_Functions::get_badge();
 
-		$dynamic_css = sprintf( '#elementor-panel [class^="pa-"]::after, #elementor-panel [class*=" pa-"]::after { content: "%s"; }', $badge_text );
+		$dynamic_css = sprintf( '.elementor-element-wrapper:not(.elementor-element--promotion) [class^="pa-"]::after, .elementor-element-wrapper:not(.elementor-element--promotion) [class*="  pa-"]::after { content: "%s"; }', $badge_text );
 
 		wp_add_inline_style( 'pa-editor', $dynamic_css );
 	}
@@ -576,6 +577,12 @@ class Addons_Integration {
 			$this->enqueue_old_styles( $dir, $is_rtl, $suffix );
 		} else {
 
+			// If the assets are generated correctly due to server errors.
+			if ( 'empty' === self::$css_content ) {
+				$this->enqueue_old_styles( $dir, $is_rtl, $suffix );
+				return;
+			}
+
 			$css_path = '/pa-frontend' . $is_rtl . '-' . Assets_Manager::$post_id . $suffix . '.css';
 
 			if ( Assets_Manager::$is_updated && file_exists( PREMIUM_ASSETS_PATH . $css_path ) ) {
@@ -592,9 +599,10 @@ class Addons_Integration {
 			$pa_elements = get_option( 'pa_elements_' . Assets_Manager::$post_id, array() );
 
 			// If the assets are not updated, or they are updated but the dynamic CSS file has not been loaded for any reason.
-			if ( 'empty' === self::$css_content || ! Assets_Manager::$is_updated || ( ! empty( $pa_elements ) && ! wp_style_is( 'pa-frontend', 'enqueued' ) ) ) {
+			if( ! Assets_Manager::$is_updated || ( ! empty( $pa_elements ) && ! wp_style_is( 'pa-frontend', 'enqueued' ) ) ) {
 				$this->enqueue_old_styles( $dir, $is_rtl, $suffix );
 			}
+
 		}
 	}
 
@@ -667,22 +675,6 @@ class Addons_Integration {
 					)
 				);
 
-				// if ( class_exists( 'woocommerce' ) ) {
-				// wp_localize_script(
-				// 'pa-frontend',
-				// 'PremiumWooSettings',
-				// array(
-				// 'ajaxurl'         => esc_url( admin_url( 'admin-ajax.php' ) ),
-				// 'products_nonce'  => wp_create_nonce( 'pa-woo-products-nonce' ),
-				// 'qv_nonce'        => wp_create_nonce( 'pa-woo-qv-nonce' ),
-				// 'cta_nonce'       => wp_create_nonce( 'pa-woo-cta-nonce' ),
-				// 'woo_cart_url'    => get_permalink( wc_get_page_id( 'cart' ) ),
-				// 'view_cart'       => __( 'View cart', 'woocommerce' ),
-				// 'mini_cart_nonce' => wp_create_nonce( 'pa-mini-cart-nonce' ),
-				// )
-				// );
-
-				// }
 			}
 
 			if ( ! wp_script_is( 'pa-frontend', 'enqueued' ) || 'empty' === self::$css_content ) {
@@ -692,14 +684,6 @@ class Addons_Integration {
 		} else {
 			$this->register_old_scripts( $dir, $suffix );
 		}
-
-		// if ( !wp_script_is( 'wc-cart-fragments', 'enqueued' ) && wp_script_is( 'wc-cart-fragments', 'registered' ) ) {
-
-		// Enqueue the wc-cart-fragments script
-
-		// wp_enqueue_script( 'wc-cart-fragments' );
-
-		// }
 
 		wp_register_script( 'tiktok-embed', 'https://www.tiktok.com/embed.js', array(), false, true );
 
@@ -843,15 +827,15 @@ class Addons_Integration {
 		if ( $maps_settings['premium-map-cluster'] ) {
 			wp_register_script(
 				'pa-maps-cluster',
-				PREMIUM_ADDONS_URL . 'assets/frontend/' . $dir . '/markerclusterer' . $suffix . '.js',
+				PREMIUM_ADDONS_URL . 'assets/frontend/' . $dir . '/markerclusterer.min.js',
 				array(),
 				'1.0.1',
-				false
+				true
 			);
 		}
 
 		if ( $maps_settings['premium-map-disable-api'] && '1' !== $maps_settings['premium-map-api'] ) {
-			$api = sprintf( 'https://maps.googleapis.com/maps/api/js?key=%1$s&callback=initMap&language=%2$s', $maps_settings['premium-map-api'], $locale );
+			$api = sprintf( 'https://maps.googleapis.com/maps/api/js?key=%1$s&libraries=marker&callback=initMap&language=%2$s&loading=async', $maps_settings['premium-map-api'], $locale );
 			wp_register_script(
 				'pa-maps-api',
 				$api,
@@ -1076,6 +1060,7 @@ class Addons_Integration {
 					'view_cart'       => __( 'View cart', 'woocommerce' ),
 					'mini_cart_nonce' => wp_create_nonce( 'pa-mini-cart-nonce' ),
 					'qv_nonce'        => wp_create_nonce( 'pa-woo-qv-nonce' ),
+					'stock_msg' => __('*The current stock is only ', 'premium-addons-for-elementor'),
 				)
 			);
 
@@ -1208,7 +1193,9 @@ class Addons_Integration {
 
 		$enabled_elements = self::$modules;
 
-		foreach ( glob( PREMIUM_ADDONS_PATH . 'widgets/*.php' ) as $file ) {
+		$widgets_dir = glob( PREMIUM_ADDONS_PATH . 'widgets/*.php' );
+
+		foreach ( $widgets_dir as $file ) {
 
 			$slug = basename( $file, '.php' );
 
@@ -1216,7 +1203,7 @@ class Addons_Integration {
 			if ( 'premium-lottie' === $slug ) {
 
 				// Check if Lottie widget switcher value was saved before.
-				$saved_options = get_option( 'pa_save_settings' );
+				// $saved_options = get_option( 'pa_save_settings' );
 
 				$slug = 'premium-lottie-widget';
 
@@ -1312,7 +1299,7 @@ class Addons_Integration {
 
 			if ( $disable_api && '1' !== $premium_maps_api ) {
 
-				$api = sprintf( 'https://maps.googleapis.com/maps/api/js?key=%1$s&language=%2$s', $premium_maps_api, $locale );
+				$api = sprintf( 'https://maps.googleapis.com/maps/api/js?key=%1$s&libraries=marker&language=%2$s&loading=async', $premium_maps_api, $locale );
 				wp_enqueue_script(
 					'pa-maps-api',
 					$api,
@@ -1351,7 +1338,7 @@ class Addons_Integration {
 		$response = wp_remote_get(
 			$api_url,
 			array(
-				'timeout'   => 60,
+				'timeout'   => 15,
 				'sslverify' => false,
 			)
 		);
@@ -1436,7 +1423,7 @@ class Addons_Integration {
 		$response = wp_remote_get(
 			$api_url,
 			array(
-				'timeout'   => 60,
+				'timeout'   => 15,
 				'sslverify' => false,
 			)
 		);
@@ -1771,6 +1758,38 @@ class Addons_Integration {
 		$excluded_handles[] = 'pa-frontend';
 
 		return $excluded_handles;
+	}
+
+	/**
+	 * Add PAPRO Elements
+	 *
+	 * @since 4.10.90
+	 * @access public
+	 *
+	 * @param array $config Elementor Config
+	 */
+	public function add_papro_elements( $config ) {
+
+		$is_papro_active = apply_filters( 'papro_activated', false );
+
+		if( $is_papro_active ) {
+			return $config;
+		}
+
+		$promotion_widgets = [];
+
+		if ( isset( $config['promotionWidgets'] ) ) {
+			$promotion_widgets = $config['promotionWidgets'];
+		}
+
+		$pro_elements = Admin_Helper::get_pro_elements();
+
+		$pro_elements = array_merge( $promotion_widgets, $pro_elements );
+
+		$config['promotionWidgets'] = $pro_elements;
+
+		return $config;
+
 	}
 
 
