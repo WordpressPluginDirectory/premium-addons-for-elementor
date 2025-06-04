@@ -997,6 +997,59 @@ class Premium_Nav_Menu extends Widget_Base {
 		$this->get_sticky_option_settings();
 
 		$this->add_control(
+			'slide_direction',
+			array(
+				'label'        => __( 'Slide Direction', 'premium-addons-for-elementor' ),
+				'type'         => Controls_Manager::CHOOSE,
+				'options'      => array(
+					'left'  => array(
+						'title' => __( 'Left', 'premium-addons-for-elementor' ),
+						'icon'  => 'eicon-arrow-left',
+					),
+					'auto'  => array(
+						'title' => __( 'Auto (Site direction)', 'premium-addons-for-elementor' ),
+						'icon'  => 'fas fa-exchange-alt',
+					),
+					'right' => array(
+						'title' => __( 'Right', 'premium-addons-for-elementor' ),
+						'icon'  => 'eicon-arrow-right',
+					),
+				),
+				'default'      => 'auto',
+				'toggle'       => false,
+				'separator'    => 'before',
+				'prefix_class' => 'premium-slide-',
+				'conditions'   => array(
+					'relation' => 'or',
+					'terms'    => array(
+						array(
+							'name'  => 'pa_nav_menu_layout',
+							'value' => 'slide',
+						),
+						array(
+							'relation' => 'and',
+							'terms'    => array(
+								array(
+									'name'     => 'pa_nav_menu_layout',
+									'operator' => 'in',
+									'value'    => array( 'hor', 'ver' ),
+								),
+								array(
+									'name'  => 'pa_mobile_menu_layout',
+									'value' => 'slide',
+								),
+								array(
+									'name'  => 'render_mobile_menu',
+									'value' => 'yes',
+								),
+							),
+						),
+					),
+				),
+			),
+		);
+
+		$this->add_control(
 			'submenu_heading',
 			array(
 				'label'     => __( 'Submenu Settings', 'premium-addons-for-elementor' ),
@@ -1108,6 +1161,35 @@ class Premium_Nav_Menu extends Widget_Base {
 		);
 
 		$this->add_control(
+			'pa_submenu_alignment',
+			array(
+				'label'        => __( 'Align Submenu to Top', 'premium-addons-for-elementor' ),
+				'type'         => Controls_Manager::SWITCHER,
+				'prefix_class' => 'pa-align-',
+				'return_value' => 'top',
+				'condition'    => array(
+					'pa_nav_menu_layout' => 'ver',
+				),
+			),
+		);
+
+		$this->add_control(
+			'submenu_height',
+			array(
+				'label'     => __( 'Full Height Submenu', 'premium-addons-for-elementor' ),
+				'type'      => Controls_Manager::SWITCHER,
+				'default'   => 'yes',
+				'selectors' => array(
+					'{{WRAPPER}}.pa-align-top .premium-sub-menu, {{WRAPPER}}.pa-align-top .premium-mega-content-container' => 'height: 100%;  overflow-y: hidden;',
+				),
+				'condition' => array(
+					'pa_nav_menu_layout'   => 'ver',
+					'pa_submenu_alignment' => 'top',
+				),
+			),
+		);
+
+		$this->add_control(
 			'submenu_event',
 			array(
 				'label'       => __( 'Open Submenu On', 'premium-addons-for-elementor' ),
@@ -1116,7 +1198,7 @@ class Premium_Nav_Menu extends Widget_Base {
 				'render_type' => 'template',
 				'options'     => array(
 					'hover' => __( 'Hover', 'premium-addons-for-elementor' ),
-					'click' => __( 'click', 'premium-addons-for-elementor' ),
+					'click' => __( 'Click', 'premium-addons-for-elementor' ),
 				),
 				'condition'   => array(
 					'pa_nav_menu_layout' => array( 'hor', 'ver' ),
@@ -1129,15 +1211,47 @@ class Premium_Nav_Menu extends Widget_Base {
 			array(
 				'label'       => __( 'Submenu Trigger', 'premium-addons-for-elementor' ),
 				'type'        => Controls_Manager::SELECT,
+				'description' => __( 'This option affects both the desktop and mobile submenus.', 'premium-addons-for-elementor' ),
+				'options'     => array(
+					'item' => __( 'Submenu Item', 'premium-addons-for-elementor' ),
+					'icon' => __( 'Submenu Dropdwon Icon', 'premium-addons-for-elementor' ),
+				),
 				'default'     => 'item',
 				'render_type' => 'template',
-				'options'     => array(
-					'icon' => __( 'Submenu Dropdwon Icon', 'premium-addons-for-elementor' ),
-					'item' => __( 'Submenu Item', 'premium-addons-for-elementor' ),
-				),
-				'condition'   => array(
-					'pa_nav_menu_layout' => array( 'hor', 'ver' ),
-					'submenu_event'      => 'click',
+				'separator'   => 'before',
+				'label_block' => true,
+				'conditions'  => array(
+					'relation' => 'or',
+					'terms'    => array(
+						array(
+							'name'     => 'pa_nav_menu_layout',
+							'operator' => 'in',
+							'value'    => array( 'dropdown', 'slide' ),
+						),
+						array(
+							'relation' => 'and',
+							'terms'    => array(
+								array(
+									'name'     => 'pa_nav_menu_layout',
+									'operator' => 'in',
+									'value'    => array( 'hor', 'ver' ),
+								),
+								array(
+									'relation' => 'or',
+									'terms'    => array(
+										array(
+											'name'  => 'submenu_event',
+											'value' => 'click',
+										),
+										array(
+											'name'  => 'render_mobile_menu',
+											'value' => 'yes',
+										),
+									),
+								),
+							),
+						),
+					),
 				),
 			)
 		);
@@ -1149,6 +1263,7 @@ class Premium_Nav_Menu extends Widget_Base {
 				'type'         => Controls_Manager::SELECT,
 				'prefix_class' => 'premium-nav-',
 				'default'      => 'none',
+				'separator'    => 'before',
 				'options'      => array(
 					'none'        => __( 'None', 'premium-addons-for-elementor' ),
 					'slide-up'    => __( 'Slide Up', 'premium-addons-for-elementor' ),
@@ -1878,8 +1993,9 @@ class Premium_Nav_Menu extends Widget_Base {
 					),
 				),
 				'selectors'   => array(
+					'{{WRAPPER}} .premium-nav-widget-container ' => '--pa-menu-width: {{SIZE}}{{UNIT}};',
 					'{{WRAPPER}}.premium-ham-dropdown .premium-main-mobile-menu, {{WRAPPER}}.premium-nav-dropdown .premium-main-mobile-menu' => 'width: {{SIZE}}{{UNIT}};',
-					'{{WRAPPER}}.premium-ham-slide .premium-mobile-menu-outer-container, {{WRAPPER}}.premium-nav-slide .premium-mobile-menu-outer-container' => 'width: {{SIZE}}{{UNIT}}; transform:translateX(' . $transform_sign . '{{SIZE}}{{UNIT}} );',
+					//'{{WRAPPER}}.premium-ham-slide .premium-mobile-menu-outer-container, {{WRAPPER}}.premium-nav-slide .premium-mobile-menu-outer-container' => 'width: {{SIZE}}{{UNIT}}; transform:translateX(' . $transform_sign . '{{SIZE}}{{UNIT}} );',
 				),
 				'condition'   => array(
 					'pa_toggle_full!' => 'yes',
@@ -2579,7 +2695,7 @@ class Premium_Nav_Menu extends Widget_Base {
 			array(
 				'label'      => __( 'Margin', 'premium-addons-for-elementor' ),
 				'type'       => Controls_Manager::DIMENSIONS,
-				'size_units' => array( 'px', 'em', '%' ),
+				'size_units' => array( 'px', 'em', '%', 'custom' ),
 				'selectors'  => array(
 					'{{WRAPPER}} .premium-hamburger-toggle .premium-toggle-text, {{WRAPPER}}.premium-ham-dropdown .premium-hamburger-toggle .premium-toggle-close' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
 				),
@@ -2658,7 +2774,7 @@ class Premium_Nav_Menu extends Widget_Base {
 			array(
 				'label'      => __( 'Margin', 'premium-addons-for-elementor' ),
 				'type'       => Controls_Manager::DIMENSIONS,
-				'size_units' => array( 'px', 'em', '%' ),
+				'size_units' => array( 'px', 'em', '%', 'custom' ),
 				'selectors'  => array(
 					'{{WRAPPER}} .premium-hamburger-toggle' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
 				),
@@ -2926,7 +3042,7 @@ class Premium_Nav_Menu extends Widget_Base {
 			array(
 				'label'      => __( 'Margin', 'premium-addons-for-elementor' ),
 				'type'       => Controls_Manager::DIMENSIONS,
-				'size_units' => array( 'px', 'em', '%' ),
+				'size_units' => array( 'px', 'em', '%', 'custom' ),
 				'selectors'  => array(
 					'{{WRAPPER}} .premium-mobile-menu-outer-container .premium-mobile-menu-close .premium-toggle-close' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
 				),
@@ -3005,7 +3121,7 @@ class Premium_Nav_Menu extends Widget_Base {
 			array(
 				'label'      => __( 'Margin', 'premium-addons-for-elementor' ),
 				'type'       => Controls_Manager::DIMENSIONS,
-				'size_units' => array( 'px', 'em', '%' ),
+				'size_units' => array( 'px', 'em', '%', 'custom' ),
 				'selectors'  => array(
 					'{{WRAPPER}} .premium-mobile-menu-outer-container .premium-mobile-menu-close' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
 				),
@@ -3135,7 +3251,7 @@ class Premium_Nav_Menu extends Widget_Base {
 			array(
 				'label'      => __( 'Margin', 'premium-addons-for-elementor' ),
 				'type'       => Controls_Manager::DIMENSIONS,
-				'size_units' => array( 'px', 'em', '%' ),
+				'size_units' => array( 'px', 'em', '%', 'custom' ),
 				'selectors'  => array(
 					'{{WRAPPER}} .premium-nav-menu-item > .premium-menu-link > .premium-item-icon' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
 				),
@@ -3147,7 +3263,7 @@ class Premium_Nav_Menu extends Widget_Base {
 			array(
 				'label'      => __( 'Padding', 'premium-addons-for-elementor' ),
 				'type'       => Controls_Manager::DIMENSIONS,
-				'size_units' => array( 'px', 'em', '%' ),
+				'size_units' => array( 'px', 'em', '%', 'custom' ),
 				'selectors'  => array(
 					'{{WRAPPER}} .premium-nav-menu-item > .premium-menu-link > .premium-item-icon' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
 				),
@@ -3234,7 +3350,7 @@ class Premium_Nav_Menu extends Widget_Base {
 			array(
 				'label'      => __( 'Padding', 'premium-addons-for-elementor' ),
 				'type'       => Controls_Manager::DIMENSIONS,
-				'size_units' => array( 'px', 'em', '%' ),
+				'size_units' => array( 'px', 'em', '%', 'custom' ),
 				'selectors'  => array(
 					'{{WRAPPER}} .premium-nav-menu-item > .premium-menu-link > .premium-item-badge,
 					{{WRAPPER}} .premium-ver-inner-container > div .premium-main-nav-menu > .premium-nav-menu-item > .premium-rn-badge,
@@ -3248,7 +3364,7 @@ class Premium_Nav_Menu extends Widget_Base {
 			array(
 				'label'      => __( 'Margin', 'premium-addons-for-elementor' ),
 				'type'       => Controls_Manager::DIMENSIONS,
-				'size_units' => array( 'px', 'em', '%' ),
+				'size_units' => array( 'px', 'em', '%', 'custom' ),
 				'selectors'  => array(
 					'{{WRAPPER}} .premium-nav-menu-item > .premium-menu-link > .premium-item-badge,
 					 {{WRAPPER}} .premium-ver-inner-container > div .premium-main-nav-menu > .premium-nav-menu-item > .premium-rn-badge,
@@ -3337,7 +3453,7 @@ class Premium_Nav_Menu extends Widget_Base {
 			array(
 				'label'      => __( 'Dropdown Icon Margin', 'premium-addons-for-elementor' ),
 				'type'       => Controls_Manager::DIMENSIONS,
-				'size_units' => array( 'px', 'em', '%' ),
+				'size_units' => array( 'px', 'em', '%', 'custom' ),
 				'selectors'  => array(
 					'{{WRAPPER}} .premium-main-nav-menu > .premium-nav-menu-item > .premium-menu-link .premium-dropdown-icon' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
 				),
@@ -3435,7 +3551,7 @@ class Premium_Nav_Menu extends Widget_Base {
 			array(
 				'label'      => __( 'Margin', 'premium-addons-for-elementor' ),
 				'type'       => Controls_Manager::DIMENSIONS,
-				'size_units' => array( 'px', 'em', '%' ),
+				'size_units' => array( 'px', 'em', '%', 'custom' ),
 				'selectors'  => array(
 					'{{WRAPPER}} .premium-main-nav-menu > .premium-nav-menu-item' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
 				),
@@ -3553,7 +3669,7 @@ class Premium_Nav_Menu extends Widget_Base {
 			array(
 				'label'      => __( 'Margin', 'premium-addons-for-elementor' ),
 				'type'       => Controls_Manager::DIMENSIONS,
-				'size_units' => array( 'px', 'em', '%' ),
+				'size_units' => array( 'px', 'em', '%', 'custom' ),
 				'selectors'  => array(
 					'{{WRAPPER}} .premium-main-nav-menu > .premium-nav-menu-item:hover' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
 				),
@@ -3668,7 +3784,7 @@ class Premium_Nav_Menu extends Widget_Base {
 			array(
 				'label'      => __( 'Margin', 'premium-addons-for-elementor' ),
 				'type'       => Controls_Manager::DIMENSIONS,
-				'size_units' => array( 'px', 'em', '%' ),
+				'size_units' => array( 'px', 'em', '%', 'custom' ),
 				'selectors'  => array(
 					'{{WRAPPER}} .premium-main-nav-menu > .premium-active-item' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
 				),
@@ -3784,7 +3900,7 @@ class Premium_Nav_Menu extends Widget_Base {
 			array(
 				'label'      => __( 'Margin', 'premium-addons-for-elementor' ),
 				'type'       => Controls_Manager::DIMENSIONS,
-				'size_units' => array( 'px', 'em', '%' ),
+				'size_units' => array( 'px', 'em', '%', 'custom' ),
 				'selectors'  => array(
 					'{{WRAPPER}} .premium-nav-menu-container .premium-sub-menu, {{WRAPPER}} .premium-mobile-menu-container .premium-sub-menu' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
 				),
@@ -3883,7 +3999,7 @@ class Premium_Nav_Menu extends Widget_Base {
 			array(
 				'label'      => __( 'Margin', 'premium-addons-for-elementor' ),
 				'type'       => Controls_Manager::DIMENSIONS,
-				'size_units' => array( 'px', 'em', '%' ),
+				'size_units' => array( 'px', 'em', '%', 'custom' ),
 				'selectors'  => array(
 					'{{WRAPPER}} .premium-nav-menu-container .premium-mega-content-container, {{WRAPPER}} .premium-mobile-menu-container .premium-mega-content-container' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
 				),
@@ -3943,7 +4059,7 @@ class Premium_Nav_Menu extends Widget_Base {
 			array(
 				'label'      => __( 'Dropdown Icon Margin', 'premium-addons-for-elementor' ),
 				'type'       => Controls_Manager::DIMENSIONS,
-				'size_units' => array( 'px', 'em', '%' ),
+				'size_units' => array( 'px', 'em', '%', 'custom' ),
 				'selectors'  => array(
 					'{{WRAPPER}} .premium-main-nav-menu .premium-sub-menu .premium-sub-menu-link .premium-dropdown-icon' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
 				),
@@ -4047,7 +4163,7 @@ class Premium_Nav_Menu extends Widget_Base {
 			array(
 				'label'      => __( 'Margin', 'premium-addons-for-elementor' ),
 				'type'       => Controls_Manager::DIMENSIONS,
-				'size_units' => array( 'px', 'em', '%' ),
+				'size_units' => array( 'px', 'em', '%', 'custom' ),
 				'selectors'  => array(
 					'{{WRAPPER}} .premium-main-nav-menu .premium-sub-menu .premium-sub-menu-item' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
 				),
@@ -4157,7 +4273,7 @@ class Premium_Nav_Menu extends Widget_Base {
 			array(
 				'label'      => __( 'Margin', 'premium-addons-for-elementor' ),
 				'type'       => Controls_Manager::DIMENSIONS,
-				'size_units' => array( 'px', 'em', '%' ),
+				'size_units' => array( 'px', 'em', '%', 'custom' ),
 				'selectors'  => array(
 					'{{WRAPPER}} .premium-main-nav-menu .premium-sub-menu .premium-sub-menu-item:hover' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
 				),
@@ -4255,7 +4371,7 @@ class Premium_Nav_Menu extends Widget_Base {
 			array(
 				'label'      => __( 'Margin', 'premium-addons-for-elementor' ),
 				'type'       => Controls_Manager::DIMENSIONS,
-				'size_units' => array( 'px', 'em', '%' ),
+				'size_units' => array( 'px', 'em', '%', 'custom' ),
 				'selectors'  => array(
 					'{{WRAPPER}} .premium-main-nav-menu .premium-sub-menu .premium-active-item' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
 				),
@@ -4389,7 +4505,7 @@ class Premium_Nav_Menu extends Widget_Base {
 			array(
 				'label'      => __( 'Margin', 'premium-addons-for-elementor' ),
 				'type'       => Controls_Manager::DIMENSIONS,
-				'size_units' => array( 'px', 'em', '%' ),
+				'size_units' => array( 'px', 'em', '%', 'custom' ),
 				'selectors'  => array(
 					'{{WRAPPER}} .premium-sub-menu-item .premium-sub-menu-link .premium-sub-item-icon' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
 				),
@@ -4755,7 +4871,7 @@ class Premium_Nav_Menu extends Widget_Base {
 							<?php
 							if ( 'wordpress_menu' === $menu_type ) {
 								?>
-									<?php echo $this->mobile_menu_filter( $menu_html, $menu_id ); ?>
+									<?php echo $this->mobile_menu_filter( $menu_html, $menu_id ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 									<?php
 							} else {
 								?>

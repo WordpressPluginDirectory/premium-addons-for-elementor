@@ -1275,6 +1275,8 @@
 		/****** Premium Countdown Handler ******/
 		var PremiumCountDownHandler = function ($scope) {
 
+			window.initCoundown();
+
 			var $countDownElement = $scope.find(".premium-countdown"),
 				$countDown = $countDownElement.find('.countdown'),
 				settings = $countDownElement.data("settings"),
@@ -1703,7 +1705,7 @@
 			};
 			marginFix.setWidth();
 			marginFix.element = $("a.carousel-arrow");
-			marginFix.setWidth("horizontal");
+			//marginFix.setWidth("horizontal");
 
 			$(document).ready(function () {
 
@@ -4473,7 +4475,8 @@
 				var $mediaItem = $scope.find('.premium-adv-carousel__item'),
 					direction = settings.dir,
 					scrollDir = settings.reverse,
-					verAlignWidth = 10,
+					// verAlignWidth = 10,
+					verAlignWidth = 0,
 					containerHeight = $mediaItemsContainer.outerHeight();
 
 				if ('horizontal' === direction) {
@@ -4566,12 +4569,11 @@
 
 							transformVal = accumlativeHeight;
 
-							accumlativeHeight = accumlativeHeight + $scope.find('.premium-adv-carousel__item').eq(i).outerHeight(true);
+							accumlativeHeight = accumlativeHeight + $scope.find('.premium-adv-carousel__item').eq(i).outerHeight(true) + parseFloat(slidesSpacing);
 
 							return (transformVal) * factor
 						}
 					});
-
 
 					var fullHeight = (verAlignWidth + ($scope.find('.premium-adv-carousel__item').length * parseFloat(slidesSpacing)));
 
