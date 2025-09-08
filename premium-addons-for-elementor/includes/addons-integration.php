@@ -879,6 +879,15 @@ class Addons_Integration {
 		);
 
 		wp_localize_script(
+			'pa-shape-divider',
+			'PaShapeDividerSettings',
+			array(
+				'ajaxurl' => esc_url( admin_url( 'admin-ajax.php' ) ),
+				'nonce'   => wp_create_nonce( 'pa-shape-nonce' ),
+			)
+		);
+
+		wp_localize_script(
 			'pa-gTooltips',
 			'PremiumSettings',
 			array(
@@ -1734,6 +1743,14 @@ class Addons_Integration {
 		$pro_elements = array_merge( $promotion_widgets, $pro_elements );
 
 		$config['promotionWidgets'] = $pro_elements;
+
+		// Fix promotion box not showing when Elementor Pro is active.
+		if ( defined( 'ELEMENTOR_PRO_VERSION' ) ) {
+			$config['promotion']['elements']['action_button'] = array(
+				'text' => 'Connect & Activate',
+				'url' => 'https://go.elementor.com/'
+			);
+		}
 
 		return $config;
 	}
