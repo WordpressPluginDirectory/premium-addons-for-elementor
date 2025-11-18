@@ -29,6 +29,9 @@
 .premium-image-button.premium-image-button-none:hover::after {
   opacity: 1;
 }
+.premium-image-button.premium-image-button-none:hover {
+  background-image: none !important;
+}
 
 /*Default background for slide styles*/
 .premium-image-button-style4-icon-wrapper,

@@ -1594,7 +1594,7 @@ class Helper_Functions {
 							__( 'Widget Demo', 'premium-addons-for-elementor' ) .
 						'</a>
 						<a class="premium-promote-upgrade premium-widget-blocks elementor-button elementor-button-default" href="#" data-keyword="' . esc_attr( $keyword ) . '">' .
-							__( 'Premade Templates', 'premium-addons-for-elementor' ) .
+							__( 'Templates', 'premium-addons-for-elementor' ) .
 						'</a>
 					</div>
 				</div>',
@@ -1630,7 +1630,7 @@ class Helper_Functions {
 					'type'        => Controls_Manager::NOTICE,
 					'notice_type' => 'info',
 					'dismissible' => false,
-					'content'     => __( '<b>Build smarter and faster</b> with premium widgets, 580+ container blocks, and advanced customization controls — all available in the <a href="'. esc_url( $pro_link ) .'" target="_blank">PA Pro</a>. <b>Save up to 25%!</b>.', 'premium-addons-for-elementor' ),
+					'content'     => __( '<b>Build smarter and faster</b> with premium widgets, 580+ container blocks, and advanced customization controls — all available in the <a href="'. esc_url( $pro_link ) .'" target="_blank">PA Pro</a>. <b>Save up to 35%!</b>.', 'premium-addons-for-elementor' ),
 				)
 			);
 

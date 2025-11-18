@@ -919,7 +919,7 @@ class Mini_Cart extends Widget_Base {
 			'cart_dir',
 			array(
 				'label'              => __( 'Direction', 'premium-addons-for-elementor' ),
-				'frontend_available' => true,
+				'prefix_class'       => 'pa-slide-dir-',
 				'type'               => Controls_Manager::CHOOSE,
 				'toggle'             => false,
 				'options'            => array(
@@ -933,26 +933,31 @@ class Mini_Cart extends Widget_Base {
 					),
 				),
 				'default'            => 'right',
-				'prefix_class'       => 'pa-slide-dir-',
+				'selectors_dictionary'   => array(
+					'left'  => 'left: 0; transform: translateX(calc(-1 * var(--pa-slide-mc-width))); -webkit-transform: translateX(calc(-1 * var(--pa-slide-mc-width))); -ms-transform: translateX(calc(-1 * var(--pa-slide-mc-width)))',
+					'right' => 'right:0; transform: translateX(var(--pa-slide-mc-width)); -webkit-transform: translateX(var(--pa-slide-mc-width)); -ms-transform: translateX(var(--pa-slide-mc-width))',
+				),
 				'selectors'          => array(
-					'{{WRAPPER}} .pa-woo-mc__content-wrapper' => '{{VALUE}}: 0',
+					'{{WRAPPER}} .pa-woo-mc__content-wrapper' => '{{VALUE}}',
 				),
 				'conditions'         => $slide_connected_conds,
 			)
 		);
 
-		// $this->add_control(
-		// 'slide_effects',
-		// array(
-		// 'label'      => __( 'Transition Effect', 'premium-addons-for-elementor' ),
-		// 'type'       => Controls_Manager::SELECT,
-		// 'options'    => array(
-		// 'overlay' => __( 'Overlay', 'premium-addons-for-elementor' ),
-		// ),
-		// 'default'    => 'overlay',
-		// 'conditions' => $slide_connected_conds,
-		// )
-		// );
+		$this->add_control(
+			'cart_css_selector',
+			array(
+				'label'       => __( 'CSS Selector', 'premium-addons-for-elementor' ),
+				'type'        => Controls_Manager::TEXT,
+				'description' => __( 'Add the CSS selector of the element that will trigger the Mini Cart. For example, #element-id or .element-class', 'premium-addons-for-elementor' ),
+				'label_block' => true,
+				'render_type' => 'template',
+				'condition'   => array(
+					'cart_type'  => 'slide',
+					'behaviour!' => 'url',
+				),
+			)
+		);
 
 		$this->add_control(
 			'content_layout',
@@ -994,7 +999,7 @@ class Mini_Cart extends Widget_Base {
 					),
 				),
 				'selectors'  => array(
-					'{{WRAPPER}} .pa-woo-mc__content-wrapper' => 'width: {{SIZE}}{{UNIT}}',
+					'{{WRAPPER}}' => '--pa-slide-mc-width: {{SIZE}}{{UNIT}};'
 				),
 			)
 		);
@@ -1049,6 +1054,43 @@ class Mini_Cart extends Widget_Base {
 						$slide_connected_conds,
 					),
 				),
+			)
+		);
+
+		$this->add_control(
+			'transition',
+			array(
+				'label'      => __( 'Transition Duration (Sec)', 'premium-addons-for-elementor' ),
+				'type'       => Controls_Manager::SLIDER,
+				'separator'  => 'before',
+				'range'     => array(
+					'px' => array(
+						'min'  => 0,
+						'max'  => 10,
+						'step' => 0.1,
+					),
+				),
+				'selectors' => array(
+					'{{WRAPPER}} .pa-woo-mc__content-wrapper' => 'transition-duration: {{SIZE}}s',
+				)
+			)
+		);
+
+		$this->add_control(
+			'close_delay',
+			array(
+				'label'      => __( 'Transition Delay (Sec)', 'premium-addons-for-elementor' ),
+				'type'       => Controls_Manager::SLIDER,
+				'range'     => array(
+					'px' => array(
+						'min'  => 0,
+						'max'  => 10,
+						'step' => 0.1,
+					),
+				),
+				'selectors' => array(
+					'{{WRAPPER}} .pa-woo-mc__content-wrapper' => 'transition-delay: {{SIZE}}s',
+				)
 			)
 		);
 
@@ -1668,6 +1710,20 @@ class Mini_Cart extends Widget_Base {
 					'{{WRAPPER}} .pa-woo-mc__qty-btn' => 'width: {{SIZE}}{{UNIT}}; height: {{SIZE}}{{UNIT}}',
 				),
 				'condition'  => array(
+					'qty_controls'   => 'yes',
+					'content_layout' => array( 'layout-1', 'layout-2' ),
+				),
+			)
+		);
+
+		$this->add_control(
+			'allow_backorders',
+			array(
+				'label'        => __( 'Allow Backorders', 'premium-addons-for-elementor' ),
+				'type'         => Controls_Manager::SWITCHER,
+				'prefix_class' => 'pa-allow-bkorders-',
+				'description'  => __( 'Allow customers to order quantities beyond available stock.', 'premium-addons-for-elementor' ),
+				'condition'    => array(
 					'qty_controls'   => 'yes',
 					'content_layout' => array( 'layout-1', 'layout-2' ),
 				),
@@ -2953,7 +3009,7 @@ class Mini_Cart extends Widget_Base {
 			array(
 				'name'     => 'pa_ele_bg_item_cont',
 				'types'    => array( 'classic', 'gradient' ),
-				'selector' => '{{WRAPPER}} .pa-woo-mc__items-wrapper',
+				'selector' => '{{WRAPPER}} .pa-woo-mc__content-wrapper:not(.pa-hide-content) .pa-woo-mc__items-wrapper',
 			)
 		);
 
@@ -2961,7 +3017,7 @@ class Mini_Cart extends Widget_Base {
 			Group_Control_Border::get_type(),
 			array(
 				'name'     => 'pa_border_color_item_cont',
-				'selector' => '{{WRAPPER}} .pa-woo-mc__items-wrapper',
+				'selector' => '{{WRAPPER}} .pa-woo-mc__content-wrapper:not(.pa-hide-content) .pa-woo-mc__items-wrapper',
 			)
 		);
 
@@ -2972,7 +3028,7 @@ class Mini_Cart extends Widget_Base {
 				'type'       => Controls_Manager::DIMENSIONS,
 				'size_units' => array( 'px', 'em', '%' ),
 				'selectors'  => array(
-					'{{WRAPPER}} .pa-woo-mc__items-wrapper' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+					'{{WRAPPER}} .pa-woo-mc__content-wrapper:not(.pa-hide-content) .pa-woo-mc__items-wrapper' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
 				),
 			)
 		);
@@ -3081,6 +3137,17 @@ class Mini_Cart extends Widget_Base {
 				'label'     => esc_html__( 'Input Field', 'premium-addons-for-elementor' ),
 				'separator' => 'before',
 				'type'      => Controls_Manager::HEADING,
+			)
+		);
+
+		$this->add_control(
+			'coupon_ph_color',
+			array(
+				'label'     => __( 'Placeholder Color', 'premium-addons-for-elementor' ),
+				'type'      => Controls_Manager::COLOR,
+				'selectors' => array(
+					'{{WRAPPER}} .pa-woo-mc__coupon-field' => 'color: {{VALUE}}',
+				),
 			)
 		);
 
@@ -5250,7 +5317,7 @@ class Mini_Cart extends Widget_Base {
 
 		$trigger_pos = $settings['placement'];
 
-		$subtotoal    = 'float' === $trigger_pos && 'yes' === $settings['subtotal'];
+		$subtotal    = 'float' === $trigger_pos && 'yes' === $settings['subtotal'];
 		$has_subtotal = 'default' === $trigger_pos && ! in_array( $settings['presets'], array( 'preset-1', 'preset-2' ), true );
 		$has_badge    = 'default' === $trigger_pos && in_array( $settings['presets'], array( 'preset-5', 'preset-7' ), true );
 		$badge        = 'yes' === $settings['badge_switcher'];
@@ -5293,11 +5360,9 @@ class Mini_Cart extends Widget_Base {
 				'type'         => $cart_type,
 				'behavior'     => $behaviour,
 				'trigger'      => 'slide' === $cart_type ? 'click' : $settings['trigger'],
-				// 'style'        => 'slide' === $cart_type ? $settings['slide_effects'] : '',
-				'style'        => 'overlay',
 				'clickOutside' => 'yes' === $settings['close_on_outside'],
 				'removeTxt'    => 'yes' === $settings['remove_icon'] && 'text' === $settings['remove_type'] ? $settings['remove_txt'] : false,
-				'coupon'       => 'yes' === $settings['coupon'],
+				'coupon'       => 'yes' === $settings['coupon']
 			);
 
 			if ( 'yes' === get_option( 'woocommerce_calc_taxes' ) && in_array( 'yes', array( $settings['show_tax_label'], $settings['show_footer_tax_label'] ), true ) ) {
@@ -5315,12 +5380,17 @@ class Mini_Cart extends Widget_Base {
 				$cart_settings['speed']          = $settings['speed'];
 			}
 
+			if ( ! empty( $settings['cart_css_selector'] ) ) {
+				$cart_settings['cssSelector'] = $settings['cart_css_selector'];
+				$clean_selector               = ltrim( $settings['cart_css_selector'], '.#' );
+				$this->add_render_attribute( 'cart_outer_wrapper', 'data-cart-selector', esc_attr( $clean_selector ) );
+			}
+
 			$this->add_render_attribute( 'cart_outer_wrapper', 'data-settings', json_encode( $cart_settings ) );
 		}
 
 		?>
 			<div <?php echo wp_kses_post( $this->get_render_attribute_string( 'cart_outer_wrapper' ) ); ?>>
-
 				<div class="pa-woo-mc__inner-container">
 					<div class="pa-woo-mc__icon-wrapper">
 						<?php
@@ -5331,7 +5401,7 @@ class Mini_Cart extends Widget_Base {
 						}
 						?>
 					</div>
-					<?php if ( $subtotoal || $has_subtotal ) : ?>
+					<?php if ( $subtotal || $has_subtotal ) : ?>
 						<div class="pa-woo-mc__text-wrapper">
 							<?php
 
@@ -5399,10 +5469,6 @@ class Mini_Cart extends Widget_Base {
 			</div>
 		<?php
 		if ( $render_mini_cart && 'slide' === $cart_type ) {
-
-			// $this->add_render_attribute( 'cart_menu_content', 'class', array( 'pa-woo-mc__anim-' . $settings['slide_effects'], $settings['cart_dir'] ) );
-			$this->add_render_attribute( 'cart_menu_content', 'class', array( 'pa-woo-mc__anim-overlay' ) );
-
 			$this->render_mini_cart_content( $settings, $cart_type );
 
 			if ( 'yes' === $settings['slide_overlay'] ) {
@@ -5416,9 +5482,7 @@ class Mini_Cart extends Widget_Base {
 						),
 					)
 				);
-				?>
-				<div <?php echo wp_kses_post( $this->get_render_attribute_string( 'overlay' ) ); ?>></div>
-								<?php
+				?><div <?php echo wp_kses_post( $this->get_render_attribute_string( 'overlay' ) ); ?>></div><?php
 			}
 		}
 	}

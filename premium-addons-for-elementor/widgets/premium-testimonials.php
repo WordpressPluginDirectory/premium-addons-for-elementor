@@ -136,7 +136,7 @@ class Premium_Testimonials extends Widget_Base {
 	 * @since 1.0.0
 	 * @access public
 	 *
-	 * @return string Widget keywords.
+	 * @return array Widget keywords.
 	 */
 	public function get_keywords() {
 		return array( 'pa', 'premium', 'premium testimonials', 'quote', 'appreciate', 'rating', 'review', 'recommendation' );
@@ -314,7 +314,7 @@ class Premium_Testimonials extends Widget_Base {
 
 		$this->end_controls_tabs();
 
-		$repeater = new REPEATER();
+		$repeater = new Repeater();
 
 		$repeater->add_control(
 			'person_image',
@@ -1129,6 +1129,18 @@ class Premium_Testimonials extends Widget_Base {
 				'label'  => __( 'Empty Star Color', 'premium-addons-for-elementor' ),
 				'type'   => Controls_Manager::COLOR,
 				'global' => false,
+			)
+		);
+
+		$this->add_control(
+			'rating_spacing',
+			array(
+				'label'      => __( 'Spacing', 'premium-addons-for-elementor' ),
+				'type'       => Controls_Manager::SLIDER,
+				'size_units' => array( 'px', 'em', 'custom' ),
+				'selectors'  => array(
+					'{{WRAPPER}} .premium-fb-rev-star:not(:last-child)' => 'margin-inline-end: {{SIZE}}{{UNIT}};',
+				),
 			)
 		);
 

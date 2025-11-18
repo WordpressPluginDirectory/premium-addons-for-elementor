@@ -130,7 +130,8 @@ class Premium_Title extends Widget_Base {
 			$settings = $this->get_settings();
 
 			if ( 'yes' === $settings['draw_svg'] ) {
-				array_push( $scripts, 'pa-tweenmax', 'pa-motionpath' );
+				$scripts[] = 'pa-tweenmax';
+				$scripts[] = 'pa-motionpath';
 			}
 
 			if ( 'animation' === $settings['icon_type'] ) {
@@ -2181,7 +2182,6 @@ class Premium_Title extends Widget_Base {
 						$letters_html = '<span class="premium-letters-container"' . $this->get_render_attribute_string( 'premium_title_text' ) . '>';
 						$title_array  = preg_split( '//u', $settings['premium_title_text'], -1, PREG_SPLIT_NO_EMPTY );
 					foreach ( $title_array as $key => $letter ) :
-						$key           = $key++;
 						$letters_html .= '<span class="premium-title-style9-letter" data-letter-index="' . esc_attr( $key + 1 ) . '" data-letter="' . esc_attr( $letter ) . '">' . $letter . '</span>';
 					endforeach;
 						$the_title = $letters_html . '</span>';

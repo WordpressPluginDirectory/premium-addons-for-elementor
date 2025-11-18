@@ -567,7 +567,7 @@ class Admin_Helper {
 
 			$link = Helper_Functions::get_campaign_link( 'https://premiumaddons.com/pro/#get-pa-pro', 'plugins-page', 'wp-dash', 'get-pro' );
 
-			$pro_link = sprintf( '<a href="%s" target="_blank" style="color: #FF6000; font-weight: bold;">%s</a>', $link, __( 'Go Pro (25% OFF)', 'premium-addons-for-elementor' ) );
+			$pro_link = sprintf( '<a href="%s" target="_blank" style="color: #FF6000; font-weight: bold;">%s</a>', $link, __( 'Go Pro (35% OFF)', 'premium-addons-for-elementor' ) );
 			array_push( $new_links, $pro_link );
 		}
 
@@ -638,7 +638,7 @@ class Admin_Helper {
 				'href'     => '#tab=elements',
 				'template' => PREMIUM_ADDONS_PATH . 'admin/includes/templates/modules-settings',
 			),
-			'addons'        => array(
+			'addons'          => array(
 				'id'       => 'addons',
 				'slug'     => $slug . '#tab=addons',
 				'title'    => __( 'Global Addons', 'premium-addons-for-elementor' ),
@@ -675,7 +675,7 @@ class Admin_Helper {
 			),
 		);
 
-		if( ! Helper_Functions::check_papro_version() ) {
+		if ( ! Helper_Functions::check_papro_version() ) {
 
 			self::$tabs['license'] = array(
 				'id'       => 'license',
@@ -748,8 +748,8 @@ class Admin_Helper {
 			call_user_func(
 				'add_submenu_page',
 				self::$page_slug,
-				'<span style="color: #FF6000;" class="pa_pro_upgrade">Get Pro (25% OFF)</span>',
-				'<span style="color: #FF6000;" class="pa_pro_upgrade">Get Pro (25% OFF)</span>',
+				'<span style="color: #FF6000;" class="pa_pro_upgrade">Get PRO (35% OFF)</span>',
+				'<span style="color: #FF6000;" class="pa_pro_upgrade">Get PRO (35% OFF)</span>',
 				'manage_options',
 				'https://premiumaddons.com/pro/#get-pa-pro',
 				''
@@ -836,10 +836,14 @@ class Admin_Helper {
 		<div class="papro-admin-notice">
 			<?php if ( ! $show_logo ) : ?>
 				<div class="papro-admin-notice-left">
-					<div class="papro-admin-notice-logo">
-						<img class="pa-notice-logo" src="<?php echo esc_attr( PREMIUM_ADDONS_URL . 'admin/images/papro-notice-logo.png' ); ?>">
-					</div>
-					<a href="https://premiumaddons.com" target="_blank"></a>
+
+
+						<div class="papro-admin-notice-logo">
+							<img class="pa-notice-logo" src="<?php echo esc_attr( PREMIUM_ADDONS_URL . 'admin/images/papro-notice-logo.png' ); ?>">
+						</div>
+
+						<a href="https://premiumaddons.com/" target="_blank"></a>
+
 				</div>
 			<?php endif; ?>
 
@@ -855,7 +859,7 @@ class Admin_Helper {
 							</h4>
 							<p>
 								<?php echo esc_html( $banner_content['desc'] ); ?>
-								<span class="papro-sale-notice"><?php echo wp_kses_post( __( 'save up to 25%!', 'premium-addons-for-elementor' ) ); ?></span>
+								<span class="papro-sale-notice"><?php echo wp_kses_post( __( 'save up to 35%!', 'premium-addons-for-elementor' ) ); ?></span>
 							</p>
 						</div>
 						<div class="papro-admin-notice-cta">
@@ -883,7 +887,7 @@ class Admin_Helper {
 				'title' => __( 'Get Premium Addons PRO', 'premium-addons-for-elementor' ),
 				'desc'  => __( 'Supercharge your Elementor with PRO Widgets & Addons that you won\'t find anywhere else.', 'premium-addons-for-elementor' ),
 				'btn'   => __( 'Get Pro', 'premium-addons-for-elementor' ),
-				'cta'   => 'https://premiumaddons.com/get/papro',
+				'cta'   => 'https://premiumaddons.com/get/papro/#get-pa-pro',
 			);
 		}
 
@@ -898,7 +902,7 @@ class Admin_Helper {
 			return array(
 				'title' => __( 'You\'re Missing Out on the Official Pro Version!', 'premium-addons-for-elementor' ),
 				'desc'  => __( 'It looks like you\'re using Premium Addons Pro, but it was not purchased from our official website. Get official version to receive updates, support and use Premium Templates!', 'premium-addons-for-elementor' ),
-				'btn'   => __( 'Get Pro', 'premium-addons-for-elementor' ),
+				'btn'   => __( 'Get PRO', 'premium-addons-for-elementor' ),
 				'cta'   => 'https://premiumaddons.com/validate/papro',
 			);
 
@@ -955,7 +959,7 @@ class Admin_Helper {
 			'premium-cross-domain',
 			'premium-duplicator',
 			'premium-wrapper-link',
-			'premium-assets-generator'
+			'premium-assets-generator',
 		);
 
 		$features = array();
