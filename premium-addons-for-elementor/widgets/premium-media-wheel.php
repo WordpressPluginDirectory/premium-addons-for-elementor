@@ -45,6 +45,13 @@ class Premium_Media_Wheel extends Widget_Base {
 	private static $check_self_hosted = false;
 
 	/**
+	 * Check Premium Addons Pro Version.
+	 *
+	 * @var bool $papro_activated
+	 */
+	private $papro_activated;
+
+	/**
 	 * Retrieve Widget Name.
 	 *
 	 * @since 1.0.0
@@ -1008,7 +1015,7 @@ class Premium_Media_Wheel extends Widget_Base {
 
 	private function add_advanced_controls() {
 
-		$papro_activated = apply_filters( 'papro_activated', false );
+		$this->papro_activated = Helper_Functions::check_papro_version();
 
 		$this->start_controls_section(
 			'advanced_settings_section',
@@ -1111,7 +1118,7 @@ class Premium_Media_Wheel extends Widget_Base {
 			)
 		);
 
-		if ( $papro_activated ) {
+		if ( $this->papro_activated ) {
 
 			do_action( 'pa_adv_carousel_options', $this );
 
@@ -1156,7 +1163,7 @@ class Premium_Media_Wheel extends Widget_Base {
 			)
 		);
 
-		if ( $papro_activated ) {
+		if ( $this->papro_activated ) {
 
 			do_action( 'pa_adv_carousel_navigation', $this );
 
@@ -1316,9 +1323,7 @@ class Premium_Media_Wheel extends Widget_Base {
 			)
 		);
 
-		$papro_activated = apply_filters( 'papro_activated', false );
-
-		if ( $papro_activated ) {
+		if ( $this->papro_activated ) {
 			do_action( 'pa_image_hover_effects', $this );
 		}
 
@@ -2425,9 +2430,7 @@ class Premium_Media_Wheel extends Widget_Base {
 
 		$settings = $this->get_settings_for_display();
 
-		$papro_activated = apply_filters( 'papro_activated', false );
-
-		if ( ! $papro_activated || version_compare( PREMIUM_PRO_ADDONS_VERSION, '2.9.6', '<' ) ) {
+		if ( ! $this->papro_activated || version_compare( PREMIUM_PRO_ADDONS_VERSION, '2.9.6', '<' ) ) {
 
 			if ( 'infinite' !== $settings['media_wheel_animation'] ) {
 
@@ -2592,11 +2595,9 @@ class Premium_Media_Wheel extends Widget_Base {
 
 		$widget_settings = $this->get_settings_for_display();
 
-		$papro_activated = apply_filters( 'papro_activated', false );
-
 		$lightbox = $widget_settings['media_light_box'];
 
-		if ( $papro_activated ) {
+		if ( $this->papro_activated ) {
 
 			$hover_effect = 'premium-hover-effects__' . $widget_settings['image_hover_effect'];
 

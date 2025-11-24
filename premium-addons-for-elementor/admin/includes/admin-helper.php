@@ -555,7 +555,7 @@ class Admin_Helper {
 	 */
 	public function insert_action_links( $links ) {
 
-		$is_papro_active = apply_filters( 'papro_activated', false );
+		$is_papro_active = Helper_Functions::check_papro_version();
 
 		$settings_link = sprintf( '<a href="%1$s">%2$s</a>', admin_url( 'admin.php?page=' . self::$page_slug . '#tab=elements' ), __( 'Settings', 'premium-addons-for-elementor' ) );
 
@@ -742,7 +742,7 @@ class Admin_Helper {
 			);
 		}
 
-		$is_papro_active = apply_filters( 'papro_activated', false );
+		$is_papro_active = Helper_Functions::check_papro_version();
 
 		if ( ! $is_papro_active ) {
 			call_user_func(
@@ -855,16 +855,15 @@ class Admin_Helper {
 					<div class="papro-admin-notice-right">
 						<div class="papro-admin-notice-info">
 							<h4>
-								<?php echo esc_html( $banner_content['title'] ); ?>
+								<?php echo wp_kses_post( $banner_content['title'] ); ?>
 							</h4>
 							<p>
-								<?php echo esc_html( $banner_content['desc'] ); ?>
-								<span class="papro-sale-notice"><?php echo wp_kses_post( __( 'save up to 35%!', 'premium-addons-for-elementor' ) ); ?></span>
+								<?php echo wp_kses_post( $banner_content['desc'] ); ?>
 							</p>
 						</div>
 						<div class="papro-admin-notice-cta">
 							<a class="papro-notice-btn" href="<?php echo esc_url( $banner_content['cta'] ); ?>" target="_blank">
-								<?php echo esc_html( $banner_content['btn'] ); ?>
+								<?php echo wp_kses_post( $banner_content['btn'] ); ?>
 							</a>
 						</div>
 					</div>
@@ -882,28 +881,25 @@ class Admin_Helper {
 	 */
 	public function get_banner_strings() {
 
-		if ( ! Helper_Functions::check_papro_version() ) {
+		$license_info = get_transient( 'pa_license_info' );
+
+		if ( ! Helper_Functions::check_papro_version() || ! $license_info ) {
 			return array(
 				'title' => __( 'Get Premium Addons PRO', 'premium-addons-for-elementor' ),
-				'desc'  => __( 'Supercharge your Elementor with PRO Widgets & Addons that you won\'t find anywhere else.', 'premium-addons-for-elementor' ),
+				'desc'  => __( 'Supercharge your Elementor with PRO Widgets & Addons that you won\'t find anywhere else.', 'premium-addons-for-elementor' ) . '<span class="papro-sale-notice">' . __( 'save up to 35%!', 'premium-addons-for-elementor' ) . '</span>',
 				'btn'   => __( 'Get Pro', 'premium-addons-for-elementor' ),
 				'cta'   => 'https://premiumaddons.com/get/papro/#get-pa-pro',
 			);
-		}
 
-		$papro_status = get_transient( 'pa_license_check' );
+		} if( isset( $license_info['id'] ) && '4' !== $license_info['id'] ) {
 
-		if ( ! $papro_status ) {
-			return;
-		}
-
-		if ( 'invalid' === $papro_status ) {
+			$upgrade_link = Helper_Functions::get_campaign_link( 'http://premiumaddons.com/docs/upgrade-premium-addons-license/', 'dashboard-banner', 'wp-dash', 'upgrade-pro' );
 
 			return array(
-				'title' => __( 'You\'re Missing Out on the Official Pro Version!', 'premium-addons-for-elementor' ),
-				'desc'  => __( 'It looks like you\'re using Premium Addons Pro, but it was not purchased from our official website. Get official version to receive updates, support and use Premium Templates!', 'premium-addons-for-elementor' ),
-				'btn'   => __( 'Get PRO', 'premium-addons-for-elementor' ),
-				'cta'   => 'https://premiumaddons.com/validate/papro',
+				'title' => __( 'Upgrade to Lifetime!', 'premium-addons-for-elementor' ),
+				'desc'  => __( 'Pay only the difference and enjoy an <span class="papro-sale-notice"> EXTRA 35% OFF</span> when you upgrade your Premium Addons Pro license to Lifetime — no renewals, no hassle, just lifetime access forever.', 'premium-addons-for-elementor' ),
+				'btn'   => __( 'Upgrade Now', 'premium-addons-for-elementor' ),
+				'cta'   => $upgrade_link,
 			);
 
 		}

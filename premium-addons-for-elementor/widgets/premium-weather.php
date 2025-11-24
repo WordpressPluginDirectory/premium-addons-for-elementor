@@ -56,6 +56,13 @@ class Premium_Weather extends Widget_Base {
 	public $settings = null;
 
 	/**
+	 * Check Premium Addons Pro Version.
+	 *
+	 * @var bool $papro_activated
+	 */
+	private $papro_activated;
+
+	/**
 	 * Check Icon Draw Option.
 	 *
 	 * @since 4.9.26
@@ -290,7 +297,7 @@ class Premium_Weather extends Widget_Base {
 	 */
 	private function add_general_section_controls() {
 
-		$papro_activated = apply_filters( 'papro_activated', false );
+		$this->papro_activated = Helper_Functions::check_papro_version();
 
 		$this->start_controls_section(
 			'pa_weather_general_section',
@@ -357,7 +364,7 @@ class Premium_Weather extends Widget_Base {
 			)
 		);
 
-		if ( ! $papro_activated ) {
+		if ( ! $this->papro_activated ) {
 
 			$get_pro = Helper_Functions::get_campaign_link( 'https://premiumaddons.com/pro', 'weather-widget', 'wp-editor', 'get-pro' );
 
@@ -954,8 +961,6 @@ class Premium_Weather extends Widget_Base {
 
 	private function add_daily_forecast_section() {
 
-		$papro_activated = apply_filters( 'papro_activated', false );
-
 		$this->start_controls_section(
 			'pa_daily_forecast_section',
 			array(
@@ -974,7 +979,7 @@ class Premium_Weather extends Widget_Base {
 			)
 		);
 
-		if ( ! $papro_activated ) {
+		if ( ! $this->papro_activated ) {
 
 			$get_pro = Helper_Functions::get_campaign_link( 'https://premiumaddons.com/pro', 'weather-widget', 'wp-editor', 'get-pro' );
 
@@ -1147,8 +1152,6 @@ class Premium_Weather extends Widget_Base {
 
 	private function add_custom_icons_section() {
 
-		$papro_activated = apply_filters( 'papro_activated', false );
-
 		$this->start_controls_section(
 			'pa_custom_icon_section',
 			array(
@@ -1164,7 +1167,7 @@ class Premium_Weather extends Widget_Base {
 			)
 		);
 
-		if ( ! $papro_activated ) {
+		if ( ! $this->papro_activated ) {
 
 			$get_pro = Helper_Functions::get_campaign_link( 'https://premiumaddons.com/pro', 'weather-widget', 'wp-editor', 'get-pro' );
 
@@ -1704,9 +1707,7 @@ class Premium_Weather extends Widget_Base {
 			)
 		);
 
-		$papro_activated = apply_filters( 'papro_activated', false );
-
-		if ( $papro_activated ) {
+		if ( $this->papro_activated ) {
 			$this->add_control(
 				'temp_icon_stroke',
 				array(
@@ -2176,9 +2177,7 @@ class Premium_Weather extends Widget_Base {
 			)
 		);
 
-		$papro_activated = apply_filters( 'papro_activated', false );
-
-		if ( $papro_activated ) {
+		if ( $this->papro_activated ) {
 			$this->add_control(
 				'forecast_icon_stroke',
 				array(
@@ -2568,9 +2567,7 @@ class Premium_Weather extends Widget_Base {
 			)
 		);
 
-		$papro_activated = apply_filters( 'papro_activated', false );
-
-		if ( $papro_activated ) {
+		if ( $this->papro_activated ) {
 			$this->add_control(
 				'hourly_icon_stroke',
 				array(
@@ -3584,9 +3581,7 @@ class Premium_Weather extends Widget_Base {
 			)
 		);
 
-		$papro_activated = apply_filters( 'papro_activated', false );
-
-		if ( $papro_activated ) {
+		if ( $this->papro_activated ) {
 			$this->add_control(
 				'tabs_forecast_icon_stroke',
 				array(
@@ -3752,9 +3747,7 @@ class Premium_Weather extends Widget_Base {
 
 		$settings = $this->get_settings_for_display();
 
-		$papro_activated = apply_filters( 'papro_activated', false );
-
-		if ( ! $papro_activated ) {
+		if ( ! $this->papro_activated ) {
 
 			$settings['forecast_carousel_sw'] = false;
 			$settings['forecast_days']        = false;

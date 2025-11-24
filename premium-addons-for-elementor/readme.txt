@@ -1,11 +1,11 @@
-=== Premium Addons for Elementor ===
+=== Premium Addons for Elementor - Powerful Elementor Templates & Widgets ===
 Contributors: Leap13, Rimoun
 Tags: elementor, elementor addons, widgets, elementor elements, elementor templates
 Donate Link: https://premiumaddons.com/?utm_source=wp-repo&utm_medium=link&utm_campaign=readme
 Requires at least: 5.0
 Tested Up To: 6.8.3
 Requires PHP: 7.4
-Stable Tag: 4.11.47
+Stable Tag: 4.11.49
 License: GPL v3.0
 License URI: https://opensource.org/licenses/GPL-3.0
 
@@ -50,17 +50,14 @@ Smart Post Listing, Weather, World Clock, News Ticker, Tags Cloud and Recent Pos
 ### Elementor Navigation/Mega Menu Widget
 Now, you build outstanding navigation menus and mega menus using Premium Navigation/Mega Menu Widget which allows you to select between four different layouts with dozens of options to create a responsive menu. [Check it out now!](https://premiumaddons.com/elementor-mega-menu-widget/?utm_source=wp-repo&utm_medium=link&utm_campaign=readme&utm_content=mega-menu).
 
-### Display Conditions
+### Elementor Display Conditions
 Premium Addons is proudly offering you a professional way to manage your website content with specific conditions which is perfect for marketers and eCommerce websites. You can show/hide content dynamically based on location, browser, operating system, user role, URL parameters, device type, Woocommerce display conditions such as WooCommerce product and WooCommerce shopping cart data, ACF fields, etc. [Check the demo page](https://premiumaddons.com/elementor-display-conditions/?utm_source=wp-repo&utm_medium=link&utm_campaign=readme&utm_content=display-conditions)
 
-### WooCommerce Products Listing widget
-Show off your products in an elegant way using Premium Woo Products Widget that comes with unlimited customization options. [Check the demo page](https://premiumaddons.com/elementor-woocommerce-products/?utm_source=wp-repo&utm_medium=link&utm_campaign=readme&utm_content=woo-products)
-
 ### Equal Height Feature
-Now, you can make your columns, widgets or any selector you want the same height with just ONE click using [Equal Height feature](https://premiumaddons.com/docs/elementor-column-equal-height/?utm_source=wp-repo&utm_medium=link&utm_campaign=readme&utm_content=equal-height) in container settings -> Advanced tab.
+Now, you can make your containers, widgets or any selector you want the same height with just ONE click using [Equal Height feature](https://premiumaddons.com/docs/elementor-column-equal-height/?utm_source=wp-repo&utm_medium=link&utm_campaign=readme&utm_content=equal-height) in container settings -> Advanced tab.
 
-### Pre-made Container and Page Templates
-NEW: Ever-growing [Container/Page Templates Library](https://premiumaddons.com/premium-elementor-templates-library/?utm_source=wp-repo&utm_medium=link&utm_campaign=readme&utm_content=templates-library) Available on both Premium Addons Free and PRO versions. Browse, preview, and insert the template you like in your page/post with just ONE click. You can also select to insert the templates without media files (images, videos, etc.) to prevent overloading your WordPress Media Library with large files.
+### Container and Full Page Elementor Templates
+Ever-growing [Container/Page Templates Library](https://premiumaddons.com/premium-elementor-templates-library/?utm_source=wp-repo&utm_medium=link&utm_campaign=readme&utm_content=templates-library) Available on both Premium Addons Free and PRO versions. Browse, preview, and insert the template you like in your page/post with just ONE click. You can also select to insert the templates without media files (images, videos, etc.) to prevent overloading your WordPress Media Library with large files.
 
 ### Lottie Animations Integration
 You can now use [Lottie Animations in ALL our widgets](https://premiumaddons.com/elementor-lottie-animations-container-addon/?utm_source=wp-repo&utm_medium=link&utm_campaign=readme&utm_content=lottie-animations). Whatever widget that have an image or icon option now have also the option to add a Lottie animation. Lottie animations are open source, lightweight and available for free, Use them now to make your Elementor pages more eye-catching.
@@ -80,7 +77,7 @@ Each widget and addon has been tested on different screen sizes, mobile devices,
 ### Editor Panel Not Loading
 [How to resolve Elementor editor panel loading issue when Premium Addons is active](https://premiumaddons.com/docs/fix-elementor-editor-panel-loading-issues/).
 
-## Widgets & Addons Included
+## Elementor Widgets & Addons Included
 
 ### Content Widgets
 * [**Carousel Widget**](https://premiumaddons.com/elementor-carousel-widget/?utm_source=wp-repo&utm_medium=link&utm_campaign=readme&utm_content=carousel) *(FREE)*: Create a slider of any Elementor content.
@@ -127,15 +124,15 @@ Each widget and addon has been tested on different screen sizes, mobile devices,
 * [**Background Transition Widget**](https://premiumaddons.com/elementor-color-transition-widget/?utm_source=wp-repo&utm_medium=link&utm_campaign=readme&utm_content=background-transition) *(PRO)*: Create fancy, colorful, and eye-catching webpages.
 * [**Multi-Scroll Widget**](https://premiumaddons.com/multi-scroll-widget-for-elementor-page-builder/?utm_source=wp-repo&utm_medium=link&utm_campaign=readme&utm_content=multi-scroll) *(PRO)*: Create attractive multi-scroll effect.
 * [**Custom Mouse Cursor Global Addon**](https://premiumaddons.com/elementor-custom-mouse-cursor-global-addon/?utm_source=wp-repo&utm_medium=link&utm_campaign=readme&utm_content=custom-mouse-cursor) *(PRO)*: Add a custom mouse cursor to any container or widget.
-* [**Magic Scroll Global Addon**](https://premiumaddons.com/elementor-magic-scroll-global-addon/?utm_source=wp-repo&utm_medium=link&utm_campaign=readme&utm_content=magic-scroll) *(PRO)*: Create outstanding scroll animations to any column/widget with just few clicks and control every single detail in the animation scene.
+* [**Magic Scroll Global Addon**](https://premiumaddons.com/elementor-magic-scroll-global-addon/?utm_source=wp-repo&utm_medium=link&utm_campaign=readme&utm_content=magic-scroll) *(PRO)*: Create outstanding scroll animations to any widget with just few clicks and control every single detail in the animation scene.
 * [**Animated Shape Divider Addon**](https://premiumaddons.com/elementor-animated-shape-divider-addon/?utm_source=wp-repo&utm_medium=link&utm_campaign=readme&utm_content=shape-divider) *(FREE)*: Create animated shape divider on containers. Select between tens of pre-made dividers or use your own.
 * [**Tooltips Global Addon**](https://premiumaddons.com/elementor-tooltip-global-addon/?utm_source=wp-repo&utm_medium=link&utm_campaign=readme&utm_content=tooltips) *(FREE)*: Add icon, image, Lottie animation or Elementor template as a tooltip for any Elementor container element.
 * [**Badge Global Addon**](https://premiumaddons.com/elementor-badge-global-addon/?utm_source=wp-repo&utm_medium=link&utm_campaign=readme&utm_content=badge) *(PRO)*: Add an icon, image, Lottie animation, or SVG blob shape badge to any container.
 * [**Animated Blob Generator**](https://premiumaddons.com/elementor-animated-blob-generator/?utm_source=wp-repo&utm_medium=link&utm_campaign=readme&utm_content=animated-blob) *(PRO)*: Add multiple animated blob layers to your containers with a wide range of smart customization options.
 * [**Lottie Animations Container Addon**](https://premiumaddons.com/elementor-lottie-animations-container-addon/?utm_source=wp-repo&utm_medium=link&utm_campaign=readme&utm_content=lottie-container) *(PRO)*: Add multiple Lottie Animations easily to any container with a lot of customization and interactivity options.
-* [**Parallax Container Addon**](https://premiumaddons.com/elementor-parallax-container-addon/?utm_source=wp-repo&utm_medium=link&utm_campaign=readme&utm_content=parallax) *(PRO)*: The only Parallax Container Addon that can be enabled for columns with freehand design experience and many styles to choose from.
+* [**Parallax Container Addon**](https://premiumaddons.com/elementor-parallax-container-addon/?utm_source=wp-repo&utm_medium=link&utm_campaign=readme&utm_content=parallax) *(PRO)*: The only Parallax Container Addon that can be enabled for containers with freehand design experience and many styles to choose from.
 * [**Particles Container Addon**](https://premiumaddons.com/particles-section-addon-for-elementor-page-builder/?utm_source=wp-repo&utm_medium=link&utm_campaign=readme&utm_content=particles) *(PRO)*: Create eye-catching particles background with many customization options.
-* [**Animated Gradient/Column Addon**](https://premiumaddons.com/animated-section-gradients-for-elementor-page-builder/?utm_source=wp-repo&utm_medium=link&utm_campaign=readme&utm_content=animated-gradient) *(PRO)*: Subtle animated gradients effect that makes your backgrounds attractive.
+* [**Animated Gradient Container Addon**](https://premiumaddons.com/animated-section-gradients-for-elementor-page-builder/?utm_source=wp-repo&utm_medium=link&utm_campaign=readme&utm_content=animated-gradient) *(PRO)*: Subtle animated gradients effect that makes your backgrounds attractive.
 * [**Ken Burns Container Addon**](https://premiumaddons.com/ken-burns-container-addon-for-elementor-page-builder/?utm_source=wp-repo&utm_medium=link&utm_campaign=readme&utm_content=ken-burns) *(PRO)*: Add multiple images to your container background and animate them with the popular Ken Burns effect.
 
 ### Off-Grid Widgets
@@ -143,6 +140,13 @@ Each widget and addon has been tested on different screen sizes, mobile devices,
  * [**Alert Box Widget**](https://premiumaddons.com/elementor-alert-box-widget/?utm_source=wp-repo&utm_medium=link&utm_campaign=readme&utm_content=alert-box) *(PRO)*: Show a popups, GDPR alerts and much more with this handy widget from Premium Addons.
  * [**Off-canvas Widget**](https://premiumaddons.com/elementor-off-canvas-widget/?utm_source=wp-repo&utm_medium=link&utm_campaign=readme&utm_content=off-canvas) *(PRO)*: Another off-canvas widget allows you to slide in a container from any direction with a trigger.
  * [**Preview Window Widget**](https://premiumaddons.com/preview-window-widget-for-elementor-page-builder/?utm_source=wp-repo&utm_medium=link&utm_campaign=readme&utm_content=preview-window) *(PRO)*: Very clever way to show more data in less content area.
+
+### Elementor WooCommerce Widgets & Addons
+ * [**Woo Products Listing**](https://premiumaddons.com/elementor-woocommerce-products/?utm_source=wp-repo&utm_medium=link&utm_campaign=readme&utm_content=woo-products) *(FREE)*: Display your WooCommerce products in customizable grid, masonry, or carousel layouts with flexible query controls and ready-made skins.
+ * [**Woo Categories Listing**](https://premiumaddons.com/elementor-woocommerce-categories-widget/?utm_source=wp-repo&utm_medium=link&utm_campaign=readme&utm_content=woo-categories) *(FREE)*: Show your WooCommerce product categories in stylish grid or carousel layouts with full control over filtering and design..
+ * [**Woo CTA**](https://premiumaddons.com/elementor-woocommerce-cta-widget/?utm_source=wp-repo&utm_medium=link&utm_campaign=readme&utm_content=woo-cta) *(FREE)*: Add beautifully designed "Add to Cart", wishlist, or compare buttons anywhere on your product pages to boost conversions.
+ * [**Woo Mini Cart**](https://premiumaddons.com/elementor-woocommerce-mini-cart-widget/?utm_source=wp-repo&utm_medium=link&utm_campaign=readme&utm_content=woo-cart) *(FREE)*: Show a live, interactive mini cart that updates instantly as customers browse — fully customizable and easy to place anywhere with dozens of styling and free shipping progress bar option.
+ * [**Woo Display Conditions**](https://premiumaddons.com/woocommerce-display-conditions-for-elementor/?utm_source=wp-repo&utm_medium=link&utm_campaign=readme&utm_content=woo-conditions) *(PRO)*: Show or hide any Elementor content based on WooCommerce conditions like cart items, product categories, stock, user role, and more.
 
 ### Social Reviews & Testimonials Widgets
 * [**Testimonials Widget**](https://premiumaddons.com/testimonials-widget-for-elementor-page-builder/?utm_source=wp-repo&utm_medium=link&utm_campaign=readme&utm_content=testimonials) *(FREE)*: The modern Testimonials Widget is available with many customization options. It can be used with Carousel Widget to create testimonials carousel.
@@ -186,7 +190,7 @@ Each widget and addon has been tested on different screen sizes, mobile devices,
 
 ## Support & Documentation
 * [**Documentation**](https://premiumaddons.com/docs/?utm_source=wp-repo&utm_medium=link&utm_campaign=readme&utm_content=documentation) Search here first if you need to know how a widget or feature works or for troubleshooting.
-* [**Video Tutorials**](https://www.youtube.com/playlist?list=PLLpZVOYpMtTArB4hrlpSnDJB36D2sdoTv) This playlist includes many widgets' video tutorials. We are adding more regularly.
+* [**Video Tutorials**](https://www.youtube.com/@Leap13/videos) This playlist includes Premium Addons elements' video tutorials. We are adding more regularly.
 * [**Facebook Group**](https://www.facebook.com/groups/PremiumAddons/) A great place to get help or ask a question about Premium Addons.
 * [**Community Forums**](https://my.leap13.com/forums/forum/premium-addons-for-elementor-plugin-community-support/) Another good place to search for answers or post your own question.
 * [**Support Ticket System**](https://my.leap13.com/contact-support/) We also welcome Free users' issues which require access credentials to check.
@@ -242,6 +246,16 @@ You can report security bugs through the Patchstack Vulnerability Disclosure Pro
 14. Premium Progress Bar Widget
 
 == Changelog ==
+
+= 4.11.49 - 23/11/2025 =
+
+- Tweak: Core improved for better performance and loading speed.
+- Tweak: Added Open Mini Cart on Check option in Woo Mini Cart widget.
+
+= 4.11.48 - 20/11/2025 =
+
+- Tweak: Added Spacing option for slides in Carousel widget.
+- Fixed: Speed option not working for Half Circle layout in Progress Bar widget.
 
 = 4.11.47 - 18/11/2025 =
 

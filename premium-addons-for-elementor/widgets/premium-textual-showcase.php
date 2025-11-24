@@ -226,7 +226,7 @@ class Premium_Textual_Showcase extends Widget_Base {
 	 */
 	private function add_general_controls() {
 
-		$papro_activated = apply_filters( 'papro_activated', false );
+		$papro_activated = Helper_Functions::check_papro_version();
 
 		$this->start_controls_section(
 			'sect_gen_controls',
@@ -2279,7 +2279,7 @@ class Premium_Textual_Showcase extends Widget_Base {
 
 		$settings = $this->get_settings_for_display();
 
-		$papro_activated = apply_filters( 'papro_activated', false );
+		$papro_activated = Helper_Functions::check_papro_version();
 
 		if ( ! $papro_activated || version_compare( PREMIUM_PRO_ADDONS_VERSION, '2.9.10', '<' ) ) {
 

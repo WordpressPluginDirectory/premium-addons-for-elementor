@@ -1739,7 +1739,9 @@ class Addons_Integration {
 
 		if ( self::$modules['pa-display-conditions'] ) {
 			require_once PREMIUM_ADDONS_PATH . 'widgets/dep/urlopen.php';
-			Display_Conditions::get_instance();
+			$has_acf = class_exists( 'ACF' );
+			$has_woo = class_exists( 'woocommerce' );
+			Display_Conditions::get_instance( $has_acf, $has_woo );
 		}
 
 		if ( self::$modules['premium-floating-effects'] ) {
@@ -1802,7 +1804,7 @@ class Addons_Integration {
 	 */
 	public function add_papro_elements( $config ) {
 
-		$is_papro_active = apply_filters( 'papro_activated', false );
+		$is_papro_active = Helper_Functions::check_papro_version();
 
 		if ( $is_papro_active ) {
 			return $config;

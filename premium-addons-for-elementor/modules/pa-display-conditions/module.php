@@ -42,11 +42,31 @@ class Module {
 	private static $instance = null;
 
 	/**
+	 * Has ACF
+	 *
+	 * @var bool
+	 */
+	private $has_acf = false;
+
+	/**
+	 * Has WooCommerce
+	 *
+	 * @var bool
+	 */
+	private $has_woo = false;
+
+	/**
 	 * Display conditions.
 	 *
 	 * Class Constructor Function.
+	 *
+	 * @param bool $has_acf Whether ACF is active.
+	 * @param bool $has_woo Whether WooCommerce is active.
 	 */
-	public function __construct() {
+	public function __construct( $has_acf = false, $has_woo = false ) {
+
+		$this->has_acf = $has_acf;
+		$this->has_woo = $has_woo;
 
 		// Enqueue the required JS file.
 		add_action( 'elementor/preview/enqueue_scripts', array( $this, 'enqueue_scripts' ) );
@@ -107,7 +127,7 @@ class Module {
 
 		$options = $controls_obj::$conditions;
 
-		if ( class_exists( 'ACF' ) ) {
+		if ( $this->has_acf ) {
 			$options = array_merge(
 				array(
 					'acf' => array(
@@ -123,7 +143,7 @@ class Module {
 			);
 		}
 
-		if ( class_exists( 'woocommerce' ) ) {
+		if ( $this->has_woo ) {
 			$options = array_merge(
 				$options,
 				array(
@@ -401,11 +421,13 @@ class Module {
 	 * Returns an instance of this class.
 	 *
 	 * @access public
+	 * @param bool $has_acf Whether ACF is active.
+	 * @param bool $has_woo Whether WooCommerce is active.
 	 */
-	public static function get_instance() {
+	public static function get_instance( $has_acf = false, $has_woo = false ) {
 
 		if ( ! isset( self::$instance ) ) {
-			self::$instance = new self();
+			self::$instance = new self( $has_acf, $has_woo );
 		}
 
 		return self::$instance;

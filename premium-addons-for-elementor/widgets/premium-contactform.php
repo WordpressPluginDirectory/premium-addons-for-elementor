@@ -150,7 +150,7 @@ class Premium_Contactform extends Widget_Base {
 	 */
 	protected function register_controls() { // phpcs:ignore PSR2.Methods.MethodDeclaration.Underscore
 
-		$papro_activated = apply_filters( 'papro_activated', false );
+		$papro_activated = Helper_Functions::check_papro_version();
 
 		$this->start_controls_section(
 			'premium_section_wpcf7_form',
@@ -1814,7 +1814,7 @@ class Premium_Contactform extends Widget_Base {
 
 		$settings = $this->get_settings();
 
-		$papro_activated = apply_filters( 'papro_activated', false );
+		$papro_activated = Helper_Functions::check_papro_version();
 
 		$source = $settings['source'];
 

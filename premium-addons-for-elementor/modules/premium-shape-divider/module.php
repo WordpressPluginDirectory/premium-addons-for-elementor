@@ -8,15 +8,7 @@
 namespace PremiumAddons\Modules\PremiumShapeDivider;
 
 // Elementor Classes.
-use Elementor\Utils;
-use Elementor\Icons_Manager;
-use Elementor\Control_Media;
 use Elementor\Controls_Manager;
-use Elementor\Group_Control_Border;
-use PremiumAddons\Includes\Controls\Premium_Background;
-use Elementor\Group_Control_Box_Shadow;
-use Elementor\Group_Control_Typography;
-use Elementor\Group_Control_Text_Shadow;
 
 // Premium Addons Classes.
 use PremiumAddons\Includes\Helper_Functions;
@@ -54,9 +46,18 @@ class Module {
 	private $svg_shapes = null;
 
 	/**
+	 * Check if Premium Addons Pro is activated.
+	 *
+	 * @var boolean $papro_activated, initialized as false.
+	 */
+	private $papro_activated = false;
+
+	/**
 	 * Class Constructor Function.
 	 */
 	public function __construct() {
+
+		$this->papro_activated = Helper_Functions::check_papro_version();
 
 		// Enqueue the required JS file.
 		add_action( 'elementor/preview/enqueue_scripts', array( $this, 'enqueue_scripts' ) );
@@ -167,10 +168,6 @@ class Module {
 	 */
 	private function add_divider_content_controls( $element ) {
 
-		$papro_activated = apply_filters( 'papro_activated', false );
-
-		$not_flip = array( 'shape4' );
-
 		$element->start_controls_tab(
 			'premium_divider_content_tab',
 			array(
@@ -250,7 +247,7 @@ class Module {
 			)
 		);
 
-		if ( ! $papro_activated ) {
+		if ( ! $this->papro_activated ) {
 
 			$get_pro = Helper_Functions::get_campaign_link( 'https://premiumaddons.com/pro', 'shape-addon', 'wp-editor', 'get-pro' );
 
@@ -429,8 +426,6 @@ class Module {
 			)
 		);
 
-		$no_anime = array( 'shape2', 'shape3', 'shape4', 'shape14', 'shape18', 'shape19' );
-
 		$element->add_control(
 			'premium_gdivider_animate',
 			array(
@@ -592,8 +587,6 @@ class Module {
 			)
 		);
 
-		$papro_activated = apply_filters( 'papro_activated', false );
-
 		$element->add_control(
 			'premium_gdivider_bg_type',
 			array(
@@ -629,7 +622,7 @@ class Module {
 			)
 		);
 
-		if ( ! $papro_activated ) {
+		if ( ! $this->papro_activated ) {
 
 			$get_pro = Helper_Functions::get_campaign_link( 'https://premiumaddons.com/pro', 'shape-addon', 'wp-editor', 'get-pro' );
 
@@ -741,14 +734,10 @@ class Module {
 	 */
 	public function print_template( $template, $element ) {
 
-		if ( ! $template && 'widget' === $element->get_type() ) {
-			return;
-		}
-
 		$old_template = $template;
 		ob_start();
 
-		$papro_activated = apply_filters( 'papro_activated', false ) ? 'yes' : 'no';
+		$papro_activated = $this->papro_activated ? 'yes' : 'no';
 
 		?>
 		<#
@@ -934,16 +923,13 @@ class Module {
 	 */
 	public function before_render( $element ) {
 
-		$element_type    = $element->get_type();
 		$id              = $element->get_id();
 		$settings        = $element->get_settings_for_display();
 		$divider_enabled = $settings['premium_global_divider_sw'];
 
 		if ( 'yes' === $divider_enabled ) {
 
-			$papro_activated = apply_filters( 'papro_activated', false );
-
-			if ( ! $papro_activated || version_compare( PREMIUM_PRO_ADDONS_VERSION, '2.9.8', '<' ) ) {
+			if ( ! $this->papro_activated || version_compare( PREMIUM_PRO_ADDONS_VERSION, '2.9.8', '<' ) ) {
 
 				$is_pro_shape = 'default' === $settings['premium_gdivider_source'] && str_replace( 'shape', '', $settings['premium_gdivider_defaults'] ) > 25;
 

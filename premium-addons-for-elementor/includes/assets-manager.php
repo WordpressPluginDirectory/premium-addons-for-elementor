@@ -181,9 +181,8 @@ class Assets_Manager {
 							array_push( $pa_elems, $widget_type );
 
 							if ( 'premium-woo-products' === $widget_type ) {
-								$papro_activated = apply_filters( 'papro_activated', false );
 
-								if ( $papro_activated ) {
+								if ( Helper_Functions::check_papro_version() ) {
 									array_push( $pa_elems, 'premium-woo-products-pro' );
 								}
 							}
@@ -587,9 +586,7 @@ class Assets_Manager {
 
 		$is_pro = self::is_pro_widget( $element );
 
-		$papro_activated = apply_filters( 'papro_activated', false ) && version_compare( PREMIUM_PRO_ADDONS_VERSION, '2.7.1', '>' );
-
-		if ( ! $papro_activated && $is_pro ) {
+		if ( ! Helper_Functions::check_papro_version() && $is_pro ) {
 			return false;
 		}
 

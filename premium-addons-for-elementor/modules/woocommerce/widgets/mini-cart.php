@@ -804,6 +804,18 @@ class Mini_Cart extends Widget_Base {
 		);
 
 		$this->add_control(
+			'render_on_cart_checkout',
+			array(
+				'label'     => __( 'Open Mini Cart on Cart/Checkout', 'premium-addons-for-elementor' ),
+				'type'         => Controls_Manager::SWITCHER,
+				'render_type'  => 'template',
+				'condition' => array(
+					'behaviour' => 'toggle',
+				),
+			)
+		);
+
+		$this->add_control(
 			'cart_link',
 			array(
 				'label'     => __( 'URL', 'premium-addons-for-elementor' ),
@@ -5296,7 +5308,7 @@ class Mini_Cart extends Widget_Base {
 
 		$settings = $this->get_settings_for_display();
 
-		$papro_activated = apply_filters( 'papro_activated', false );
+		$papro_activated = Helper_Functions::check_papro_version();
 
 		if ( ! $papro_activated || version_compare( PREMIUM_PRO_ADDONS_VERSION, '2.9.34', '<' ) ) {
 
@@ -5324,7 +5336,13 @@ class Mini_Cart extends Widget_Base {
 		$behaviour    = $settings['behaviour'];
 
 		$is_connected     = 'url' === $behaviour && 'yes' === $settings['woo_cta_connect'];
-		$render_mini_cart = ( 'toggle' === $behaviour || $is_connected ) && ! is_cart() && ! is_checkout();
+
+		// if yes, we should ignore the is_cart or is_checkout, and always render the mini cart. if not, we follow the previous logic.
+		$render_on_cart_checkout = 'yes' === $settings['render_on_cart_checkout'] ? true : ( ! is_cart() && ! is_checkout());
+		
+		// $render_mini_cart = ( 'toggle' === $behaviour || $is_connected ) && ! is_cart() && ! is_checkout();
+		$render_mini_cart = ( 'toggle' === $behaviour || $is_connected ) && $render_on_cart_checkout;
+
 		$counting_effect  = 'yes' === $settings['odometer_effect'];
 
 		$this->add_render_attribute( 'cart_outer_wrapper', 'class', 'pa-woo-mc__outer-container' );

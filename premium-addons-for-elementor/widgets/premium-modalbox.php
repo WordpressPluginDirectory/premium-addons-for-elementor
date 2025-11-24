@@ -2405,7 +2405,7 @@ class Premium_Modalbox extends Widget_Base {
 
 		$settings = $this->get_settings_for_display();
 
-		$papro_activated = apply_filters( 'papro_activated', false );
+		$papro_activated = Helper_Functions::check_papro_version();
 
 		$trigger = $settings['premium_modal_box_display_on'];
 

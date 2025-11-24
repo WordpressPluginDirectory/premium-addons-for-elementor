@@ -510,7 +510,7 @@ class Admin_Notices {
 	 */
 	public function get_pa_stories() {
 
-		$stories = get_transient( 'pa_stories' );
+		$stories = get_transient( 'pa_stories_bf' );
 
 		if ( ! $stories ) {
 
@@ -525,14 +525,14 @@ class Admin_Notices {
 			);
 
 			if ( is_wp_error( $response ) || 200 !== wp_remote_retrieve_response_code( $response ) ) {
-				set_transient( 'pa_stories', true, WEEK_IN_SECONDS );
+				set_transient( 'pa_stories_bf', true, WEEK_IN_SECONDS );
 				return false;
 			}
 
 			$body    = wp_remote_retrieve_body( $response );
 			$stories = json_decode( $body, true );
 
-			set_transient( 'pa_stories', $stories, WEEK_IN_SECONDS );
+			set_transient( 'pa_stories_bf', $stories, WEEK_IN_SECONDS );
 
 		}
 

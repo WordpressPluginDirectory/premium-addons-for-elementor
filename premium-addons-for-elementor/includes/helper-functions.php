@@ -1652,7 +1652,7 @@ class Helper_Functions {
 
 		$class = '';
 
-		$papro_activated = apply_filters( 'papro_activated', false );
+		$papro_activated = self::check_papro_version();
 
 		if ( ! $papro_activated && ! in_array( $settings['premium_button_hover_effect'], array( 'none', 'style1', 'style2' ) ) ) {
 			return '';

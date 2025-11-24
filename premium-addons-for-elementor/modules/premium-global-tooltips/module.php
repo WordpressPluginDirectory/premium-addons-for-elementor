@@ -212,7 +212,7 @@ class Module {
 	 */
 	private function add_tooltips_controls( $element ) {
 
-		$papro_activated = apply_filters( 'papro_activated', false );
+		$papro_activated = Helper_Functions::check_papro_version();
 
 		$element->start_controls_tab(
 			'premium_tooltip_content_tab',
@@ -1109,7 +1109,7 @@ class Module {
 
 		$settings = $element->get_settings_for_display();
 
-		$papro_activated = apply_filters( 'papro_activated', false );
+		$papro_activated = Helper_Functions::check_papro_version();
 
 		$tooltips_enabled = $element->get_settings_for_display( 'premium_tooltip_switcher' );
 

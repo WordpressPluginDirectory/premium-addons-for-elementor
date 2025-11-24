@@ -157,7 +157,7 @@ class Premium_Countdown extends Widget_Base {
 	 */
 	protected function register_controls() { // phpcs:ignore PSR2.Methods.MethodDeclaration.Underscore
 
-		$papro_activated = apply_filters( 'papro_activated', false );
+		$papro_activated = Helper_Functions::check_papro_version();
 
 		$options = apply_filters(
 			'pa_countdown_options',
@@ -1743,7 +1743,7 @@ class Premium_Countdown extends Widget_Base {
 
 		$settings = $this->get_settings_for_display();
 
-		$papro_activated = apply_filters( 'papro_activated', false );
+		$papro_activated = Helper_Functions::check_papro_version();
 
 		if ( ! $papro_activated || version_compare( PREMIUM_PRO_ADDONS_VERSION, '2.9.14', '<' ) ) {
 

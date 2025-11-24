@@ -190,7 +190,7 @@ class Woo_Products extends Widget_Base {
 	 */
 	protected function register_controls() {
 
-		$papro_activated = apply_filters( 'papro_activated', false );
+		$papro_activated = Helper_Functions::check_papro_version();
 
 		$pro_skins = ! $papro_activated ? array( 'grid-7', 'grid-8', 'grid-9', 'grid-10', 'grid-11' ) : array( '' );
 
