@@ -402,7 +402,6 @@ class Premium_Carousel extends Widget_Base {
 			)
 		);
 
-
 		$this->add_control(
 			'mscroll',
 			array(

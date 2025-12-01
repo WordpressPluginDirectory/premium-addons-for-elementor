@@ -2511,6 +2511,8 @@ class Premium_Tiktok_Feed extends Widget_Base {
 
 		$settings = $this->get_settings_for_display();
 
+		$this->papro_activated = Helper_Functions::check_papro_version();
+
 		if ( ! $this->papro_activated || version_compare( PREMIUM_PRO_ADDONS_VERSION, '2.9.4', '<' ) ) {
 
 			if ( 'layout-1' !== $settings['vid_layout'] || 'yes' === $settings['load_more_btn'] || 'yes' === $settings['profile_header'] || 'yes' === $settings['autoplay_hover'] || 'yes' === $settings['autoplay_first'] || ! empty( $settings['match_id'] || ! empty( $settings['exclude_id'] ) ) ) {

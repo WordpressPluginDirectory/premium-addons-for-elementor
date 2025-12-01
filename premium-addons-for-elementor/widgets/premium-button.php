@@ -6,7 +6,6 @@
 namespace PremiumAddons\Widgets;
 
 // Elementor Classes.
-use Elementor\Plugin;
 use Elementor\Icons_Manager;
 use Elementor\Widget_Base;
 use Elementor\Controls_Manager;
@@ -151,10 +150,10 @@ class Premium_Button extends Widget_Base {
 	 * @since 1.0.0
 	 * @access public
 	 *
-	 * @return string Widget keywords.
+	 * @return array Widget keywords.
 	 */
 	public function get_keywords() {
-		return array( 'pa', 'premium', 'premium button', 'cta', 'call', 'link', 'btn', 'pa', 'premium' );
+		return array( 'pa', 'premium', 'premium button', 'cta', 'call', 'link', 'btn' );
 	}
 
 	protected function is_dynamic_content(): bool {
@@ -1876,13 +1875,4 @@ class Premium_Button extends Widget_Base {
 		<?php
 	}
 
-	/**
-	 * Render Button widget output in the editor.
-	 *
-	 * Written as a Backbone JavaScript template and used to generate the live preview.
-	 *
-	 * @since 1.0.0
-	 * @access protected
-	 */
-	protected function content_template() {}
 }

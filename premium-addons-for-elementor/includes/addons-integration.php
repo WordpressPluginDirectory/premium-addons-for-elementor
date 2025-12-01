@@ -1226,41 +1226,30 @@ class Addons_Integration {
 	 */
 	public function widgets_area( $widgets_manager ) {
 
-		$enabled_elements = self::$modules;
+		$enabled_elements = array_filter(
+			self::$modules,
+			function( $value, $key ) {
+				return strpos( $key, 'premium-' ) === 0 && filter_var( $value, FILTER_VALIDATE_BOOLEAN );
+			},
+			ARRAY_FILTER_USE_BOTH
+		);
 
-		$widgets_dir = glob( PREMIUM_ADDONS_PATH . 'widgets/*.php' );
+		foreach ( $enabled_elements as $key => $value ) {
 
-		foreach ( $widgets_dir as $file ) {
+			$class = Helper_Functions::get_widget_class_name( $key );
 
-			$slug = basename( $file, '.php' );
-
-			// Fixes the conflict between Lottie widget/addon keys.
-			if ( 'premium-lottie' === $slug ) {
-
-				// Check if Lottie widget switcher value was saved before.
-				// $saved_options = get_option( 'pa_save_settings' );
-
-				$slug = 'premium-lottie-widget';
-
+			if( ! $class ) {
+				continue;
 			}
 
-			$enabled = isset( $enabled_elements[ $slug ] ) ? $enabled_elements[ $slug ] : '';
-
-			if ( filter_var( $enabled, FILTER_VALIDATE_BOOLEAN ) || ! $enabled_elements ) {
-
-				$base  = basename( str_replace( '.php', '', $file ) );
-				$class = ucwords( str_replace( '-', ' ', $base ) );
-				$class = str_replace( ' ', '_', $class );
-				$class = sprintf( 'PremiumAddons\Widgets\%s', $class );
-
-				$this->load_widget_files( $file, $class );
-
-				if ( class_exists( $class, false ) ) {
-
-					$widgets_manager->register( new $class() );
-
-				}
+			if( 'PremiumAddons\Widgets\Premium_Contactform' === $class && ! function_exists( 'wpcf7' ) ) {
+				continue;
 			}
+
+			$this->load_widget_files( $class );
+
+			$widgets_manager->register( new $class() );
+
 		}
 	}
 
@@ -1285,13 +1274,7 @@ class Addons_Integration {
 		);
 	}
 
-	public function load_widget_files( $file, $class ) {
-
-		if ( 'PremiumAddons\Widgets\Premium_Contactform' !== $class ) {
-			require $file;
-		} elseif ( function_exists( 'wpcf7' ) ) {
-			require $file;
-		}
+	public function load_widget_files( $class ) {
 
 		if ( 'PremiumAddons\Widgets\Premium_Videobox' === $class || 'PremiumAddons\Widgets\Premium_Weather' === $class ) {
 			require_once PREMIUM_ADDONS_PATH . 'widgets/dep/urlopen.php';
@@ -1302,7 +1285,6 @@ class Addons_Integration {
 		}
 
 		if ( in_array( $class, array( 'PremiumAddons\Widgets\Premium_Pinterest_Feed', 'PremiumAddons\Widgets\Premium_Tiktok_Feed' ), true ) ) {
-			require_once PREMIUM_ADDONS_PATH . 'includes/pa-display-conditions/mobile-detector.php';
 
 			if ( 'PremiumAddons\Widgets\Premium_Pinterest_Feed' == $class ) {
 				require_once PREMIUM_ADDONS_PATH . 'widgets/dep/pa-pins-handler.php';

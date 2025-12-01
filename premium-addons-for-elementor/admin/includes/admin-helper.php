@@ -565,9 +565,9 @@ class Admin_Helper {
 
 		if ( ! $is_papro_active ) {
 
-			$link = Helper_Functions::get_campaign_link( 'https://premiumaddons.com/pro/#get-pa-pro', 'plugins-page', 'wp-dash', 'get-pro' );
+			$link = Helper_Functions::get_campaign_link( 'https://premiumaddons.com/black-friday/#bfdeals', 'plugins-page', 'wp-dash', 'get-pro' );
 
-			$pro_link = sprintf( '<a href="%s" target="_blank" style="color: #FF6000; font-weight: bold;">%s</a>', $link, __( 'Go Pro (35% OFF)', 'premium-addons-for-elementor' ) );
+			$pro_link = sprintf( '<a href="%s" target="_blank" style="color: #FF6000; font-weight: bold;">%s</a>', $link, __( 'Save $105', 'premium-addons-for-elementor' ) );
 			array_push( $new_links, $pro_link );
 		}
 
@@ -748,8 +748,8 @@ class Admin_Helper {
 			call_user_func(
 				'add_submenu_page',
 				self::$page_slug,
-				'<span style="color: #FF6000;" class="pa_pro_upgrade">Get PRO (35% OFF)</span>',
-				'<span style="color: #FF6000;" class="pa_pro_upgrade">Get PRO (35% OFF)</span>',
+				'<span style="color: #FF6000;" class="pa_pro_upgrade">Get PRO (Up to $105 OFF)</span>',
+				'<span style="color: #FF6000;" class="pa_pro_upgrade">Get PRO (Up to $105 OFF)</span>',
 				'manage_options',
 				'https://premiumaddons.com/pro/#get-pa-pro',
 				''
@@ -886,7 +886,7 @@ class Admin_Helper {
 		if ( ! Helper_Functions::check_papro_version() || ! $license_info ) {
 			return array(
 				'title' => __( 'Get Premium Addons PRO', 'premium-addons-for-elementor' ),
-				'desc'  => __( 'Supercharge your Elementor with PRO Widgets & Addons that you won\'t find anywhere else.', 'premium-addons-for-elementor' ) . '<span class="papro-sale-notice">' . __( 'save up to 35%!', 'premium-addons-for-elementor' ) . '</span>',
+				'desc'  => __( 'Supercharge your Elementor with PRO Widgets & Addons that you won\'t find anywhere else.', 'premium-addons-for-elementor' ) . '<span class="papro-sale-notice">' . __( 'save up to $105!', 'premium-addons-for-elementor' ) . '</span>',
 				'btn'   => __( 'Get Pro', 'premium-addons-for-elementor' ),
 				'cta'   => 'https://premiumaddons.com/get/papro/#get-pa-pro',
 			);
@@ -928,6 +928,10 @@ class Admin_Helper {
 		$elements = array_fill_keys( array_keys( array_intersect_key( $settings, $defaults ) ), true );
 
 		update_option( 'pa_save_settings', $elements );
+
+		// Clear cache and static property.
+		wp_cache_delete( 'pa_elements', 'premium_addons' );
+		self::$enabled_elements = null;
 
 		// Save the global addons only if it's the second run.
 		$is_second_run = get_option( 'pa_complete_wizard' ) ? false : true;
@@ -1198,24 +1202,34 @@ class Admin_Helper {
 	 */
 	public static function get_enabled_elements() {
 
-		if ( null === self::$enabled_elements ) {
+		$cache_key = 'pa_elements';
+		$cached    = wp_cache_get( $cache_key, 'premium_addons' );
 
-			$defaults = self::get_default_keys();
-
-			$enabled_keys = get_option( 'pa_save_settings', $defaults );
-
-			foreach ( $defaults as $key => $value ) {
-
-				if ( 'pa_mc_temp' !== $key && ! isset( $enabled_keys[ $key ] ) ) {
-					$defaults[ $key ] = 0;
-				} elseif ( 'pa_mc_temp' === $key && isset( $enabled_keys[ $key ] ) && $enabled_keys[ $key ] ) {
-					$defaults[ $key ] = 1;
-				}
-			}
-
-			self::$enabled_elements = $defaults;
-
+		if ( false !== $cached ) {
+			self::$enabled_elements = $cached;
+			return self::$enabled_elements;
 		}
+
+		// Check static property as fallback for multiple calls in same request.
+		if ( null !== self::$enabled_elements ) {
+			return self::$enabled_elements;
+		}
+
+		$defaults = self::get_default_keys();
+
+		$enabled_keys = get_option( 'pa_save_settings', $defaults );
+
+		foreach ( $defaults as $key => $value ) {
+
+			if ( 'pa_mc_temp' !== $key && ! isset( $enabled_keys[ $key ] ) ) {
+				$defaults[ $key ] = 0;
+			} elseif ( 'pa_mc_temp' === $key && isset( $enabled_keys[ $key ] ) && $enabled_keys[ $key ] ) {
+				$defaults[ $key ] = 1;
+			}
+		}
+
+		self::$enabled_elements = $defaults;
+		wp_cache_set( $cache_key, $defaults, 'premium_addons', HOUR_IN_SECONDS );
 
 		return self::$enabled_elements;
 	}
@@ -1709,7 +1723,7 @@ class Admin_Helper {
 			$response = wp_remote_get(
 				$request,
 				array(
-					'timeout'   => 15,
+					'timeout'   => 5,
 					'sslverify' => true,
 				)
 			);

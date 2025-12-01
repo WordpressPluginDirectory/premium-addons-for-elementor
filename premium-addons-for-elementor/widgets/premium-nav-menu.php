@@ -4793,9 +4793,7 @@ class Premium_Nav_Menu extends Widget_Base {
 
 		if ( 'wordpress_menu' === $menu_type ) {
 
-			$is_valid = $this->is_valid_menu( $menu_id );
-
-			if ( ! $is_valid ) {
+			if ( ! $this->is_valid_menu( $menu_id ) ) {
 				?>
 					<div class="premium-error-notice">
 						<?php echo esc_html( __( 'This is an empty menu. Please make sure your menu has items.', 'premium-addons-for-elementor' ) ); ?>

@@ -452,16 +452,18 @@
 			});
 
 			//On Click outside, close everything.
+			$("body").off("click.paCloseMC");
 			if (settings.clickOutside) {
 
-				$("body").on("click", function (event) {
+				$("body").on("click.paCloseMC", function (event) {
 					var mcContent = ".premium-tabs-nav-list-item, .pa-woo-mc__content-wrapper, .pa-woo-mc__content-wrapper *, .pa-woo-mc__inner-container, .pa-woo-mc__inner-container *";
 
-					if (!$(event.target).is($(mcContent))) {
+					if (!$(event.target).is(mcContent)) {
 						if ('menu' === type) {
 							$scope.find('.pa-woo-mc__content-wrapper-' + id).removeClass('pa-woo-mc__open');
 						} else {
-							$scope.find(".pa-woo-mc__close-button").trigger("click");
+							$(".pa-woo-mc__overlay-" + id).addClass("premium-addons__v-hidden");
+							$scope.find('.pa-woo-mc__content-wrapper-' + id).removeClass('pa-woo-mc__open');
 						}
 					}
 				});

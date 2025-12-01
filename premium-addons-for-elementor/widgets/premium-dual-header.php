@@ -198,7 +198,6 @@ class Premium_Dual_Header extends Widget_Base {
 			array(
 				'label'       => __( 'HTML Tag', 'premium-addons-for-elementor' ),
 				'type'        => Controls_Manager::SELECT,
-				'default'     => 'h2',
 				'options'     => array(
 					'h1'   => 'H1',
 					'h2'   => 'H2',
@@ -206,9 +205,10 @@ class Premium_Dual_Header extends Widget_Base {
 					'h4'   => 'H4',
 					'h5'   => 'H5',
 					'h6'   => 'H6',
-					'p'    => 'p',
 					'span' => 'span',
+					'p'    => 'p',
 				),
+				'default'     => 'h2',
 				'label_block' => true,
 			)
 		);

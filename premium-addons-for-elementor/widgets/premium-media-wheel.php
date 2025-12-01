@@ -1030,7 +1030,6 @@ class Premium_Media_Wheel extends Widget_Base {
 				'label'        => __( 'Animation', 'premium-addons-for-elementor' ),
 				'type'         => Controls_Manager::SELECT,
 				'prefix_class' => 'premium-adv-carousel__',
-				'default'      => 'horizontal',
 				'options'      => array(
 					'infinite'  => __( 'Infinite', 'premium-addons-for-elementor' ),
 					'coverflow' => apply_filters( 'pa_pro_label', __( 'Coverflow (Pro)', 'premium-addons-for-elementor' ) ),
@@ -1622,7 +1621,7 @@ class Premium_Media_Wheel extends Widget_Base {
 				'selectors_dictionary' => array(
 					'before'  => 'order:0',
 					'overlay' => 'position: absolute; bottom: 0px; left: 0px; width: 100%',
-					'right'   => 'order: 2',
+					'after'   => 'order: 2',
 				),
 				'toggle'               => false,
 				'selectors'            => array(
@@ -2420,7 +2419,7 @@ class Premium_Media_Wheel extends Widget_Base {
 	}
 
 	/**
-	 * Render Advanced Media widِget output on the frontend.
+	 * Render Advanced Media widget output on the frontend.
 	 *
 	 * Written in PHP and used to generate the final HTML.
 	 *
@@ -2429,6 +2428,8 @@ class Premium_Media_Wheel extends Widget_Base {
 	protected function render() {
 
 		$settings = $this->get_settings_for_display();
+
+		$this->papro_activated = Helper_Functions::check_papro_version();
 
 		if ( ! $this->papro_activated || version_compare( PREMIUM_PRO_ADDONS_VERSION, '2.9.6', '<' ) ) {
 
@@ -2617,7 +2618,7 @@ class Premium_Media_Wheel extends Widget_Base {
 
 				$alt = '';
 
-				if ( isset( $image_by_id->post_title ) ) {
+				if ( $image_by_id && isset( $image_by_id->post_title ) ) {
 					$alt = apply_filters( 'pa_media_alt', get_post( $image_id )->post_title );
 				}
 			}
@@ -2765,8 +2766,6 @@ class Premium_Media_Wheel extends Widget_Base {
 
 			$video_props = Embed::get_video_properties( $link );
 			$id          = $video_props['video_id'];
-			$type        = $video_props['provider'];
-			$size        = '';
 			$thumbnail   = $this->get_thumbnail( $item, $id );
 
 		} else {

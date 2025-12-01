@@ -501,7 +501,7 @@ class Assets_Manager {
 			$elements       = array_merge( $elements, $common_assets );
 			$indep_elements = array(
 				'premium-world-clock',
-				'premium-svg-drawer'
+				'premium-svg-drawer',
 			);
 
 		} else {
@@ -524,7 +524,7 @@ class Assets_Manager {
 				'premium-addon-pricing-table',
 				'premium-addon-image-separator',
 				'premium-notifications',
-				'premium-site-logo'
+				'premium-site-logo',
 			);
 
 		}
@@ -545,7 +545,7 @@ class Assets_Manager {
 
 		$file_content = Utils::file_get_contents( Helper_Functions::get_safe_path( $path ) );
 
-		if( ! $file_content ) {
+		if ( ! $file_content ) {
 			return 'empty';
 		}
 
