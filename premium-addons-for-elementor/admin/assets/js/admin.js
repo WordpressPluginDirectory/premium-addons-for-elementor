@@ -476,10 +476,10 @@
 
 			if ('elements' === action) {
 				$form = $('form#pa-settings, form#pa-features, form#pa-wz-settings');
-				action = 'pa_elements_settings';
+				action = 'pa_save_elements_settings';
 			} else {
 				$form = $('form#pa-ver-control, form#pa-integrations');
-				action = 'pa_additional_settings';
+				action = 'pa_save_additional_settings';
 			}
 
 			$.ajax(

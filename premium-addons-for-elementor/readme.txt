@@ -3,9 +3,9 @@ Contributors: Leap13, Rimoun
 Tags: elementor, elementor addons, widgets, elementor elements, elementor templates
 Donate Link: https://premiumaddons.com/?utm_source=wp-repo&utm_medium=link&utm_campaign=readme
 Requires at least: 5.0
-Tested Up To: 6.8.3
+Tested Up To: 6.9
 Requires PHP: 7.4
-Stable Tag: 4.11.53
+Stable Tag: 4.11.54
 License: GPL v3.0
 License URI: https://opensource.org/licenses/GPL-3.0
 
@@ -254,6 +254,18 @@ You can report security bugs through the Patchstack Vulnerability Disclosure Pro
 14. Premium Progress Bar Widget
 
 == Changelog ==
+
+= 4.11.54 - 10/12/2025 =
+
+- Tweak: Core improved for better performance and loading speed.
+- Tweak: Dynamic Assets Generate optimized for faster loading speed.
+- Tweak: Banner widget code refactored for better performance.
+- Tweak: Added Open on Cart Update option in Woo Mini Cart widget.
+- Tweak: Image Button hover transition improved.
+- Tweak: Security Enhancement.
+- Fixed: PHP warning in Weather Forecast widget.
+- Fixed: Free Shipping conflict with multi shipping zones in Woo Mini Cart widget.
+- Fixed: Conflicts between dynamic assets and caching plugins.
 
 = 4.11.53 - 30/11/2025 =
 

@@ -92,7 +92,7 @@ class Admin_Notices {
 
 		$this->handle_review_notice();
 
-		if ( defined( 'ELEMENTOR_VERSION' ) && get_transient( 'pa_activation_redirect' ) ) {
+		if ( Helper_Functions::check_elementor_version() && get_transient( 'pa_activation_redirect' ) ) {
 
 			delete_transient( 'pa_activation_redirect' );
 
@@ -178,7 +178,7 @@ class Admin_Notices {
 	public function required_plugins_check() {
 
 		// Early return if Elementor is already active.
-		if ( defined( 'ELEMENTOR_VERSION' ) ) {
+		if ( Helper_Functions::check_elementor_version() ) {
 			return;
 		}
 

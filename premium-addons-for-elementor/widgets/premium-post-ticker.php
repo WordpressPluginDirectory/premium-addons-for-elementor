@@ -344,6 +344,7 @@ class Premium_Post_Ticker extends Widget_Base {
 			)
 		);
 
+		$this->papro_activated = Helper_Functions::check_papro_version();
 		if ( ! $this->papro_activated ) {
 
 			$get_pro = Helper_Functions::get_campaign_link( 'https://premiumaddons.com/pro', 'ticker-widget', 'wp-editor', 'get-pro' );
@@ -1756,6 +1757,7 @@ class Premium_Post_Ticker extends Widget_Base {
 			)
 		);
 
+		$this->papro_activated = Helper_Functions::check_papro_version();
 		if ( $this->papro_activated ) {
 			do_action( 'pa_ticker_stock_query', $this );
 
@@ -2642,6 +2644,7 @@ class Premium_Post_Ticker extends Widget_Base {
 			)
 		);
 
+		$this->papro_activated = Helper_Functions::check_papro_version();
 		if ( $this->papro_activated ) {
 			do_action( 'pa_ticker_stock_style', $this );
 		}

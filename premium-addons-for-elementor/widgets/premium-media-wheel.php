@@ -236,6 +236,9 @@ class Premium_Media_Wheel extends Widget_Base {
 				'type'        => Controls_Manager::TEXT,
 				'description' => __( 'Use this option to give a unique name to this item', 'premium-addons-for-elementor' ),
 				'separator'   => 'after',
+				'ai'          => array(
+					'active' => false,
+				),
 			)
 		);
 
@@ -839,29 +842,6 @@ class Premium_Media_Wheel extends Widget_Base {
 		);
 
 		$repeater->add_responsive_control(
-			'media_wheel_item_padding',
-			array(
-				'label'      => __( 'Padding', 'premium-addons-for-elementor' ),
-				'type'       => Controls_Manager::DIMENSIONS,
-				'size_units' => array( 'px' ),
-				'range'      => array(
-					'px' => array(
-						'min'  => 0,
-						'max'  => 500,
-						'step' => 1,
-					),
-				),
-				'default'    => array(
-					'unit' => 'px',
-					'size' => 0,
-				),
-				'selectors'  => array(
-					'{{WRAPPER}} {{CURRENT_ITEM}}.premium-adv-carousel__item' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
-				),
-			)
-		);
-
-		$repeater->add_responsive_control(
 			'media_wheel_item_margin',
 			array(
 				'label'      => __( 'Margin', 'premium-addons-for-elementor' ),
@@ -880,6 +860,29 @@ class Premium_Media_Wheel extends Widget_Base {
 				),
 				'selectors'  => array(
 					'{{WRAPPER}} {{CURRENT_ITEM}}.premium-adv-carousel__item' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+				),
+			)
+		);
+
+		$repeater->add_responsive_control(
+			'media_wheel_item_padding',
+			array(
+				'label'      => __( 'Padding', 'premium-addons-for-elementor' ),
+				'type'       => Controls_Manager::DIMENSIONS,
+				'size_units' => array( 'px' ),
+				'range'      => array(
+					'px' => array(
+						'min'  => 0,
+						'max'  => 500,
+						'step' => 1,
+					),
+				),
+				'default'    => array(
+					'unit' => 'px',
+					'size' => 0,
+				),
+				'selectors'  => array(
+					'{{WRAPPER}} {{CURRENT_ITEM}}.premium-adv-carousel__item' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
 				),
 			)
 		);
@@ -1690,18 +1693,6 @@ class Premium_Media_Wheel extends Widget_Base {
 		);
 
 		$this->add_responsive_control(
-			'media_info_padding',
-			array(
-				'label'      => __( 'Padding', 'premium-addons-for-elementor' ),
-				'type'       => Controls_Manager::DIMENSIONS,
-				'size_units' => array( 'px', '%', 'em' ),
-				'selectors'  => array(
-					'{{WRAPPER}} .premium-adv-carousel__media-info-wrap' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
-				),
-			)
-		);
-
-		$this->add_responsive_control(
 			'media_info_margin',
 			array(
 				'label'      => __( 'Margin', 'premium-addons-for-elementor' ),
@@ -1709,6 +1700,18 @@ class Premium_Media_Wheel extends Widget_Base {
 				'size_units' => array( 'px', '%', 'em' ),
 				'selectors'  => array(
 					'{{WRAPPER}} .premium-adv-carousel__media-info-wrap' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+				),
+			)
+		);
+
+		$this->add_responsive_control(
+			'media_info_padding',
+			array(
+				'label'      => __( 'Padding', 'premium-addons-for-elementor' ),
+				'type'       => Controls_Manager::DIMENSIONS,
+				'size_units' => array( 'px', '%', 'em' ),
+				'selectors'  => array(
+					'{{WRAPPER}} .premium-adv-carousel__media-info-wrap' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
 				),
 			)
 		);
@@ -2168,6 +2171,9 @@ class Premium_Media_Wheel extends Widget_Base {
 			array(
 				'label' => __( 'Lightbox Icon', 'premium-addons-for-elementor' ),
 				'tab'   => Controls_Manager::TAB_STYLE,
+				'condition' => array(
+					'media_lightbox_type' => 'yes',
+				),
 			)
 		);
 

@@ -8,7 +8,7 @@ namespace PremiumAddons\Includes;
 // Elementor Classes.
 use Elementor\Plugin;
 use Elementor\Group_Control_Image_Size;
-use PremiumAddons\Includes\ACF_Helper;
+use PremiumAddons\Includes\Helpers\ACF_Helper;
 use PremiumAddonsPro\Includes\Smart_Post_Listing_Helper as Posts_Helper;
 use ElementorPro\Plugin as PluginPro;
 use ElementorPro\Modules\LoopBuilder\Files\Css\Loop_Dynamic_CSS;

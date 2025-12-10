@@ -6,6 +6,7 @@
 namespace PremiumAddons\Admin\Includes;
 
 use PremiumAddons\Includes\Helper_Functions;
+use PremiumAddons\Includes\Assets_Manager;
 use Elementor\Modules\Usage\Module;
 use Elementor\Plugin;
 
@@ -97,20 +98,17 @@ class Admin_Helper {
 		add_filter( 'plugin_row_meta', array( $this, 'plugin_row_meta' ), 10, 2 );
 
 		// Register AJAX HOOKS.
-		add_action( 'wp_ajax_pa_save_global_btn', array( $this, 'save_global_btn_value' ) );
-		add_action( 'wp_ajax_pa_elements_settings', array( $this, 'save_settings' ) );
-		add_action( 'wp_ajax_pa_disable_elementor_mc_template', array( $this, 'disable_elementor_mc_template' ) );
-		add_action( 'wp_ajax_pa_additional_settings', array( $this, 'save_additional_settings' ) );
-		add_action( 'wp_ajax_pa_get_unused_widgets', array( $this, 'get_unused_widgets' ) );
-		add_action( 'wp_ajax_get_pa_menu_item_settings', array( $this, 'get_pa_menu_item_settings' ) );
-		add_action( 'wp_ajax_save_pa_menu_item_settings', array( $this, 'save_pa_menu_item_settings' ) );
-		add_action( 'wp_ajax_save_pa_mega_item_content', array( $this, 'save_pa_mega_item_content' ) );
-
-		// Register AJAX Hooks for regenerate assets.
-		add_action( 'wp_ajax_pa_clear_cached_assets', array( $this, 'clear_cached_assets' ) );
+		add_action( 'wp_ajax_pa_save_global_btn', array( $this, 'pa_save_global_btn' ) );
+		add_action( 'wp_ajax_pa_save_elements_settings', array( $this, 'pa_save_elements_settings' ) );
+		add_action( 'wp_ajax_pa_disable_elementor_mc_template', array( $this, 'pa_disable_elementor_mc_template' ) );
+		add_action( 'wp_ajax_pa_save_additional_settings', array( $this, 'pa_save_additional_settings' ) );
+		add_action( 'wp_ajax_pa_get_unused_widgets', array( $this, 'pa_get_unused_widgets' ) );
+		add_action( 'wp_ajax_pa_get_menu_item_settings', array( $this, 'pa_get_menu_item_settings' ) );
+		add_action( 'wp_ajax_pa_save_menu_item_settings', array( $this, 'pa_save_menu_item_settings' ) );
+		add_action( 'wp_ajax_pa_save_mega_item_content', array( $this, 'pa_save_mega_item_content' ) );
 
 		// Register Deactivation hooks.
-		register_deactivation_hook( PREMIUM_ADDONS_FILE, array( $this, 'clear_dynamic_assets_data' ) );
+		register_deactivation_hook( PREMIUM_ADDONS_FILE, array( $this, 'clear_dynamic_assets_dir' ) );
 
 		// Register AJAX Hooks for clearing saved site cursor.
 		add_action( 'wp_ajax_pa_clear_site_cursor_settings', array( $this, 'clear_site_cursor_settings' ) );
@@ -142,12 +140,6 @@ class Admin_Helper {
 			}
 		}
 
-		// PA Dynamic Assets.
-		$row_meta = Helper_Functions::is_hide_row_meta();
-
-		if ( ! is_admin() && self::check_dynamic_assets() && ! $row_meta ) {
-			Admin_Bar::get_instance();
-		}
 	}
 
 	/**
@@ -461,7 +453,7 @@ class Admin_Helper {
 	 * @access public
 	 * @since 4.9.4
 	 */
-	public function get_pa_menu_item_settings() {
+	public function pa_get_menu_item_settings() {
 
 		check_ajax_referer( 'pa-menu-nonce', 'security' );
 
@@ -486,7 +478,7 @@ class Admin_Helper {
 	 * @access public
 	 * @since 4.9.4
 	 */
-	public function save_pa_menu_item_settings() {
+	public function pa_save_menu_item_settings() {
 
 		check_ajax_referer( 'pa-menu-nonce', 'security' );
 
@@ -517,7 +509,7 @@ class Admin_Helper {
 	 * @access public
 	 * @since 4.9.4
 	 */
-	public function save_pa_mega_item_content() {
+	public function pa_save_mega_item_content() {
 
 		check_ajax_referer( 'pa-live-editor', 'security' );
 
@@ -730,7 +722,7 @@ class Admin_Helper {
 			);
 		}
 
-		if ( defined( 'ELEMENTOR_VERSION' ) ) {
+		if ( Helper_Functions::check_elementor_version() ) {
 			call_user_func(
 				'add_submenu_page',
 				self::$page_slug,
@@ -913,7 +905,7 @@ class Admin_Helper {
 	 * @access public
 	 * @since 3.20.8
 	 */
-	public function save_settings() {
+	public function pa_save_elements_settings() {
 
 		check_ajax_referer( 'pa-settings-tab', 'security' );
 
@@ -941,6 +933,8 @@ class Admin_Helper {
 			update_option( 'pa_complete_wizard', false );
 		}
 
+		// Remove all files in the dynamic assets folder.
+		Assets_Manager::delete_assets_files();
 		wp_send_json_success();
 	}
 
@@ -980,7 +974,7 @@ class Admin_Helper {
 	 * @since 3.20.8
 	 * @access public
 	 */
-	public function save_additional_settings() {
+	public function pa_save_additional_settings() {
 
 		check_ajax_referer( 'pa-settings-tab', 'security' );
 
@@ -1013,7 +1007,7 @@ class Admin_Helper {
 	 * @since 4.0.0
 	 * @access public
 	 */
-	public function save_global_btn_value() {
+	public function pa_save_global_btn() {
 
 		check_ajax_referer( 'pa-settings-tab', 'security' );
 
@@ -1411,7 +1405,7 @@ class Admin_Helper {
 	 * @access public
 	 * @since 4.5.8
 	 */
-	public function get_unused_widgets() {
+	public function pa_get_unused_widgets() {
 
 		check_ajax_referer( 'pa-disable-unused', 'security' );
 
@@ -1435,7 +1429,7 @@ class Admin_Helper {
 	 * @since 4.11.6
 	 * @see ElementorPro\Modules\Woocommerce\Module [elementor-pro\modules\woocommerce\module.php].
 	 */
-	public function disable_elementor_mc_template() {
+	public function pa_disable_elementor_mc_template() {
 
 		check_ajax_referer( 'pa-settings-tab', 'security' );
 
@@ -1444,65 +1438,14 @@ class Admin_Helper {
 		wp_send_json_success( 'Elementor Mini Cart Template Disabled.' );
 	}
 
-	/**
-	 * Clear Cached Assets.
-	 *
-	 * Deletes assets options from DB And
-	 * deletes assets files from uploads/premium-addons-for-elementor via AJAX
-	 * diretory.
-	 *
-	 * @access public
-	 * @since 4.9.3
-	 */
-	public function clear_cached_assets() {
 
-		check_ajax_referer( 'pa-generate-nonce', 'security' );
-
-		$post_id = isset( $_POST['id'] ) ? sanitize_text_field( wp_unslash( $_POST['id'] ) ) : '';
-
-		$this->clear_dynamic_assets_data( $post_id );
-
-		wp_send_json_success( 'Cached Assets Cleared' );
-	}
-
-	/**
-	 * Clear Dynamic Assets Data.
-	 *
-	 * Deletes assets options from DB And
-	 * deletes assets files from uploads/premium-addons-for-elementor
-	 * diretory.
-	 *
-	 * @access public
-	 * @since 4.10.51
-	 *
-	 * @param string $id post ID.
-	 */
-	public function clear_dynamic_assets_data( $id = '' ) {
-
-		if ( ! current_user_can( 'manage_options' ) ) {
-			wp_send_json_error( __( 'You are not allowed to do this action', 'premium-addons-for-elementor' ) );
-		}
-
-		if ( empty( $id ) ) {
-			$this->delete_assets_options();
-		}
-
-		if ( defined( 'ELEMENTOR_VERSION' ) ) {
-			Plugin::$instance->files_manager->clear_cache();
-		}
-
-		// Purge All LS Cache
-		do_action( 'litespeed_purge_all', 'Premium Addons for Elementor' );
-
-		$this->delete_assets_files( $id );
-	}
 
 	/**
 	 * Clear Cached Assets.
 	 *
 	 * Deletes assets options from DB And
 	 * deletes assets files from uploads/premium-addons-for-elementor
-	 * diretory.
+	 * directory.
 	 *
 	 * @access public
 	 * @since 4.9.3
@@ -1520,61 +1463,7 @@ class Admin_Helper {
 		wp_send_json_success( 'Site Cursor Settings Cleared' );
 	}
 
-	/**
-	 * Delete Assets Options.
-	 *
-	 * @access public
-	 * @since 4.9.3
-	 */
-	public function delete_assets_options() {
 
-		global $wpdb;
-
-		$query = $wpdb->prepare(
-			"DELETE FROM $wpdb->options
-			 WHERE (option_name LIKE %s OR option_name LIKE %s)
-			 AND autoload = %s",
-			'%pa_elements_%',
-			'%pa_edit_%',
-			'no'
-		);
-
-		$wpdb->query( $query ); // phpcs:ignore
-	}
-
-	/**
-	 * Delete Assets Files.
-	 *
-	 * @access public
-	 * @since 4.6.1
-	 *
-	 * @param string $id post id.
-	 */
-	public function delete_assets_files( $id ) {
-
-		$path = PREMIUM_ASSETS_PATH;
-
-		if ( ! is_dir( $path ) || ! file_exists( $path ) ) {
-			return;
-		}
-
-		if ( empty( $id ) ) {
-			foreach ( scandir( $path ) as $file ) {
-				if ( '.' === $file || '..' === $file ) {
-					continue;
-				}
-
-				wp_delete_file( Helper_Functions::get_safe_path( $path . DIRECTORY_SEPARATOR . $file ) );
-			}
-		} else {
-
-			$id = Helper_Functions::generate_unique_id( 'pa_assets_' . $id );
-
-			foreach ( glob( PREMIUM_ASSETS_PATH . '/*' . $id . '*' ) as $file ) {
-				wp_delete_file( Helper_Functions::get_safe_path( $file ) );
-			}
-		}
-	}
 
 	/**
 	 * Get PA widget names.
@@ -1741,6 +1630,32 @@ class Admin_Helper {
 		}
 
 		return $posts;
+	}
+
+	/**
+	 * Clear Dynamic Assets Directory
+	 *
+	 * Deletes all files in the dynamic assets directory
+	 *
+	 * @since 4.9.3
+	 * @access public
+	 */
+	public function clear_dynamic_assets_dir() {
+
+		$path = PREMIUM_ASSETS_PATH;
+
+		if ( ! is_dir( $path ) || ! file_exists( $path ) ) {
+			return;
+		}
+
+		foreach ( scandir( $path ) as $file ) {
+			if ( '.' === $file || '..' === $file ) {
+				continue;
+			}
+
+			unlink( Helper_Functions::get_safe_path( $path . DIRECTORY_SEPARATOR . $file ) );
+		}
+
 	}
 
 	/**
