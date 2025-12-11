@@ -1529,6 +1529,8 @@ class Premium_Nav_Menu extends Widget_Base {
 
 		}
 
+		Helper_Functions::register_element_feedback_controls( $this );
+
 		$this->end_controls_section();
 	}
 

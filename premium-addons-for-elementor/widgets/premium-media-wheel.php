@@ -202,6 +202,7 @@ class Premium_Media_Wheel extends Widget_Base {
 		$this->add_items_controls();
 		$this->add_advanced_controls();
 		$this->add_light_box_controls();
+		$this->register_docs_controls();
 
 		Helper_Functions::register_papro_promotion_controls( $this, 'adv-carousel' );
 
@@ -1313,6 +1314,32 @@ class Premium_Media_Wheel extends Widget_Base {
 		);
 
 		$this->end_controls_section();
+	}
+
+	private function register_docs_controls() {
+
+		$this->start_controls_section(
+			'section_pa_docs',
+			array(
+				'label' => __( 'Help & Docs', 'premium-addons-for-elementor' ),
+			)
+		);
+
+		$doc1_url = Helper_Functions::get_campaign_link( 'https://premiumaddons.com/docs/elementor-advanced-media-carousel-widget/', 'adv-carousel', 'wp-editor', 'get-support' );
+
+		$this->add_control(
+			'doc_1',
+			array(
+				'type'            => Controls_Manager::RAW_HTML,
+				'raw'             => sprintf( '<a href="%s" target="_blank">%s</a>', $doc1_url, __( 'Getting started »', 'premium-addons-for-elementor' ) ),
+				'content_classes' => 'editor-pa-doc',
+			)
+		);
+
+		Helper_Functions::register_element_feedback_controls( $this );
+
+		$this->end_controls_section();
+
 	}
 
 	private function add_img_style_controls() {

@@ -79,6 +79,9 @@ class Addons_Integration {
 
 		// Handle everything related to widgets assets.
 		Assets_Manager::get_instance( self::$modules, self::$integrations );
+
+		// Handle everything related to feedback.
+		Helpers\Element_Feedback::get_instance();
 	}
 
 	/**
@@ -143,28 +146,21 @@ class Addons_Integration {
 			)
 		);
 
-		$pinterest_enabled = self::$modules['premium-pinterest-feed'] ?? 1;
-		$tiktok_enabled    = self::$modules['premium-tiktok-feed'] ?? 1;
-		$cf_enabled        = self::$modules['premium-contactform'] ?? 1;
+		$data = array(
+			'ajaxurl' => esc_url( admin_url( 'admin-ajax.php' ) ),
+			'nonce'   => wp_create_nonce( 'pa-editor' ),
+		);
 
-		if ( $cf_enabled || $pinterest_enabled || $tiktok_enabled ) {
+		wp_enqueue_script(
+			'pa-editor-handler',
+			PREMIUM_ADDONS_URL . 'assets/editor/js/editor-handler.js',
+			array( 'elementor-editor' ),
+			PREMIUM_ADDONS_VERSION,
+			true
+		);
 
-			$data = array(
-				'ajaxurl' => esc_url( admin_url( 'admin-ajax.php' ) ),
-				'nonce'   => wp_create_nonce( 'pa-editor' ),
-			);
+		wp_localize_script( 'pa-editor-handler', 'paEditorSettings', $data );
 
-			wp_enqueue_script(
-				'pa-editor-handler',
-				PREMIUM_ADDONS_URL . 'assets/editor/js/editor-handler.js',
-				array( 'elementor-editor' ),
-				PREMIUM_ADDONS_VERSION,
-				true
-			);
-
-			wp_localize_script( 'pa-editor-handler', 'paEditorSettings', $data );
-
-		}
 	}
 
 	/**

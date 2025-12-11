@@ -1602,6 +1602,41 @@ class Helper_Functions {
 	}
 
 	/**
+	 * Register Element Feedback Controls
+	 *
+	 * @since 4.11.36
+	 * @access public
+	 *
+	 * @param object $element widget object.
+	 */
+	public static function register_element_feedback_controls( $element ) {
+
+		$element->add_control(
+			'feedback_message',
+			array(
+				'label'       => __( 'Feedback & Feature Request', 'premium-addons-for-elementor' ),
+				'type'        => Controls_Manager::TEXTAREA,
+				'placeholder' => __( 'Share your feedback or feature request here...', 'premium-addons-for-elementor' ),
+				'label_block' => true,
+				'render_type' => 'ui',
+				'ai'          => array(
+					'active' => false,
+				),
+			)
+		);
+
+		$element->add_control(
+			'feedback_message_submit',
+			array(
+				'type'        => Controls_Manager::RAW_HTML,
+				'raw'         => '<form onsubmit="submitFeedbackMessage(this,\'' . $element->get_title() . '\');" action="javascript:void(0);"><input type="submit" value="Send Feedback" class="elementor-button" style="background-color: rgba(207, 211, 215, 0.35); color: #000;"></form>',
+				'label_block' => true,
+			)
+		);
+
+	}
+
+	/**
 	 * Get Button Class
 	 *
 	 * @since 4.10.17
