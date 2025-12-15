@@ -244,13 +244,16 @@ class Assets_Manager {
 			$this->generate_new_asset_file( $post_id, $location, 'js' );
 		}
 
-		wp_enqueue_script(
-			'pafe' . $dynamic_asset_id,
-			Helper_Functions::get_safe_url( PREMIUM_ASSETS_URL . '/' . 'pafe' . $dynamic_asset_id . '.js' ),
-			array(),
-			get_post_modified_time(),
-			true
-		);
+		// Check again to prevent case where no JS file generated (independent widgets only).
+		if ( $this->has_asset_file( $post_id, 'js' ) ) {
+			wp_enqueue_script(
+				'pafe' . $dynamic_asset_id,
+				Helper_Functions::get_safe_url( PREMIUM_ASSETS_URL . '/' . 'pafe' . $dynamic_asset_id . '.js' ),
+				array(),
+				get_post_modified_time(),
+				true
+			);
+		}
 	}
 
 	/**

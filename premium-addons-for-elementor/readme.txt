@@ -1,11 +1,11 @@
 === Premium Addons for Elementor - Powerful Elementor Templates & Widgets ===
 Contributors: Leap13, Rimoun
-Tags: elementor, elementor addons, widgets, elementor elements, elementor templates
+Tags: elementor, elementor addons, elementor widgets, elementor mega menu, elementor templates
 Donate Link: https://premiumaddons.com/?utm_source=wp-repo&utm_medium=link&utm_campaign=readme
 Requires at least: 5.0
 Tested Up To: 6.9
 Requires PHP: 7.4
-Stable Tag: 4.11.55
+Stable Tag: 4.11.56
 License: GPL v3.0
 License URI: https://opensource.org/licenses/GPL-3.0
 
@@ -254,6 +254,12 @@ You can report security bugs through the Patchstack Vulnerability Disclosure Pro
 14. Premium Progress Bar Widget
 
 == Changelog ==
+
+= 4.11.56 - 14/12/2025 =
+
+- New: Show banner to disable unused widgets for faster editor loading speed.
+- Tweak: Added responsive control to Zoom control in Google Maps widget.
+- Fixed: Console error warning when dynamic asset is enabled.
 
 = 4.11.55 - 10/12/2025 =
 

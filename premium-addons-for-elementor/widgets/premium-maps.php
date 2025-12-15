@@ -517,7 +517,7 @@ class Premium_Maps extends Widget_Base {
 			)
 		);
 
-		$this->add_control(
+		$this->add_responsive_control(
 			'premium_maps_map_zoom',
 			array(
 				'label'   => __( 'Zoom', 'premium-addons-for-elementor' ),
@@ -530,6 +530,9 @@ class Premium_Maps extends Widget_Base {
 						'min' => 0,
 						'max' => 22,
 					),
+				),
+				'selectors'   => array(
+					'{{WRAPPER}}' => '--pa-map-zoom: {{SIZE}}',
 				),
 			)
 		);
@@ -1228,7 +1231,6 @@ class Premium_Maps extends Widget_Base {
 
 		$map_settings = array(
 			'mapId'             => $settings['premium_map_id'],
-			'zoom'              => $settings['premium_maps_map_zoom']['size'],
 			'maptype'           => $settings['premium_maps_map_type'],
 			'streetViewControl' => $street_view,
 			'centerlat'         => $centerlat,
