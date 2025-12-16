@@ -10,7 +10,7 @@ add_action(
 	'in_admin_header',
 	function () {
 
-		if ( Helper_Functions::check_papro_version() || time() > strtotime( '09:59:59pm 18th December, 2025' ) || ( $GLOBALS["pagenow"] !== 'index.php' && get_current_screen()->id !== 'toplevel_page_premium-addons' ) || get_transient( 'pa_cm25_pointer_dismiss' ) ) {
+		if ( Helper_Functions::check_papro_version() || time() > strtotime( '09:59:59pm 20th December, 2025' ) || ( $GLOBALS["pagenow"] !== 'index.php' && get_current_screen()->id !== 'toplevel_page_premium-addons' ) || get_transient( 'pa_cm25_pointer_dismiss' ) ) {
 			return;
 		}
 
