@@ -5,7 +5,7 @@ Donate Link: https://premiumaddons.com/?utm_source=wp-repo&utm_medium=link&utm_c
 Requires at least: 5.0
 Tested Up To: 6.9
 Requires PHP: 7.4
-Stable Tag: 4.11.57
+Stable Tag: 4.11.58
 License: GPL v3.0
 License URI: https://opensource.org/licenses/GPL-3.0
 
@@ -254,6 +254,10 @@ You can report security bugs through the Patchstack Vulnerability Disclosure Pro
 14. Premium Progress Bar Widget
 
 == Changelog ==
+
+= 4.11.58 - 17/12/2025 =
+
+- Tweak: Core improvements for faster dashboard, editor and frontend loading speed.
 
 = 4.11.57 - 16/12/2025 =
 
