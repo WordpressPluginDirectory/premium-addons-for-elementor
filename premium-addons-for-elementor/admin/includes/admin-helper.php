@@ -1428,12 +1428,11 @@ class Admin_Helper {
 
 		check_ajax_referer( 'pa-disable-unused', 'security' );
 
-		$did_check = get_transient( 'pa_unused_widget_dialog' );
+		$did_check = get_option( 'pa_unused_widget_dialog' );
 
 		if( ! $did_check ) {
 
-			// Delay check for 7 days.
-			set_transient( 'pa_unused_widget_dialog', true, DAY_IN_SECONDS * 7 );
+			update_option( 'pa_unused_widget_dialog', true );
 
 			// Get days between now and install time.
 			$install_time = get_option( 'pa_install_time' );
@@ -1471,9 +1470,9 @@ class Admin_Helper {
 
 		check_ajax_referer( 'pa-disable-unused', 'security' );
 
-		set_transient( 'pa_unused_widget_dialog', true );
+		update_option( 'pa_unused_widget_dialog', true );
 
-		wp_send_json_success( 'Transient updated.' );
+		wp_send_json_success( 'Option updated.' );
 
 	}
 
