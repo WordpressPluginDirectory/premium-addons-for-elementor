@@ -41,8 +41,13 @@ trait AJAX_Helper {
 		// Send Feedback AJAX Handler.
 		add_action( 'wp_ajax_pa_send_element_feedback', array( $this, 'send' ) );
 
+		// Get Posts Query AJAX Handler.
 		add_action( 'wp_ajax_pa_get_posts',  array( $this, 'get_posts_query' ) );
 		add_action( 'wp_ajax_nopriv_pa_get_posts', array( $this, 'get_posts_query' ) );
+
+		// Search Results AJAX Handler.
+		add_action( 'wp_ajax_premium_get_search_results', array( $this, 'get_search_results' ) );
+		add_action( 'wp_ajax_nopriv_premium_get_search_results', array( $this, 'get_search_results' ) );
 
 	}
 
@@ -388,6 +393,21 @@ trait AJAX_Helper {
 	public function get_posts_query() {
 		$myinstance = new Premium_Template_Tags();
 		$myinstance->get_posts_query();
+	}
+
+	/**
+	 * Get Search Results
+	 *
+	 * Get search results via AJAX.
+	 *
+	 * @since 4.11.61
+	 * @access public
+	 *
+	 * @return void
+	 */
+	public function get_search_results() {
+		$myinstance = new Premium_Template_Tags();
+		$myinstance->get_search_results();
 	}
 
 }

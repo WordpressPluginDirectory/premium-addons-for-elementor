@@ -2,10 +2,10 @@
 # This file is distributed under the GNU General Public License v3.0.
 msgid ""
 msgstr ""
-"Project-Id-Version: Premium Addons for Elementor 4.11.60\n"
+"Project-Id-Version: Premium Addons for Elementor 4.11.61\n"
 "Report-Msgid-Bugs-To: "
 "https://wordpress.org/support/plugin/premium-addons-for-elementor\n"
-"POT-Creation-Date: 2025-12-22 13:58:51+00:00\n"
+"POT-Creation-Date: 2025-12-23 12:53:40+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -2428,7 +2428,7 @@ msgstr ""
 msgid "Arrow Color"
 msgstr ""
 
-#: addons/tooltips.php:719 admin/includes/admin-helper.php:554
+#: addons/tooltips.php:719 admin/includes/admin-helper.php:556
 msgid "Settings"
 msgstr ""
 
@@ -2807,7 +2807,7 @@ msgstr ""
 msgid "Your submission failed because of an error"
 msgstr ""
 
-#: admin/includes/admin-helper.php:325 admin/includes/admin-helper.php:1397
+#: admin/includes/admin-helper.php:325 admin/includes/admin-helper.php:1417
 #: admin/includes/templates/version-control.php:22
 msgid "Rollback to Previous Version"
 msgstr ""
@@ -2825,39 +2825,39 @@ msgstr ""
 msgid "Cancel"
 msgstr ""
 
-#: admin/includes/admin-helper.php:556
+#: admin/includes/admin-helper.php:559
 msgid "Rollback to v"
 msgstr ""
 
-#: admin/includes/admin-helper.php:564
+#: admin/includes/admin-helper.php:571
 msgid "Save $105"
 msgstr ""
 
-#: admin/includes/admin-helper.php:599
+#: admin/includes/admin-helper.php:615
 msgid "View Premium Addons for Elementor Documentation"
 msgstr ""
 
-#: admin/includes/admin-helper.php:599
+#: admin/includes/admin-helper.php:615
 msgid "Docs & FAQs"
 msgstr ""
 
-#: admin/includes/admin-helper.php:600
+#: admin/includes/admin-helper.php:617
 msgid "View Premium Addons Video Tutorials"
 msgstr ""
 
-#: admin/includes/admin-helper.php:600
+#: admin/includes/admin-helper.php:617
 msgid "Video Tutorials"
 msgstr ""
 
-#: admin/includes/admin-helper.php:601
+#: admin/includes/admin-helper.php:619
 msgid "Rate plugin"
 msgstr ""
 
-#: admin/includes/admin-helper.php:601
+#: admin/includes/admin-helper.php:619
 msgid "Rate the plugin ★★★★★"
 msgstr ""
 
-#: admin/includes/admin-helper.php:624
+#: admin/includes/admin-helper.php:644
 #: modules/woocommerce/widgets/woo-categories.php:157
 #: modules/woocommerce/widgets/woo-cta.php:188
 #: modules/woocommerce/widgets/woo-products.php:231
@@ -2868,77 +2868,77 @@ msgstr ""
 msgid "General"
 msgstr ""
 
-#: admin/includes/admin-helper.php:631
+#: admin/includes/admin-helper.php:651
 msgid "Widgets & Add-ons"
 msgstr ""
 
-#: admin/includes/admin-helper.php:638
+#: admin/includes/admin-helper.php:658
 msgid "Global Addons"
 msgstr ""
 
-#: admin/includes/admin-helper.php:645 widgets/premium-videobox.php:3582
+#: admin/includes/admin-helper.php:665 widgets/premium-videobox.php:3582
 msgid "Integrations"
 msgstr ""
 
-#: admin/includes/admin-helper.php:652
+#: admin/includes/admin-helper.php:672
 msgid "Version Control"
 msgstr ""
 
-#: admin/includes/admin-helper.php:659
+#: admin/includes/admin-helper.php:679
 msgid "White Labeling"
 msgstr ""
 
-#: admin/includes/admin-helper.php:666
+#: admin/includes/admin-helper.php:686
 msgid "System Info"
 msgstr ""
 
-#: admin/includes/admin-helper.php:677
+#: admin/includes/admin-helper.php:697
 msgid "License"
 msgstr ""
 
-#: admin/includes/admin-helper.php:731
+#: admin/includes/admin-helper.php:751
 msgid "PA Setup Wizard"
 msgstr ""
 
-#: admin/includes/admin-helper.php:732
+#: admin/includes/admin-helper.php:752
 msgid "Run Setup Wizard"
 msgstr ""
 
-#: admin/includes/admin-helper.php:882
+#: admin/includes/admin-helper.php:902
 msgid "Get Premium Addons PRO"
 msgstr ""
 
-#: admin/includes/admin-helper.php:883
+#: admin/includes/admin-helper.php:903
 msgid ""
 "Supercharge your Elementor with PRO Widgets & Addons that you won't find "
 "anywhere else."
 msgstr ""
 
-#: admin/includes/admin-helper.php:883
+#: admin/includes/admin-helper.php:903
 msgid "save up to $105!"
 msgstr ""
 
-#: admin/includes/admin-helper.php:884
+#: admin/includes/admin-helper.php:904
 msgid "Get Pro"
 msgstr ""
 
-#: admin/includes/admin-helper.php:893
+#: admin/includes/admin-helper.php:913
 msgid "Upgrade to Lifetime!"
 msgstr ""
 
-#: admin/includes/admin-helper.php:894
+#: admin/includes/admin-helper.php:914
 msgid ""
 "Pay only the difference and enjoy an <span class=\"papro-sale-notice\"> "
 "EXTRA 35% OFF</span> when you upgrade your Premium Addons Pro license to "
 "Lifetime — no renewals, no hassle, just lifetime access forever."
 msgstr ""
 
-#: admin/includes/admin-helper.php:895 admin/includes/admin-notices.php:346
+#: admin/includes/admin-helper.php:915 admin/includes/admin-notices.php:346
 #: admin/includes/setup-wizard/content-views/upgrade.php:111
 msgid "Upgrade Now"
 msgstr ""
 
-#: admin/includes/admin-helper.php:1512 includes/assets-manager.php:712
+#: admin/includes/admin-helper.php:1532 includes/assets-manager.php:712
 msgid "You are not allowed to do this action"
 msgstr ""
 
@@ -3198,9 +3198,7 @@ msgid "Divider"
 msgstr ""
 
 #: admin/includes/elements.php:261 admin/includes/elements.php:828
-#: admin/includes/setup-wizard/elements.php:430
-#: admin/includes/setup-wizard/elements.php:606 widgets/premium-grid.php:65
-msgid "Media Grid"
+msgid "Media Grid/Gallery"
 msgstr ""
 
 #: admin/includes/elements.php:268 admin/includes/elements.php:1046
@@ -3820,6 +3818,11 @@ msgstr ""
 msgid "Image and Media Widgets"
 msgstr ""
 
+#: admin/includes/setup-wizard/elements.php:430
+#: admin/includes/setup-wizard/elements.php:606 widgets/premium-grid.php:65
+msgid "Media Grid"
+msgstr ""
+
 #: admin/includes/setup-wizard/elements.php:449
 msgid "Tables, Graphs, and Charts  Widgets"
 msgstr ""
@@ -3863,7 +3866,7 @@ msgid "Back"
 msgstr ""
 
 #: admin/includes/setup-wizard/main-view.php:129
-#: includes/premium-template-tags.php:904 widgets/premium-blog.php:1489
+#: includes/premium-template-tags.php:902 widgets/premium-blog.php:1489
 #: widgets/premium-search-form.php:1344
 msgid "Next"
 msgstr ""
@@ -5133,21 +5136,21 @@ msgstr ""
 msgid "Share your feedback or feature request here..."
 msgstr ""
 
-#: includes/helper-functions.php:1690 includes/premium-template-tags.php:826
+#: includes/helper-functions.php:1690 includes/premium-template-tags.php:824
 msgid ""
 "The current query has no posts. Please make sure you have published items "
 "matching your query."
 msgstr ""
 
-#: includes/helpers/ajax-helper.php:66 includes/helpers/ajax-helper.php:106
+#: includes/helpers/ajax-helper.php:71 includes/helpers/ajax-helper.php:111
 msgid "Empty Post Type."
 msgstr ""
 
-#: includes/helpers/ajax-helper.php:325
+#: includes/helpers/ajax-helper.php:330
 msgid "Message cannot be empty."
 msgstr ""
 
-#: includes/helpers/ajax-helper.php:333
+#: includes/helpers/ajax-helper.php:338
 msgid "User email not found."
 msgstr ""
 
@@ -5631,20 +5634,20 @@ msgstr ""
 msgid "Misc (PRO)"
 msgstr ""
 
-#: includes/premium-template-tags.php:481
+#: includes/premium-template-tags.php:479
 msgid "No Comments"
 msgstr ""
 
-#: includes/premium-template-tags.php:482
+#: includes/premium-template-tags.php:480
 msgid "1 Comment"
 msgstr ""
 
-#: includes/premium-template-tags.php:483
+#: includes/premium-template-tags.php:481
 msgid "% Comments"
 msgstr ""
 
-#: includes/premium-template-tags.php:892
-#: includes/premium-template-tags.php:901
+#: includes/premium-template-tags.php:890
+#: includes/premium-template-tags.php:899
 #: modules/woocommerce/widgets/woo-products.php:873
 #: modules/woocommerce/widgets/woo-products.php:1820
 #: widgets/premium-blog.php:1430 widgets/premium-blog.php:2663
@@ -5652,16 +5655,16 @@ msgstr ""
 msgid "Pagination"
 msgstr ""
 
-#: includes/premium-template-tags.php:902 widgets/premium-blog.php:1476
+#: includes/premium-template-tags.php:900 widgets/premium-blog.php:1476
 #: widgets/premium-search-form.php:1331
 msgid "Previous"
 msgstr ""
 
-#: includes/premium-template-tags.php:1586
+#: includes/premium-template-tags.php:1584
 msgid "Please make sure to choose a loop template for this item."
 msgstr ""
 
-#: includes/premium-template-tags.php:1672
+#: includes/premium-template-tags.php:1670
 msgid "Please choose your custom premium grid template."
 msgstr ""
 
