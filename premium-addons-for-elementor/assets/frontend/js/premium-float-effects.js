@@ -54,12 +54,20 @@
 					this.run();
 
 				} else if (elementorFrontend.isEditMode()) {
+
 					if (anime.running.length) {
 						// Remove the animation if disabled in the editor.
 						this.removeFloatingAnimation(true);
 					}
 				}
 
+			},
+
+			onElementChange: function (propertyName) {
+				if ('premium_fe_switcher' === propertyName) {
+					anime.remove(this.floatingTarget);
+					this.resetTargetProps();
+				}
 			},
 
 			run: function () {
@@ -90,6 +98,7 @@
 			removeFloatingAnimation: function (checkAnimation) {
 				// anime.js doesn't reset the manipulated properties, so we need to reset it manually.
 				var hasRunningAnime = checkAnimation ? this.hasRunningAnime() : true;
+
 				if (-1 !== hasRunningAnime) {
 					anime.remove(this.floatingTarget);
 					this.resetTargetProps();
@@ -133,6 +142,9 @@
 				}
 
 				this.floatingTarget = $widgetContainer;
+
+				// Remove any previously attached event handlers to prevent multiple bindings.
+				$(this.floatingTarget).off('.paFloating');
 			},
 
 			getEffectSettings: function () {
@@ -156,6 +168,7 @@
 						loop: 'default' === settings.premium_fe_loop ? true : settings.premium_fe_loop_number,
 						easing: easing,
 						target: '' !== settings.premium_fe_target ? settings.premium_fe_target : '',
+						trigger: settings.premium_fe_trigger,
 					};
 
 				var eleSettings = {
@@ -209,25 +222,25 @@
 					}
 				}
 
+				if (opacityEnabled) {
+					eleSettings.effectSettings.opacity = {
+						'from': settings.premium_fe_opacity.sizes.from / 100,
+						'to': settings.premium_fe_opacity.sizes.to / 100,
+						'duration': settings.premium_fe_opacity_duration.size,
+						'delay': settings.premium_fe_opacity_delay.size
+					};
+				}
+
+				if (bgColorEnabled) {
+					eleSettings.effectSettings.bgColor = {
+						'from': settings.premium_fe_bg_color_from,
+						'to': settings.premium_fe_bg_color_to,
+						'duration': settings.premium_fe_bg_color_duration.size,
+						'delay': settings.premium_fe_bg_color_delay.size,
+					}
+				}
+
 				if (PremiumFESettings.papro_installed) {
-					if (opacityEnabled) {
-						eleSettings.effectSettings.opacity = {
-							'from': settings.premium_fe_opacity.sizes.from / 100,
-							'to': settings.premium_fe_opacity.sizes.to / 100,
-							'duration': settings.premium_fe_opacity_duration.size,
-							'delay': settings.premium_fe_opacity_delay.size
-						};
-					}
-
-					if (bgColorEnabled) {
-						eleSettings.effectSettings.bgColor = {
-							'from': settings.premium_fe_bg_color_from,
-							'to': settings.premium_fe_bg_color_to,
-							'duration': settings.premium_fe_bg_color_duration.size,
-							'delay': settings.premium_fe_bg_color_delay.size,
-						}
-					}
-
 					if (blurEnabled) {
 						eleSettings.effectSettings.blur = {
 							'from': 'blur(' + settings.premium_fe_blur_val.sizes.from + 'px)',
@@ -465,7 +478,37 @@
 					animeSettings.filter = filterArr;
 				}
 
-				anime(animeSettings);
+				var animationTrigger = eleSettings.general.trigger;
+
+				if ('hover' === animationTrigger) {
+					animeSettings.autoplay = false;
+				}
+
+				// Override Elementor transition duration.
+				$(animeSettings.targets).css('transition-duration', '0s');
+
+				var floatingAnimation = anime(animeSettings);
+
+				if ('hover' === animationTrigger) {
+
+					$(animeSettings.targets).on('mouseenter.paFloating', () => {
+						this.playAnimation(floatingAnimation);
+					});
+
+					$(animeSettings.targets).on('mouseleave.paFloating', () => {
+						this.pauseAnimation(floatingAnimation);
+					});
+
+				}
+
+			},
+
+			playAnimation: function (animation) {
+				animation.play();
+			},
+
+			pauseAnimation: function (animation) {
+				animation.pause();
 			}
 		});
 

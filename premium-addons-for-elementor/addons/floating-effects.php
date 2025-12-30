@@ -14,6 +14,7 @@ use PremiumAddons\Includes\Helper_Functions;
 // Elementor Classes.
 use Elementor\Repeater;
 use Elementor\Controls_Manager;
+use Elementor\Core\Kits\Documents\Tabs\Global_Colors;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -119,6 +120,23 @@ class Floating_Effects {
 		);
 
 		$element->add_control(
+			'premium_fe_trigger',
+			array(
+				'label'              => __( 'Play On', 'premium-addons-for-elementor' ),
+				'type'               => Controls_Manager::SELECT,
+				'default'            => 'load',
+				'options'            => array(
+					'load'    => __( 'Page Load', 'premium-addons-for-elementor' ),
+					'hover'   => __( 'Hover', 'premium-addons-for-elementor' ),
+				),
+				'condition'          => array(
+					'premium_fe_switcher' => 'yes',
+				),
+				'frontend_available' => true,
+			)
+		);
+
+		$element->add_control(
 			'premium_fe_target',
 			array(
 				'label'              => __( 'Custom CSS Selector', 'premium-addons-for-elementor' ),
@@ -127,6 +145,9 @@ class Floating_Effects {
 				'dynamic'            => array( 'active' => true ),
 				'label_block'        => true,
 				'render_type'        => 'template',
+				'ai'          => array(
+					'active' => false,
+				),
 				'condition'          => array(
 					'premium_fe_switcher' => 'yes',
 				),
@@ -143,8 +164,11 @@ class Floating_Effects {
 				'floating_effects_notice',
 				array(
 					'type'            => Controls_Manager::RAW_HTML,
-					'raw'             => __( 'The options in Style and Filters tabs are available in Premium Addons Pro.', 'premium-addons-for-elementor' ) . '<a href="' . esc_url( $get_pro ) . '" target="_blank">' . __( 'Upgrade now!', 'premium-addons-for-elementor' ) . '</a>',
+					'raw'             => __( 'The options in Filters tab are available in Premium Addons Pro.', 'premium-addons-for-elementor' ) . '<a href="' . esc_url( $get_pro ) . '" target="_blank">' . __( 'Upgrade now!', 'premium-addons-for-elementor' ) . '</a>',
 					'content_classes' => 'papro-upgrade-notice',
+					'condition'       => array(
+						'premium_fe_switcher' => 'yes',
+					),
 				)
 			);
 		}
@@ -704,11 +728,84 @@ class Floating_Effects {
 				'condition'          => array(
 					'premium_fe_switcher' => 'yes',
 				),
+				'render_type' => 'template',
+				'selectors' => array(
+					'{{WRAPPER}}' => 'opacity: 0',
+				),
 				'frontend_available' => true,
 			)
 		);
 
-		do_action( 'pa_floating_opacity_controls', $element );
+		$element->add_control(
+			'premium_fe_opacity',
+			array(
+				'label'              => __( 'Value', 'premium-addons-for-elementor' ),
+				'type'               => Controls_Manager::SLIDER,
+				'frontend_available' => true,
+				'default'            => array(
+					'sizes' => array(
+						'from' => 0,
+						'to'   => 50,
+					),
+					'unit'  => '%',
+				),
+				'labels'             => array(
+					__( 'From', 'premium-addons-for-elementor' ),
+					__( 'To', 'premium-addons-for-elementor' ),
+				),
+				'scales'             => 1,
+				'handles'            => 'range',
+				'condition'          => array(
+					'premium_fe_switcher'         => 'yes',
+					'premium_fe_opacity_switcher' => 'yes',
+				),
+			)
+		);
+
+		$element->add_control(
+			'premium_fe_opacity_duration',
+			array(
+				'label'              => __( 'Duration', 'premium-addons-for-elementor' ) . ' (ms)',
+				'type'               => Controls_Manager::SLIDER,
+				'frontend_available' => true,
+				'range'              => array(
+					'px' => array(
+						'min'  => 0,
+						'max'  => 10000,
+						'step' => 100,
+					),
+				),
+				'default'            => array(
+					'unit' => 'px',
+					'size' => 1000,
+				),
+				'condition'          => array(
+					'premium_fe_switcher'         => 'yes',
+					'premium_fe_opacity_switcher' => 'yes',
+				),
+			)
+		);
+
+		$element->add_control(
+			'premium_fe_opacity_delay',
+			array(
+				'label'              => __( 'Delay', 'premium-addons-for-elementor' ) . ' (ms)',
+				'type'               => Controls_Manager::SLIDER,
+				'frontend_available' => true,
+				'range'              => array(
+					'px' => array(
+						'min'  => 0,
+						'max'  => 10000,
+						'step' => 100,
+					),
+				),
+				'condition'          => array(
+					'premium_fe_switcher'         => 'yes',
+					'premium_fe_opacity_switcher' => 'yes',
+				),
+
+			)
+		);
 
 		/**--------Background Color Effect Controls---------*/
 		$element->add_control(
@@ -724,7 +821,82 @@ class Floating_Effects {
 			)
 		);
 
-		do_action( 'pa_floating_bg_controls', $element );
+		$element->add_control(
+			'premium_fe_bg_color_from',
+			array(
+				'label'              => __( 'From', 'premium-addons-for-elementor' ),
+				'type'               => Controls_Manager::COLOR,
+				'frontend_available' => true,
+				'global'             => array(
+					'default' => Global_Colors::COLOR_PRIMARY,
+				),
+				'condition'          => array(
+					'premium_fe_switcher'          => 'yes',
+					'premium_fe_bg_color_switcher' => 'yes',
+				),
+			)
+		);
+
+		$element->add_control(
+			'premium_fe_bg_color_to',
+			array(
+				'label'              => __( 'To', 'premium-addons-for-elementor' ),
+				'type'               => Controls_Manager::COLOR,
+				'frontend_available' => true,
+				'global'             => array(
+					'default' => Global_Colors::COLOR_PRIMARY,
+				),
+				'condition'          => array(
+					'premium_fe_switcher'          => 'yes',
+					'premium_fe_bg_color_switcher' => 'yes',
+				),
+			)
+		);
+
+		$element->add_control(
+			'premium_fe_bg_color_duration',
+			array(
+				'label'              => __( 'Duration', 'premium-addons-for-elementor' ) . ' (ms)',
+				'type'               => Controls_Manager::SLIDER,
+				'frontend_available' => true,
+				'range'              => array(
+					'px' => array(
+						'min'  => 0,
+						'max'  => 10000,
+						'step' => 100,
+					),
+				),
+				'default'            => array(
+					'unit' => 'px',
+					'size' => 1000,
+				),
+				'condition'          => array(
+					'premium_fe_switcher'          => 'yes',
+					'premium_fe_bg_color_switcher' => 'yes',
+				),
+			)
+		);
+
+		$element->add_control(
+			'premium_fe_bg_color_delay',
+			array(
+				'label'              => __( 'Delay', 'premium-addons-for-elementor' ) . ' (ms)',
+				'type'               => Controls_Manager::SLIDER,
+				'frontend_available' => true,
+				'range'              => array(
+					'px' => array(
+						'min'  => 0,
+						'max'  => 10000,
+						'step' => 100,
+					),
+				),
+				'condition'          => array(
+					'premium_fe_switcher'          => 'yes',
+					'premium_fe_bg_color_switcher' => 'yes',
+				),
+
+			)
+		);
 
 		$element->end_controls_tab();
 
