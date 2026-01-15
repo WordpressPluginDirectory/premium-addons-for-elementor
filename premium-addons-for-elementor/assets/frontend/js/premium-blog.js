@@ -138,6 +138,11 @@
 
 				}
 
+				if ("masonry" !== layout && this.settings.equalHeight)
+					$blogElement.imagesLoaded(function () {
+						_this.forceEqualHeight();
+					});
+
 				// Run masony layout.
 				if ("masonry" === layout && !this.settings.carousel) {
 
@@ -160,14 +165,7 @@
 
 					// Show the carousel after initializing slick to avoid unstyled content flash.
 					$blogElement.removeClass("premium-carousel-hidden");
-				} else if ("even" === layout && this.settings.equalHeight) {
-					$blogElement.imagesLoaded(function () {
-						_this.forceEqualHeight();
-					});
 				} else if ("marquee" === layout) {
-
-					if (this.settings.equalHeight)
-						this.forceEqualHeight();
 
 					this.buildMarqueeLayout();
 				}

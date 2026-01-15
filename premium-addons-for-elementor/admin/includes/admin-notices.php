@@ -68,7 +68,7 @@ class Admin_Notices {
 
 		self::$notices = array(
 			'pa-review',
-			'bf25-last-not'
+			'bf25-last-not',
 		);
 
 		if ( Helper_Functions::check_hide_notifications() ) {
@@ -139,7 +139,6 @@ class Admin_Notices {
 		}
 
 		// $this->get_black_friday_notice();
-
 	}
 
 	/**
@@ -272,9 +271,9 @@ class Admin_Notices {
 
 	public function get_black_friday_notice() {
 
-        $time     = time();
+		$time = time();
 
-        if ( $time > 1765497600 || '1' === get_option( 'bf25-last-not' ) ) {
+		if ( $time > 1765497600 || '1' === get_option( 'bf25-last-not' ) ) {
 			return;
 		}
 
@@ -286,13 +285,13 @@ class Admin_Notices {
 
 		$promotion_type = 'new';
 
-        if ( $is_papro_active ) {
+		if ( $is_papro_active ) {
 
 			$license_data = get_transient( 'pa_license_info' );
 
-            if( isset( $license_data['status'] ) && 'valid' === $license_data['status'] ) {
+			if ( isset( $license_data['status'] ) && 'valid' === $license_data['status'] ) {
 
-				if( isset( $license_data['id'] ) && '4' === $license_data['id'] ) {
+				if ( isset( $license_data['id'] ) && '4' === $license_data['id'] ) {
 					return;
 				} else {
 
@@ -300,9 +299,7 @@ class Admin_Notices {
 
 					$link = Helper_Functions::get_campaign_link( 'https://premiumaddons.com/docs/upgrade-premium-addons-license/', 'wp-dash', 'bf25-notification', 'cm25' );
 				}
-
-            }
-
+			}
 		}
 
 		$message = $this->get_promotion_message( $promotion_type );
@@ -343,14 +340,14 @@ class Admin_Notices {
 		if ( 'upgrade' === $type ) {
 			return array(
 				'message' => __( 'Get a <b>FLAT 35% OFF</b> when you upgrade to <b>Premium Addons Pro Lifetime</b>. Use code <b>BFUL2025</b> at checkout – <b>expires soon!</b>', 'premium-addons-for-elementor' ),
-				'cta'    => __( 'Upgrade Now', 'premium-addons-for-elementor' ),
+				'cta'     => __( 'Upgrade Now', 'premium-addons-for-elementor' ),
 			);
 
 		}
 
 		return array(
 			'message' => __( '<b>Cyber Monday – Save Up To $105 on Premium Addons Pro</b>.', 'premium-addons-for-elementor' ),
-			'cta'    => __( 'Catch The Deal', 'premium-addons-for-elementor' ),
+			'cta'     => __( 'Catch The Deal', 'premium-addons-for-elementor' ),
 		);
 	}
 
@@ -588,22 +585,23 @@ class Admin_Notices {
 		$papro_path = 'premium-addons-pro/premium-addons-pro-for-elementor.php';
 
 		$license_data = get_transient( 'pa_license_info' );
-		$highlight = false;
+		$highlight    = false;
 
-		if( isset( $license_data['status'] ) && 'valid' === $license_data['status'] ) {
+		if ( isset( $license_data['status'] ) && 'valid' === $license_data['status'] ) {
 
-			if( isset( $license_data['id'] ) && '4' !== $license_data['id'] ) {
+			if ( isset( $license_data['id'] ) && '4' !== $license_data['id'] ) {
 
 				$highlight = true;
-				array_unshift( $stories['posts'], array(
-					'title' => 'Switch to Premium Addons Pro Lifetime, Pay the Difference & Save 30% Today!',
-					'link'  => Helper_Functions::get_campaign_link( 'https://premiumaddons.com/docs/upgrade-premium-addons-license/', 'wp-dash', 'xmas25-dash-widget', 'xmas25' ),
-				) );
+				array_unshift(
+					$stories['posts'],
+					array(
+						'title' => 'Switch to Premium Addons Pro Lifetime, Pay the Difference & Save 30% Today!',
+						'link'  => Helper_Functions::get_campaign_link( 'https://premiumaddons.com/docs/upgrade-premium-addons-license/', 'wp-dash', 'xmas25-dash-widget', 'xmas25' ),
+					)
+				);
 
 			}
-
 		}
-
 
 		?>
 			<style>
@@ -686,7 +684,7 @@ class Admin_Notices {
 				<?php foreach ( $stories['posts'] as $index => $post ) : ?>
 
 					<div class="pa-news-post">
-						<a style="<?php echo 0 === $index && $highlight ? 'color: #93003f' : '' ?>" target="_blank" href="<?php echo esc_url( $post['link'] ); ?>">
+						<a style="<?php echo 0 === $index && $highlight ? 'color: #93003f' : ''; ?>" target="_blank" href="<?php echo esc_url( $post['link'] ); ?>">
 							<?php echo wp_kses_post( $post['title'] ); ?>
 						</a>
 					</div>

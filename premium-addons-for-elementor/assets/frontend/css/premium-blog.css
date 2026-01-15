@@ -596,6 +596,16 @@
   width: 100%;
 }
 
+.elementor-editor-active .elementor-widget-premium-addon-blog {
+  clear: both;
+}
+.elementor-editor-active .premium-blog-masonry {
+  display: block !important;
+}
+.elementor-editor-active .premium-blog-masonry .premium-blog-post-outer-container {
+  float: inline-start;
+}
+
 /* Pagination */
 .premium-blog-pagination-container {
   text-align: right;

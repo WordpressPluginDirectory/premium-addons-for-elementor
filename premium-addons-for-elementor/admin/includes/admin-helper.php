@@ -461,7 +461,7 @@ class Admin_Helper {
 
 		check_ajax_referer( 'pa-menu-nonce', 'security' );
 
-		if ( ! current_user_can( 'manage_options' ) ) {
+		if ( ! self::check_user_can( 'manage_options' ) ) {
 			wp_send_json_error( 'User is not authorized!' );
 		}
 
@@ -486,7 +486,7 @@ class Admin_Helper {
 
 		check_ajax_referer( 'pa-menu-nonce', 'security' );
 
-		if ( ! current_user_can( 'manage_options' ) ) {
+		if ( ! self::check_user_can( 'manage_options' ) ) {
 			wp_send_json_error( 'User is not authorized!' );
 		}
 
@@ -517,7 +517,7 @@ class Admin_Helper {
 
 		check_ajax_referer( 'pa-live-editor', 'security' );
 
-		if ( ! current_user_can( 'edit_theme_options' ) ) {
+		if ( ! self::check_user_can( 'edit_theme_options' ) ) {
 			wp_send_json_error( 'Insufficient user permission' );
 		}
 
@@ -933,6 +933,10 @@ class Admin_Helper {
 
 		check_ajax_referer( 'pa-settings-tab', 'security' );
 
+		if ( ! self::check_user_can( 'manage_options' ) ) {
+			wp_send_json_error( __( 'You are not allowed to do this action', 'premium-addons-for-elementor' ) );
+		}
+
 		if ( ! isset( $_POST['fields'] ) ) {
 			return;
 		}
@@ -1002,6 +1006,10 @@ class Admin_Helper {
 
 		check_ajax_referer( 'pa-settings-tab', 'security' );
 
+		if ( ! self::check_user_can( 'manage_options' ) ) {
+			wp_send_json_error( __( 'You are not allowed to do this action', 'premium-addons-for-elementor' ) );
+		}
+
 		if ( ! isset( $_POST['fields'] ) ) {
 			return;
 		}
@@ -1034,6 +1042,10 @@ class Admin_Helper {
 	public function pa_save_global_btn() {
 
 		check_ajax_referer( 'pa-settings-tab', 'security' );
+
+		if ( ! self::check_user_can( 'manage_options' ) ) {
+			wp_send_json_error( __( 'You are not allowed to do this action', 'premium-addons-for-elementor' ) );
+		}
 
 		if ( ! isset( $_POST['isGlobalOn'] ) ) {
 			wp_send_json_error();
@@ -1433,7 +1445,7 @@ class Admin_Helper {
 
 		check_ajax_referer( 'pa-disable-unused', 'security' );
 
-		if ( ! current_user_can( 'install_plugins' ) ) {
+		if ( ! self::check_user_can( 'install_plugins' ) ) {
 			wp_send_json_error();
 		}
 
@@ -1506,6 +1518,10 @@ class Admin_Helper {
 
 		check_ajax_referer( 'pa-settings-tab', 'security' );
 
+		if ( ! self::check_user_can( 'manage_options' ) ) {
+			wp_send_json_error( __( 'You are not allowed to do this action', 'premium-addons-for-elementor' ) );
+		}
+
 		update_option( 'elementor_use_mini_cart_template', 'no' );
 
 		wp_send_json_success( 'Elementor Mini Cart Template Disabled.' );
@@ -1527,7 +1543,7 @@ class Admin_Helper {
 
 		check_ajax_referer( 'pa-site-cursor-nonce', 'security' );
 
-		if ( ! current_user_can( 'manage_options' ) ) {
+		if ( ! self::check_user_can( 'manage_options' ) ) {
 			wp_send_json_error( __( 'You are not allowed to do this action', 'premium-addons-for-elementor' ) );
 		}
 

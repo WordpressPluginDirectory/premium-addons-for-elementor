@@ -44,7 +44,6 @@ class Display_Conditions {
 
 	/**
 	 * Constructor
-	 *
 	 */
 	public function __construct() {
 
@@ -113,7 +112,7 @@ class Display_Conditions {
 				'acf_choice'  => __( 'Choice', 'premium-addons-for-elementor' ),
 				'acf_text'    => __( 'Text', 'premium-addons-for-elementor' ),
 				'acf_boolean' => __( 'True/False', 'premium-addons-for-elementor' ),
-			)
+			),
 		);
 
 		$options['woocommerce'] = array(
@@ -129,7 +128,7 @@ class Display_Conditions {
 				'woo_total_price'       => __( 'Amount In Cart', 'premium-addons-for-elementor' ),
 				'woo_cart_products'     => __( 'Products In Cart', 'premium-addons-for-elementor' ),
 				'woo_purchase_products' => __( 'Purchased Products', 'premium-addons-for-elementor' ),
-			)
+			),
 		);
 
 		$options = apply_filters( 'pa_display_conditions', $options );
@@ -260,23 +259,6 @@ class Display_Conditions {
 				),
 				'condition'   => array(
 					'pa_condition_key' => array( 'date_range', 'time_range', 'date', 'day' ),
-				),
-			)
-		);
-
-		$repeater->add_control(
-			'pa_condition_loc_method',
-			array(
-				'label'       => __( 'Location Detect Method', 'premium-addons-for-elementor' ),
-				'type'        => Controls_Manager::SELECT,
-				'default'     => 'old',
-				'label_block' => true,
-				'options'     => array(
-					'old' => __( 'Old', 'premium-addons-for-elementor' ),
-					'new' => __( 'New', 'premium-addons-for-elementor' ),
-				),
-				'condition'   => array(
-					'pa_condition_key' => 'ip_location',
 				),
 			)
 		);

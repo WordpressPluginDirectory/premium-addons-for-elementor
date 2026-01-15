@@ -788,13 +788,7 @@ class Premium_Image_Button extends Widget_Base {
 					'label'        => __( 'Only Play on Hover', 'premium-addons-for-elementor' ),
 					'type'         => Controls_Manager::SWITCHER,
 					'return_value' => 'true',
-					'condition'    => array_merge(
-						$common_conditions,
-						array(
-							'icon_type' => array( 'icon', 'svg' ),
-							'draw_svg'  => 'yes',
-						)
-					),
+					'conditions'   => $animation_conds,
 				)
 			);
 
@@ -1200,7 +1194,11 @@ class Premium_Image_Button extends Widget_Base {
 						'premium_image_button_hover_effect!' => array( 'style3', 'style4' ),
 					),
 					'selectors' => array(
-						'{{WRAPPER}} .premium-drawable-icon *, {{WRAPPER}} svg:not([class*="premium-"])' => 'stroke: {{VALUE}};',
+						// Drawable SVG icons
+						'{{WRAPPER}} .premium-drawable-icon *' => 'stroke: {{VALUE}};',
+
+						// Normal SVG icons (exclude Lottie SVGs)
+						'{{WRAPPER}} svg:not(.premium-lottie-animation):not(.premium-lottie-animation svg)' => 'stroke: {{VALUE}};',
 					),
 				)
 			);
@@ -1419,7 +1417,10 @@ class Premium_Image_Button extends Widget_Base {
 						'premium_image_button_hover_effect!' => 'style4',
 					),
 					'selectors' => array(
-						'{{WRAPPER}} .premium-image-button:hover .premium-drawable-icon *, {{WRAPPER}} .premium-image-button:hover svg:not([class*="premium-"])' => 'stroke: {{VALUE}};',
+						// Drawable SVG icons
+						'{{WRAPPER}} .premium-image-button:hover .premium-drawable-icon *' => 'stroke: {{VALUE}};',
+						// Normal SVG icons (exclude Lottie SVGs)
+						'{{WRAPPER}} .premium-image-button:hover svg:not:not(.premium-lottie-animation):not(.premium-lottie-animation svg)' => 'stroke: {{VALUE}};',
 					),
 				)
 			);
@@ -1733,6 +1734,7 @@ class Premium_Image_Button extends Widget_Base {
 						'data-lottie-url'     => $settings['lottie_url'],
 						'data-lottie-loop'    => $settings['lottie_loop'],
 						'data-lottie-reverse' => $settings['lottie_reverse'],
+						'data-lottie-hover'   => $settings['svg_hover'],
 					)
 				);
 			}

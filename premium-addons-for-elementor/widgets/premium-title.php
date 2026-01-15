@@ -217,7 +217,7 @@ class Premium_Title extends Widget_Base {
 				'label'       => __( 'Title', 'premium-addons-for-elementor' ),
 				'type'        => Controls_Manager::TEXT,
 				'default'     => __( 'Premium {{Heading}}', 'premium-addons-for-elementor' ),
-				'description' => __('Focused Word style tab settings will be applied on words wrapped by {{}}', 'premium-addons-for-elementor' ),
+				'description' => __( 'Focused Word style tab settings will be applied on words wrapped by {{}}', 'premium-addons-for-elementor' ),
 				'label_block' => true,
 				'dynamic'     => array( 'active' => true ),
 			)
@@ -226,9 +226,9 @@ class Premium_Title extends Widget_Base {
 		$this->add_control(
 			'premium_title_tag',
 			array(
-				'label'     => __( 'HTML Tag', 'premium-addons-for-elementor' ),
-				'type'      => Controls_Manager::SELECT,
-				'options'   => array(
+				'label'   => __( 'HTML Tag', 'premium-addons-for-elementor' ),
+				'type'    => Controls_Manager::SELECT,
+				'options' => array(
 					'h1'   => 'H1',
 					'h2'   => 'H2',
 					'h3'   => 'H3',
@@ -238,7 +238,7 @@ class Premium_Title extends Widget_Base {
 					'div'  => 'div',
 					'span' => 'span',
 				),
-				'default'   => 'h2',
+				'default' => 'h2',
 			)
 		);
 
@@ -259,7 +259,7 @@ class Premium_Title extends Widget_Base {
 					'style8' => __( 'Style 8', 'premium-addons-for-elementor' ),
 					'style9' => __( 'Style 9', 'premium-addons-for-elementor' ),
 				),
-				'separator' => 'before',
+				'separator'   => 'before',
 				'label_block' => true,
 			)
 		);
@@ -388,8 +388,8 @@ class Premium_Title extends Widget_Base {
 		$this->start_controls_section(
 			'stripe_section',
 			array(
-				'label' => __( 'Stripe', 'premium-addons-for-elementor' ),
-				'condition'            => array(
+				'label'     => __( 'Stripe', 'premium-addons-for-elementor' ),
+				'condition' => array(
 					'premium_title_style' => 'style7',
 				),
 			)
@@ -935,7 +935,7 @@ class Premium_Title extends Widget_Base {
 				'label'        => __( 'Stroke', 'premium-addons-for-elementor' ),
 				'type'         => Controls_Manager::SWITCHER,
 				'prefix_class' => 'premium-title-bg-stroke-',
-				'condition' => array(
+				'condition'    => array(
 					'background_text_switcher' => 'yes',
 				),
 			)
@@ -955,7 +955,7 @@ class Premium_Title extends Widget_Base {
 				'selectors'   => array(
 					'{{WRAPPER}} .premium-title-bg-text:before' => 'width: {{VALUE}}',
 				),
-				'condition' => array(
+				'condition'   => array(
 					'background_text_switcher' => 'yes',
 				),
 			)
@@ -984,7 +984,7 @@ class Premium_Title extends Widget_Base {
 				'selectors'  => array(
 					'{{WRAPPER}} .premium-title-bg-text:before' => 'left: {{SIZE}}{{UNIT}}',
 				),
-				'condition' => array(
+				'condition'  => array(
 					'background_text_switcher' => 'yes',
 				),
 			)
@@ -1013,7 +1013,7 @@ class Premium_Title extends Widget_Base {
 				'selectors'  => array(
 					'{{WRAPPER}} .premium-title-bg-text:before' => 'top: {{SIZE}}{{UNIT}}',
 				),
-				'condition' => array(
+				'condition'  => array(
 					'background_text_switcher' => 'yes',
 				),
 			)
@@ -1032,7 +1032,7 @@ class Premium_Title extends Widget_Base {
 				'selectors'  => array(
 					'{{WRAPPER}} .premium-title-bg-text:before' => 'transform: rotate({{SIZE}}{{UNIT}})',
 				),
-				'condition' => array(
+				'condition'  => array(
 					'background_text_switcher' => 'yes',
 				),
 			)
@@ -1053,7 +1053,7 @@ class Premium_Title extends Widget_Base {
 				'label'       => __( 'Underline Hover Effect', 'premium-addons-for-elementor' ),
 				'type'        => Controls_Manager::SELECT,
 				'options'     => array(
-					'none' => __( 'None', 'premium-addons-for-elementor' ),
+					'none'  => __( 'None', 'premium-addons-for-elementor' ),
 					'line1' => __( 'Effect 1', 'premium-addons-for-elementor' ),
 					'line2' => __( 'Effect 2', 'premium-addons-for-elementor' ),
 					'line3' => __( 'Effect 3', 'premium-addons-for-elementor' ),
@@ -1110,25 +1110,25 @@ class Premium_Title extends Widget_Base {
 			'mask_title_dir',
 			array(
 				'label'        => __( 'Direction', 'premium-addons-for-elementor' ),
-				'type' => Controls_Manager::CHOOSE,
-				'options' => [
-					'tr' => [
+				'type'         => Controls_Manager::CHOOSE,
+				'options'      => array(
+					'tr' => array(
 						'title' => esc_html__( 'To Right', 'premium-addons-for-elementor' ),
-						'icon' => 'eicon-arrow-right'
-					],
-					'tl' => [
+						'icon'  => 'eicon-arrow-right',
+					),
+					'tl' => array(
 						'title' => esc_html__( 'To Left', 'premium-addons-for-elementor' ),
-						'icon' => 'eicon-arrow-left',
-					],
-					'tt' => [
+						'icon'  => 'eicon-arrow-left',
+					),
+					'tt' => array(
 						'title' => esc_html__( 'To Top', 'premium-addons-for-elementor' ),
-						'icon' => 'eicon-arrow-up',
-					],
-					'tb' => [
+						'icon'  => 'eicon-arrow-up',
+					),
+					'tb' => array(
 						'title' => esc_html__( 'To Bottom', 'premium-addons-for-elementor' ),
-						'icon' => 'eicon-arrow-down',
-					],
-				],
+						'icon'  => 'eicon-arrow-down',
+					),
+				),
 				'default'      => 'tr',
 				'prefix_class' => 'premium-mask-',
 				'render_type'  => 'template',
@@ -1623,8 +1623,8 @@ class Premium_Title extends Widget_Base {
 			array(
 				'label'     => __( 'Stroke', 'premium-addons-for-elementor' ),
 				'tab'       => Controls_Manager::TAB_STYLE,
-				'condition'    => array(
-					'stroke_switcher' => 'yes',
+				'condition' => array(
+					'stroke_switcher'      => 'yes',
 					'premium_title_style!' => 'style9',
 					'background_style'     => 'color',
 				),
@@ -1637,7 +1637,7 @@ class Premium_Title extends Widget_Base {
 				'label'     => __( 'Stroke Color', 'premium-addons-for-elementor' ),
 				'type'      => Controls_Manager::COLOR,
 				'condition' => array(
-					'stroke_switcher'      => 'yes',
+					'stroke_switcher' => 'yes',
 				),
 				'selectors' => array(
 					'{{WRAPPER}} .premium-title-text' => '-webkit-text-stroke-color: {{VALUE}};',
@@ -1651,7 +1651,7 @@ class Premium_Title extends Widget_Base {
 				'label'     => __( 'Stroke Fill Width', 'premium-addons-for-elementor' ),
 				'type'      => Controls_Manager::SLIDER,
 				'condition' => array(
-					'stroke_switcher'      => 'yes',
+					'stroke_switcher' => 'yes',
 				),
 				'default'   => array(
 					'size' => 1,
@@ -1713,7 +1713,7 @@ class Premium_Title extends Widget_Base {
 					'{{WRAPPER}}.premium-title-stroke-yes .premium-title__focused-word' => '-webkit-text-stroke-width: {{SIZE}}px',
 				),
 				'condition' => array(
-					'stroke_switcher'      => 'yes',
+					'stroke_switcher' => 'yes',
 				),
 			)
 		);
@@ -1727,7 +1727,7 @@ class Premium_Title extends Widget_Base {
 					'{{WRAPPER}}.premium-title-stroke-yes .premium-title__focused-word' => '-webkit-text-stroke-color: {{VALUE}};',
 				),
 				'condition' => array(
-					'stroke_switcher'      => 'yes',
+					'stroke_switcher' => 'yes',
 				),
 			)
 		);
@@ -1774,11 +1774,17 @@ class Premium_Title extends Widget_Base {
 		$this->add_responsive_control(
 			'focused_word_margin',
 			array(
-				'label'      => __( 'Margin', 'premium-addons-for-elementor' ),
-				'type'       => Controls_Manager::DIMENSIONS,
-				'size_units' => array( 'px', 'em', '%', 'custom' ),
+				'label'              => __( 'Margin', 'premium-addons-for-elementor' ),
+				'type'               => Controls_Manager::DIMENSIONS,
+				'size_units'         => array( 'px', 'em', '%', 'custom' ),
 				'allowed_dimensions' => array( 'left', 'right' ),
-				'selectors'  => array(
+				'placeholder'        => array(
+					'top'    => '',
+					'right'  => '',
+					'bottom' => '',
+					'left'   => '',
+				),
+				'selectors'          => array(
 					'{{WRAPPER}} .premium-title-text .premium-title__focused-word' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
 				),
 			)
@@ -2037,9 +2043,9 @@ class Premium_Title extends Widget_Base {
 		$this->start_controls_section(
 			'stripe_style_section',
 			array(
-				'label' => __( 'Stripe', 'premium-addons-for-elementor' ),
+				'label'     => __( 'Stripe', 'premium-addons-for-elementor' ),
 				'tab'       => Controls_Manager::TAB_STYLE,
-				'condition'            => array(
+				'condition' => array(
 					'premium_title_style' => 'style7',
 				),
 			)
@@ -2191,8 +2197,8 @@ class Premium_Title extends Widget_Base {
 		$this->start_controls_section(
 			'under	line_style_section',
 			array(
-				'label' => __( 'Underline', 'premium-addons-for-elementor' ),
-				'tab'   => Controls_Manager::TAB_STYLE,
+				'label'     => __( 'Underline', 'premium-addons-for-elementor' ),
+				'tab'       => Controls_Manager::TAB_STYLE,
 				'condition' => array(
 					'hover_effect!' => 'none',
 				),
@@ -2220,7 +2226,7 @@ class Premium_Title extends Widget_Base {
 				'label'     => __( 'Line Width (%)', 'premium-addons-for-elementor' ),
 				'type'      => Controls_Manager::SLIDER,
 				'condition' => array(
-					'hover_effect'             => array( 'line1', 'line3', 'line5' ),
+					'hover_effect' => array( 'line1', 'line3', 'line5' ),
 				),
 				'default'   => array(
 					'size' => 100,
@@ -2237,7 +2243,7 @@ class Premium_Title extends Widget_Base {
 				'label'     => __( 'Line Height (PX)', 'premium-addons-for-elementor' ),
 				'type'      => Controls_Manager::SLIDER,
 				'condition' => array(
-					'hover_effect!'            => array( 'line1', 'line3', 'line4' ),
+					'hover_effect!' => array( 'line1', 'line3', 'line4' ),
 				),
 				'selectors' => array(
 					'{{WRAPPER}} .premium-button-line2::before, {{WRAPPER}} .premium-button-line5::before, {{WRAPPER}} .premium-button-line5::after, {{WRAPPER}} .premium-button-line7::before' => 'height: {{SIZE}}px',
@@ -2251,7 +2257,7 @@ class Premium_Title extends Widget_Base {
 				'label'     => __( 'Line Horizontal Position (%)', 'premium-addons-for-elementor' ),
 				'type'      => Controls_Manager::SLIDER,
 				'condition' => array(
-					'hover_effect'             => array( 'line3', 'line5' ),
+					'hover_effect' => array( 'line3', 'line5' ),
 				),
 				'selectors' => array(
 					'{{WRAPPER}} .premium-btn-line-wrap, {{WRAPPER}} .premium-button-line5::before, {{WRAPPER}} .premium-button-line5::after' => 'left: {{SIZE}}%',
@@ -2322,7 +2328,7 @@ class Premium_Title extends Widget_Base {
 
 		if ( 'yes' === $settings['noise'] ) {
 
-			$this->add_render_attribute( 'premium_title_text', 'data-text', str_replace( array('{{', '}}'), '', $settings['premium_title_text'] ) );
+			$this->add_render_attribute( 'premium_title_text', 'data-text', str_replace( array( '{{', '}}' ), '', $settings['premium_title_text'] ) );
 
 		}
 
@@ -2481,9 +2487,10 @@ class Premium_Title extends Widget_Base {
 						</span>
 					<?php endif; ?>
 				<?php endif; ?>
-				<?php if ( 'style9' !== $selected_style ) :
-					$text = str_replace( array('{{', '}}'), array('<span class="premium-title__focused-word">', '</span>'), $settings['premium_title_text'] );
-				?>
+				<?php
+				if ( 'style9' !== $selected_style ) :
+					$text = str_replace( array( '{{', '}}' ), array( '<span class="premium-title__focused-word">', '</span>' ), $settings['premium_title_text'] );
+					?>
 				<span <?php echo wp_kses_post( $this->get_render_attribute_string( 'premium_title_text' ) ); ?>>
 					<?php echo wp_kses_post( $text ); ?>
 				</span>
@@ -2515,5 +2522,4 @@ class Premium_Title extends Widget_Base {
 
 		<?php
 	}
-
 }

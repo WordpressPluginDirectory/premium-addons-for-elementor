@@ -1452,6 +1452,8 @@
 			if ($carouselElem.find(".item-wrapper").length < 1)
 				return;
 
+			addSlideContent();
+
 			function slideToShow(slick) {
 
 				var slidesToShow = slick.options.slidesToShow,
@@ -1470,6 +1472,36 @@
 
 				return slidesToShow;
 
+			}
+
+			/**
+			 * Used to add the template content to the carousel slide when the template source is an exisitng template on the page.
+			 */
+			function addSlideContent() {
+				$scope.find(".premium-carousel-template[data-template-src]").each(function () {
+					var containerID = $(this).data("template-src");
+
+					var $templateContent = $('#' + containerID);
+
+					if (!$templateContent.length) {
+						$(this).html(
+							'<div class="premium-error-notice"><span>Container with ID <b>' +
+							containerID +
+							"</b> does not exist on this page. Please make sure that container ID is properly set from section settings -> Advanced tab -> CSS ID.<span></div>"
+						);
+
+						return;
+					}
+
+					if (!elementorFrontend.isEditMode()) {
+						$(this).append($templateContent);
+					} else {
+						$scope.find(".elementor-element-overlay")
+							.remove();
+						$(this).append($templateContent.clone(true));
+					}
+
+				});
 			}
 
 			$carouselElem.on("init", function (event) {
@@ -2034,6 +2066,11 @@
 
 				}
 
+				if ("masonry" !== layout && this.settings.equalHeight)
+					$blogElement.imagesLoaded(function () {
+						_this.forceEqualHeight();
+					});
+
 				// Run masony layout.
 				if ("masonry" === layout && !this.settings.carousel) {
 
@@ -2056,14 +2093,7 @@
 
 					// Show the carousel after initializing slick to avoid unstyled content flash.
 					$blogElement.removeClass("premium-carousel-hidden");
-				} else if ("even" === layout && this.settings.equalHeight) {
-					$blogElement.imagesLoaded(function () {
-						_this.forceEqualHeight();
-					});
 				} else if ("marquee" === layout) {
-
-					if (this.settings.equalHeight)
-						this.forceEqualHeight();
 
 					this.buildMarqueeLayout();
 				}

@@ -10,7 +10,7 @@ add_action(
 	'in_admin_header',
 	function () {
 
-		if ( Helper_Functions::check_papro_version() || time() > strtotime( '09:59:59pm 10th January, 2026' ) || ( $GLOBALS["pagenow"] !== 'index.php' && get_current_screen()->id !== 'toplevel_page_premium-addons' ) || get_transient( 'pa_xmas25_pointer_dismiss' ) ) {
+		if ( Helper_Functions::check_papro_version() || time() > strtotime( '09:59:59pm 30th January, 2026' ) || ( $GLOBALS['pagenow'] !== 'index.php' && get_current_screen()->id !== 'toplevel_page_premium-addons' ) || get_transient( 'pa_xmas25_pointer_dismiss' ) ) {
 			return;
 		}
 
@@ -28,38 +28,38 @@ add_action(
 		if ( absint( $pointer_priority ) === 1 ) {
 			?>
 			<script>
-                jQuery(
-                    function () {
-                        jQuery('#toplevel_page_premium-addons').pointer(
-                            {
-                                content:
-                                    "<h3 style='font-weight: 600;'>Biggest Sale Until Summer 2026!</h3>" +
-                                    "<p style='margin: 1em 0;'>Unlock the full power of Elementor with 90+ advanced elements and 580+ templates. Build smarter and faster.</p>" +
-                                    "<p><a class='button button-primary' href='<?php echo esc_attr( Helper_Functions::get_campaign_link( 'https://premiumaddons.com/christmas-sale/#xmas-deals', 'pointer', 'wp-dash', 'xmas25' ) );?>' target='_blank'>Save 30% Now</a></p>",
+				jQuery(
+					function () {
+						jQuery('#toplevel_page_premium-addons').pointer(
+							{
+								content:
+									"<h3 style='font-weight: 600;'>Biggest Sale Until Summer 2026!</h3>" +
+									"<p style='margin: 1em 0;'>Unlock the full power of Elementor with 90+ advanced elements and 580+ templates. Build smarter and faster.</p>" +
+									"<p><a class='button button-primary' href='<?php echo esc_attr( Helper_Functions::get_campaign_link( 'https://premiumaddons.com/christmas-sale/#xmas-deals', 'pointer', 'wp-dash', 'xmas25' ) ); ?>' target='_blank'>Save 30% Now</a></p>",
 
-                                position:
-                                    {
-                                        edge: 'left',
-                                        align: 'center'
-                                    },
+								position:
+									{
+										edge: 'left',
+										align: 'center'
+									},
 
-                                pointerClass:
-                                    'wp-pointer',
+								pointerClass:
+									'wp-pointer',
 
-                                close: function () {
-                                    jQuery.post(
-                                        ajaxurl,
-                                        {
-                                            pointer: 'pa',
-                                            action: 'dismiss-wp-pointer',
-                                        }
-                                    );
-                                },
+								close: function () {
+									jQuery.post(
+										ajaxurl,
+										{
+											pointer: 'pa',
+											action: 'dismiss-wp-pointer',
+										}
+									);
+								},
 
-                            }
-                        ).pointer('open');
-                    }
-                );
+							}
+						).pointer('open');
+					}
+				);
 			</script>
 			<?php
 		}

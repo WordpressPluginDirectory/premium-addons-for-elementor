@@ -1464,9 +1464,9 @@ class Premium_Blog extends Widget_Base {
 		$this->add_control(
 			'arrows_position',
 			array(
-				'label'     => __( 'Position', 'premium-addons-for-elementor' ),
-				'type'      => Controls_Manager::CHOOSE,
-				'options'   => array(
+				'label'              => __( 'Position', 'premium-addons-for-elementor' ),
+				'type'               => Controls_Manager::CHOOSE,
+				'options'            => array(
 					'above'   => array(
 						'title' => __( 'Above Slide', 'premium-addons-for-elementor' ),
 						'icon'  => 'eicon-v-align-top',
@@ -1480,9 +1480,9 @@ class Premium_Blog extends Widget_Base {
 						'icon'  => 'eicon-v-align-bottom',
 					),
 				),
-				'default'   => 'default',
-				'toggle'      => false,
-				'condition' => array(
+				'default'            => 'default',
+				'toggle'             => false,
+				'condition'          => array(
 					'premium_blog_carousel'        => 'yes',
 					'premium_blog_carousel_arrows' => 'yes',
 				),
@@ -1510,7 +1510,7 @@ class Premium_Blog extends Widget_Base {
 					),
 				),
 				'default'   => 'start',
-				'toggle'      => false,
+				'toggle'    => false,
 				'condition' => array(
 					'premium_blog_carousel'        => 'yes',
 					'premium_blog_carousel_arrows' => 'yes',
@@ -1551,7 +1551,7 @@ class Premium_Blog extends Widget_Base {
 				'condition'  => array(
 					'premium_blog_carousel'        => 'yes',
 					'premium_blog_carousel_arrows' => 'yes',
-					'arrows_position!'                  => 'default',
+					'arrows_position!'             => 'default',
 				),
 			)
 		);
@@ -3574,14 +3574,13 @@ class Premium_Blog extends Widget_Base {
 
 		}
 
-		if( $carousel ) {
-			$arrows = 'yes' === $settings['premium_blog_carousel_arrows'];
+		if ( $carousel ) {
+			$arrows            = 'yes' === $settings['premium_blog_carousel_arrows'];
 			$arrows_custom_pos = $arrows && 'default' !== $settings['arrows_position'];
 
 			if ( $arrows && $arrows_custom_pos ) {
 				$this->add_render_attribute( 'blog', 'class', 'pa-has-custom-pos' );
 			}
-
 		}
 
 		// Add page ID to be used later to get posts by AJAX.
@@ -3630,7 +3629,8 @@ class Premium_Blog extends Widget_Base {
 			<div class="premium-carousel-arrows-wrapper"></div>
 		<?php } ?>
 
-		<?php if ( Plugin::instance()->editor->is_edit_mode() ) {
+		<?php
+		if ( Plugin::instance()->editor->is_edit_mode() ) {
 
 			if ( 'yes' === $settings['premium_blog_grid'] ) {
 				if ( 'masonry' === $settings['premium_blog_layout'] && 'yes' !== $settings['premium_blog_carousel'] ) {

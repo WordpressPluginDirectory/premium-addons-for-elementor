@@ -5,7 +5,7 @@ Donate Link: https://premiumaddons.com/?utm_source=wp-repo&utm_medium=link&utm_c
 Requires at least: 5.0
 Tested Up To: 6.9
 Requires PHP: 7.4
-Stable Tag: 4.11.63
+Stable Tag: 4.11.64
 License: GPL v3.0
 License URI: https://opensource.org/licenses/GPL-3.0
 
@@ -256,6 +256,14 @@ You can report security bugs through the Patchstack Vulnerability Disclosure Pro
 14. Premium Progress Bar Widget
 
 == Changelog ==
+
+= 4.11.64 - 14/1/2026 =
+
+- Tweak: Added Container ID option in Carousel widget to get slides from containers on the same page for better usability.
+- Tweak: Added Play on Hover option for Lottie Animation icons in Button and Image Button widgets.
+- Fixed: Carousel layout not working for Skins 7 & 11 in Woo Products Listing widget.
+- Fixed: Equal Height addon not applied on window resize.
+- Fixed: Security issue in plugin settings dashboard page.
 
 = 4.11.63 - 5/1/2026 =
 
@@ -569,7 +577,7 @@ You can report security bugs through the Patchstack Vulnerability Disclosure Pro
 - Tweak: Submenu Trigger option in Mega Menu widget.
 - Fixed: Error while saving Elementor templates after Elementor v3.29.
 - Fixed: Icons from custom icons are not showing in some widgets.
-- Fixed: Security issue in Coutdown widget.
+- Fixed: Security issue in Countdown widget.
 
 = 4.11.8 - 17/05/2025 =
 
