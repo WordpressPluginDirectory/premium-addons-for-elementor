@@ -3,9 +3,9 @@ Contributors: Leap13, Rimoun
 Tags: elementor, elementor addons, elementor widgets, elementor mega menu, elementor templates
 Donate Link: https://premiumaddons.com/?utm_source=wp-repo&utm_medium=link&utm_campaign=readme
 Requires at least: 5.0
-Tested Up To: 6.9
+Tested Up To: 6.9.1
 Requires PHP: 7.4
-Stable Tag: 4.11.64
+Stable Tag: 4.11.68
 License: GPL v3.0
 License URI: https://opensource.org/licenses/GPL-3.0
 
@@ -256,6 +256,30 @@ You can report security bugs through the Patchstack Vulnerability Disclosure Pro
 14. Premium Progress Bar Widget
 
 == Changelog ==
+
+= 4.11.68 - 12/2/2026 =
+
+- Tweak: Multiple core improvements for faster editor and frontend loading speed.
+- Tweak: Improved Premium Templates styling in Elementor Dark Mode.
+- Fixed: Images in Advanced Carousel are not showing after widget is dropped into the preview area.
+
+= 4.11.67 - 3/2/2026 =
+
+- Fixed: Layouts broken after v4.11.66 when Modal Box is used on page.
+
+= 4.11.66 - 2/2/2026 =
+
+- Tweak: Added Thumbnail Slider option in Carousel widget.
+- Tweak: Added Container ID option in Advanced Carousel and Modal Box widgets to get slides from containers on the same page for better usability.
+- Tweak: Added Slides to Scroll option for carousel in Testimonials widget.
+- Tweak: Added Entrance Animation option in Textual Showcase widget.
+- Tweak: Added Toggle Menu Height control in Mega Menu widget.
+- Fixed: Overflow issue on small screens in Video Box widget.
+- Fixed: TikTok Feed widget not working due to video size limits.
+
+= 4.11.65 - 21/1/2026 =
+
+- Tweak: Added Glow Effect option for Play Icon in Video Box widget.
 
 = 4.11.64 - 14/1/2026 =
 
