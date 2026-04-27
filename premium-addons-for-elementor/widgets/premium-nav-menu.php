@@ -674,6 +674,9 @@ class Premium_Nav_Menu extends Widget_Base {
 					array(
 						'icon_type' => 'svg',
 					),
+				'ai'          => array(
+					'active' => false,
+				),
 			)
 		);
 
@@ -1573,6 +1576,9 @@ class Premium_Nav_Menu extends Widget_Base {
 				'condition'          => array(
 					'pa_nav_menu_layout' => 'hor',
 					'pa_sticky_switcher' => 'yes',
+				),
+				'ai'                 => array(
+					'active' => false,
 				),
 			)
 		);
@@ -3818,7 +3824,8 @@ class Premium_Nav_Menu extends Widget_Base {
 				'type'       => Controls_Manager::DIMENSIONS,
 				'size_units' => array( 'px', 'em', '%' ),
 				'selectors'  => array(
-					'{{WRAPPER}} .premium-main-nav-menu > .premium-active-item' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}}',
+					'{{WRAPPER}} .premium-main-nav-menu > .premium-active-item'                => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}}',
+					'{{WRAPPER}} .premium-main-nav-menu > .premium-active-item > .premium-menu-link' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}}',
 				),
 			)
 		);

@@ -116,7 +116,8 @@ class Premium_Image_Button extends Widget_Base {
 			$settings = $this->get_settings();
 
 			if ( 'yes' === $settings['draw_svg'] ) {
-				array_push( $scripts, 'pa-tweenmax', 'pa-motionpath' );
+				$scripts[] = 'pa-tweenmax';
+				$scripts[] = 'pa-motionpath';
 			}
 
 			if ( 'animation' === $settings['icon_type'] || 'animation' === $settings['slide_icon_type'] ) {
@@ -561,6 +562,9 @@ class Premium_Image_Button extends Widget_Base {
 						'icon_type' => 'svg',
 					)
 				),
+				'ai'          => array(
+					'active' => false,
+				),
 			)
 		);
 
@@ -577,6 +581,9 @@ class Premium_Image_Button extends Widget_Base {
 					array(
 						'icon_type' => 'animation',
 					)
+				),
+				'ai'          => array(
+					'active' => false,
 				),
 			)
 		);
@@ -856,6 +863,9 @@ class Premium_Image_Button extends Widget_Base {
 					'slide_icon_type'                   => 'animation',
 					'premium_image_button_hover_effect' => 'style4',
 				),
+				'ai'          => array(
+					'active' => false,
+				),
 			)
 		);
 
@@ -892,6 +902,7 @@ class Premium_Image_Button extends Widget_Base {
 				'label'                => __( 'Icon Position', 'premium-addons-for-elementor' ),
 				'type'                 => Controls_Manager::SELECT,
 				'default'              => 'before',
+				'prefix_class'         => 'pa-icon-pos-',
 				'options'              => array(
 					'before' => __( 'Before', 'premium-addons-for-elementor' ),
 					'after'  => __( 'After', 'premium-addons-for-elementor' ),
@@ -960,6 +971,8 @@ class Premium_Image_Button extends Widget_Base {
 				),
 				'selectors' => array(
 					'{{WRAPPER}} .premium-image-button-text-icon-wrapper' => 'gap: {{SIZE}}px',
+					'{{WRAPPER}}.pa-icon-pos-before' => '--pa-btn-line6-translate-x: {{SIZE}}px',
+					'{{WRAPPER}}.pa-icon-pos-after'  => '--pa-btn-line6-translate-x: -{{SIZE}}px',
 				),
 				'separator' => 'after',
 				'condition' => array(
@@ -1267,6 +1280,9 @@ class Premium_Image_Button extends Widget_Base {
 				'condition' => array(
 					'button_adv_radius' => 'yes',
 				),
+				'ai'        => array(
+					'active' => false,
+				),
 			)
 		);
 
@@ -1559,6 +1575,9 @@ class Premium_Image_Button extends Widget_Base {
 				'condition' => array(
 					'button_hover_adv_radius' => 'yes',
 				),
+				'ai'        => array(
+					'active' => false,
+				),
 			)
 		);
 
@@ -1774,6 +1793,8 @@ class Premium_Image_Button extends Widget_Base {
 			$style_dir = 'premium-button-' . $settings['underline_style'];
 
 			$this->add_render_attribute( 'button', 'data-text', $button_text );
+		} else {
+			$style_dir = '';
 		}
 
 		if ( 'style8' !== $settings['premium_image_button_hover_effect'] ) {
@@ -1841,7 +1862,7 @@ class Premium_Image_Button extends Widget_Base {
 							?>
 						<?php elseif ( 'svg' === $icon_type ) : ?>
 							<div <?php echo wp_kses_post( $this->get_render_attribute_string( 'icon' ) ); ?>>
-								<?php $this->print_unescaped_setting( 'custom_svg' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+								<?php echo Helper_Functions::sanitize_svg( $this->get_settings_for_display( 'custom_svg' ) ); ?>
 							</div>
 						<?php else : ?>
 							<div <?php echo wp_kses_post( $this->get_render_attribute_string( 'lottie' ) ); ?>></div>

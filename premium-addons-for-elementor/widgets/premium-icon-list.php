@@ -125,7 +125,8 @@ class Premium_Icon_List extends Widget_Base {
 			if ( ! empty( $settings['list'] ) ) {
 				foreach ( $settings['list'] as $item ) {
 					if ( 'yes' === $item['draw_svg'] ) {
-						array_push( $scripts, 'pa-tweenmax', 'pa-motionpath' );
+						$scripts[] = 'pa-tweenmax';
+						$scripts[] = 'pa-motionpath';
 
 						$draw_js = true;
 					}
@@ -378,6 +379,9 @@ class Premium_Icon_List extends Widget_Base {
 					array(
 						'icon_type' => 'svg',
 					)
+				),
+				'ai'          => array(
+					'active' => false,
 				),
 			)
 		);
@@ -2779,7 +2783,7 @@ class Premium_Icon_List extends Widget_Base {
 											} elseif ( 'svg' === $item['icon_type'] ) {
 												?>
 													<div <?php echo wp_kses_post( $this->get_render_attribute_string( $animation_key ) ); ?>>
-													<?php echo $this->print_unescaped_setting( 'custom_svg', 'list', $index ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+													<?php echo Helper_Functions::sanitize_svg( $item['custom_svg'] ); ?>
 													</div>
 													<?php
 											} elseif ( 'text' === $item['icon_type'] ) {

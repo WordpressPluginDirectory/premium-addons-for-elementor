@@ -135,7 +135,8 @@ class Premium_Textual_Showcase extends Widget_Base {
 				foreach ( $settings['content'] as $item ) {
 
 					if ( 'yes' === $item['draw_svg'] || 'yes' === $item['draw_svg_hov'] ) {
-						array_push( $scripts, 'pa-tweenmax', 'pa-motionpath' );
+						$scripts[] = 'pa-tweenmax';
+						$scripts[] = 'pa-motionpath';
 						$draw_js = true;
 					}
 
@@ -2604,7 +2605,7 @@ class Premium_Textual_Showcase extends Widget_Base {
 	private function render_item_svg( $item, $index, $elem_type ) {
 		?>
 		<div <?php echo wp_kses_post( $this->get_render_attribute_string( 'item-content-' . $item['_id'] . $elem_type ) ); ?>>
-			<?php $this->print_unescaped_setting( 'custom_svg' . $elem_type, 'content', $index ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+			<?php echo Helper_Functions::sanitize_svg( $item['custom_svg' . $elem_type] ); ?>
 		</div>
 		<?php
 	}

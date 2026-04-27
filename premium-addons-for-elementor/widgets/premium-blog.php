@@ -382,20 +382,29 @@ class Premium_Blog extends Widget_Base {
 
 		foreach ( $post_types as $key => $type ) {
 
-			// Get all the taxanomies associated with the selected post type.
+			// Get all the taxonomies associated with the selected post type.
 			$taxonomy = Blog_Helper::get_taxnomies( $key );
 
 			if ( ! empty( $taxonomy ) ) {
 
+				// Batch-fetch terms for all taxonomies of this post type in one query.
+				$all_terms    = get_terms(
+					array(
+						'taxonomy'   => array_keys( $taxonomy ),
+						'hide_empty' => false,
+					)
+				);
+				$terms_by_tax = array();
+				if ( ! is_wp_error( $all_terms ) ) {
+					foreach ( $all_terms as $t ) {
+						$terms_by_tax[ $t->taxonomy ][] = $t;
+					}
+				}
+
 				// Get all taxonomy values under the taxonomy.
 				foreach ( $taxonomy as $index => $tax ) {
 
-					$terms = get_terms(
-						array(
-							'taxonomy'   => $index,
-							'hide_empty' => false,
-						)
-					);
+					$terms = isset( $terms_by_tax[ $index ] ) ? $terms_by_tax[ $index ] : array();
 
 					$related_tax = array();
 
@@ -608,6 +617,9 @@ class Premium_Blog extends Widget_Base {
 				'condition'   => array(
 					'post_type_filter!'     => 'main',
 					'premium_blog_order_by' => 'meta_value',
+				),
+				'ai'          => array(
+					'active' => false,
 				),
 			)
 		);
@@ -1281,6 +1293,9 @@ class Premium_Blog extends Widget_Base {
 					'premium_blog_cat_tabs'  => 'yes',
 					'premium_blog_carousel!' => 'yes',
 					'premium_blog_layout!'   => 'marquee',
+				),
+				'ai'                 => array(
+					'active' => false,
 				),
 			)
 		);
@@ -2857,6 +2872,9 @@ class Premium_Blog extends Widget_Base {
 				'condition' => array(
 					'box_adv_radius' => 'yes',
 				),
+				'ai'        => array(
+					'active' => false,
+				),
 			)
 		);
 
@@ -2996,6 +3014,9 @@ class Premium_Blog extends Widget_Base {
 				'condition' => array(
 					'navigation_adv_radius' => 'yes',
 				),
+				'ai'        => array(
+					'active' => false,
+				),
 			)
 		);
 
@@ -3082,6 +3103,9 @@ class Premium_Blog extends Widget_Base {
 				'condition' => array(
 					'hover_navigation_adv_radius' => 'yes',
 				),
+				'ai'        => array(
+					'active' => false,
+				),
 			)
 		);
 
@@ -3167,6 +3191,9 @@ class Premium_Blog extends Widget_Base {
 				),
 				'condition' => array(
 					'active_navigation_adv_radius' => 'yes',
+				),
+				'ai'        => array(
+					'active' => false,
 				),
 			)
 		);

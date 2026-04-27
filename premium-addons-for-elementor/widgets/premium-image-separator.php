@@ -240,6 +240,9 @@ class Premium_Image_Separator extends Widget_Base {
 				'condition'   => array(
 					'separator_type' => 'svg',
 				),
+				'ai'          => array(
+					'active' => false,
+				),
 			)
 		);
 
@@ -269,6 +272,9 @@ class Premium_Image_Separator extends Widget_Base {
 				'label_block' => true,
 				'condition'   => array(
 					'separator_type' => 'animation',
+				),
+				'ai'          => array(
+					'active' => false,
 				),
 			)
 		);
@@ -934,6 +940,9 @@ class Premium_Image_Separator extends Widget_Base {
 					'separator_adv_radius' => 'yes',
 					'separator_type!'      => 'animation',
 				),
+				'ai'        => array(
+					'active' => false,
+				),
 			)
 		);
 
@@ -1075,7 +1084,7 @@ class Premium_Image_Separator extends Widget_Base {
 			?>
 		<?php elseif ( 'svg' === $type ) : ?>
 			<div <?php echo wp_kses_post( $this->get_render_attribute_string( 'icon' ) ); ?>>
-				<?php $this->print_unescaped_setting( 'custom_svg' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+				<?php echo Helper_Functions::sanitize_svg( $this->get_settings_for_display( 'custom_svg' ) ); ?>
 			</div>
 		<?php else : ?>
 			<div <?php echo wp_kses_post( $this->get_render_attribute_string( 'separator_lottie' ) ); ?>></div>

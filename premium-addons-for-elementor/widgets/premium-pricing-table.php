@@ -135,7 +135,8 @@ class Premium_Pricing_Table extends Widget_Base {
 			if ( 'yes' === $settings['premium_pricing_table_icon_switcher'] ) {
 
 				if ( 'yes' === $settings['draw_svg'] ) {
-					array_push( $scripts, 'pa-tweenmax', 'pa-motionpath' );
+					$scripts[] = 'pa-tweenmax';
+					$scripts[] = 'pa-motionpath';
 				}
 
 				if ( 'animation' === $settings['icon_type'] ) {
@@ -147,7 +148,8 @@ class Premium_Pricing_Table extends Widget_Base {
 			if ( 'yes' === $settings['premium_pricing_table_list_switcher'] && ! empty( $settings['premium_fancy_text_list_items'] ) ) {
 				foreach ( $settings['premium_fancy_text_list_items'] as $item ) {
 					if ( 'yes' === $item['draw_svg'] ) {
-						array_push( $scripts, 'pa-tweenmax', 'pa-motionpath' );
+						$scripts[] = 'pa-tweenmax';
+						$scripts[] = 'pa-motionpath';
 						$draw_js = true;
 					}
 
@@ -3709,7 +3711,7 @@ class Premium_Pricing_Table extends Widget_Base {
 
 					<?php elseif ( 'svg' === $icon_type ) : ?>
 						<div <?php echo wp_kses_post( $this->get_render_attribute_string( 'icon' ) ); ?>>
-							<?php $this->print_unescaped_setting( 'custom_svg' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+							<?php echo Helper_Functions::sanitize_svg( $this->get_settings_for_display( 'custom_svg' ) ); ?>
 						</div>
 					<?php elseif ( 'animation' === $icon_type ) : ?>
 						<div <?php echo wp_kses_post( $this->get_render_attribute_string( 'pricing_lottie' ) ); ?>></div>
@@ -3838,7 +3840,7 @@ class Premium_Pricing_Table extends Widget_Base {
 								endif;
 								?>
 							<?php elseif ( 'svg' === $item['icon_type'] ) : ?>
-								<?php echo $this->print_unescaped_setting( 'custom_svg', 'premium_fancy_text_list_items', $index ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+								<?php echo Helper_Functions::sanitize_svg( $item['custom_svg'] ); ?>
 								<?php
 							elseif ( 'animation' === $item['icon_type'] ) :
 								$lottie_key = 'pricing_item_lottie_' . $index;

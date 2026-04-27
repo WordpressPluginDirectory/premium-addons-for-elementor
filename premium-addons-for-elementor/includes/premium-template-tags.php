@@ -82,7 +82,6 @@ class Premium_Template_Tags {
 
 		add_action( 'pre_get_posts', array( $this, 'fix_query_offset' ), 1 );
 		add_filter( 'found_posts', array( $this, 'fix_found_posts_query' ), 1, 2 );
-
 	}
 
 	/**
@@ -295,9 +294,22 @@ class Premium_Template_Tags {
 
 		if ( 'full' === $source ) {
 			// Ensure posts build with Elementor loads properly, not as a plain text.
-			$post_id = get_the_ID();
+			$post_id           = get_the_ID();
 			$frontend_instance = Plugin::$instance->frontend;
+			// Guard against infinite recursion: a blog post that is itself an Elementor
+			// page containing a Blog widget would trigger get_builder_content() again,
+			// causing an endless call loop and a PHP stack overflow.
+			static $rendering_depth = 0;
+
+			if ( $rendering_depth > 0 ) {
+				// Already inside a get_builder_content() call — fall back to standard content.
+				the_content();
+				return '';
+			}
+
+			++$rendering_depth;
 			$content = $frontend_instance->get_builder_content( $post_id, true );
+			--$rendering_depth;
 
 			if ( ! empty( $content ) ) {
 				echo $content;
@@ -306,7 +318,6 @@ class Premium_Template_Tags {
 				// Print post full content.
 				the_content();
 			}
-
 		} else {
 			$excerpt = trim( get_the_excerpt() );
 
@@ -321,7 +332,7 @@ class Premium_Template_Tags {
 					array_pop( $words );
 
 					if ( 'dots' === $cta_type ) {
-						array_push( $words, '…' );
+						$words[] = '…';
 					}
 				}
 			}
@@ -851,7 +862,7 @@ class Premium_Template_Tags {
 
 		$settings = self::$settings;
 
-		if ( 'yes' !== $settings['premium_blog_paging'] || ( isset( $settings['premium_blog_layout'] ) && 'marquee' === $settings['premium_blog_layout']) ) {
+		if ( 'yes' !== $settings['premium_blog_paging'] || ( isset( $settings['premium_blog_layout'] ) && 'marquee' === $settings['premium_blog_layout'] ) ) {
 			return;
 		}
 
@@ -1696,15 +1707,17 @@ class Premium_Template_Tags {
 
 					$featured_post = get_post( $post_id, OBJECT );
 
-					global $post;
+					if ( $featured_post ) {
+						global $post;
 
-					$post = $featured_post;
+						$post = $featured_post;
 
-					setup_postdata( $post );
+						setup_postdata( $post );
 
-					$this->render_featured_posts( $featured_post, 'custom' );
+						$this->render_featured_posts( $featured_post, 'custom' );
 
-					wp_reset_postdata();
+						wp_reset_postdata();
+					}
 				}
 			}
 

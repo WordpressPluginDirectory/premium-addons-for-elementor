@@ -2,10 +2,10 @@
 Contributors: Leap13, Rimoun
 Tags: elementor, elementor addons, elementor widgets, elementor mega menu, elementor templates
 Donate Link: https://premiumaddons.com/?utm_source=wp-repo&utm_medium=link&utm_campaign=readme
-Requires at least: 5.0
-Tested Up To: 6.9
+Requires at least: 6.6
+Tested Up To: 7.0
 Requires PHP: 7.4
-Stable Tag: 4.11.70
+Stable Tag: 4.11.75
 License: GPL v3.0
 License URI: https://opensource.org/licenses/GPL-3.0
 
@@ -255,6 +255,37 @@ You can report security bugs through the Patchstack Vulnerability Disclosure Pro
 14. Premium Progress Bar Widget
 
 == Changelog ==
+
+= 4.11.75 - 26/4/2026 =
+
+- Tweak: Added option to autoplay video in active slide in Advanced Carousel widget.
+- Tweak: Added Description option in Heading and Dual Heading widgets.
+- Tweak: Code refactored for better performance and security.
+- Fixed: Load More button not working correctly in TikTok Feed widget.
+
+= 4.11.74 - 16/4/2026 =
+
+- Tweak: Remove deprecated Vimeo API in Video Box widget.
+- Tweak: Core improved for security.
+- Fixed: Badge not showing correctly in Bullet List widget.
+- Fixed: Active menu item border radius not applied with Background Grow animation in Mega Menu widget.
+
+= 4.11.73 - 8/4/2026 =
+
+- Fixed: Pinterest Feed widget not working correctly.
+
+= 4.11.72 - 1/4/2026 =
+
+- Fixed: Premium Templates not working in v4.11.71.
+
+= 4.11.71 - 31/3/2026 =
+
+- Tweak: Added Masonry Layout in Testimonials widget.
+- Tweak: Improved Hover Effects for buttons in all widgets.
+- Fixed: Border Radius not applied correctly on images when Thumbnail Slider enabled in Carousel widget.
+- Fixed: Security issue in widgets that contain SVG Code control.
+- Fixed: Button not working in Banner widget when Effect 5 is selected.
+- Fixed: Scrolling to containers not working in Mobile Menu widget.
 
 = 4.11.70 - 11/3/2026 =
 

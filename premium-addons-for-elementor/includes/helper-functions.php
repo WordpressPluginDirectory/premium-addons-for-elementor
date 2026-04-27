@@ -547,40 +547,42 @@ class Helper_Functions {
 
 		$vimeo_data = get_transient( 'premium_vimeo_' . $video_id );
 
-		if ( $vimeo_data === false ) {
+		if ( false === $vimeo_data ) {
 
-			$vimeo_data = wp_remote_get(
-				'http://www.vimeo.com/api/v2/video/' . intval( $video_id ) . '.php',
+			$response = wp_remote_get(
+				'https://vimeo.com/api/oembed.json?url=' . rawurlencode( 'https://vimeo.com/' . intval( $video_id ) ) . '&width=1280',
 				array(
 					'timeout'   => 5,
 					'sslverify' => true,
 				)
 			);
 
-			if ( is_wp_error( $vimeo_data ) ) {
+			if ( is_wp_error( $response ) ) {
 				return false;
 			}
 
-			if ( isset( $vimeo_data['response']['code'] ) ) {
+			$status_code = wp_remote_retrieve_response_code( $response );
 
-				if ( 200 === $vimeo_data['response']['code'] ) {
+			if ( 200 === $status_code ) {
 
-					$response  = maybe_unserialize( $vimeo_data['body'] );
-					$thumbnail = isset( $response[0]['thumbnail_large'] ) ? $response[0]['thumbnail_large'] : false;
+				$body = json_decode( wp_remote_retrieve_body( $response ), true );
 
-					$data = array(
-						'src'      => $thumbnail,
-						'url'      => $response[0]['user_url'],
-						'portrait' => $response[0]['user_portrait_huge'],
-						'title'    => $response[0]['title'],
-						'user'     => $response[0]['user_name'],
-					);
-
-					set_transient( 'premium_vimeo_' . $video_id, $data, WEEK_IN_SECONDS );
-
-					return $data;
-
+				if ( ! is_array( $body ) ) {
+					return false;
 				}
+
+				$vimeo_data = array(
+					'src'      => isset( $body['thumbnail_url'] ) ? $body['thumbnail_url'] : false,
+					'url'      => isset( $body['author_url'] ) ? $body['author_url'] : false,
+					'portrait' => false,
+					'title'    => isset( $body['title'] ) ? $body['title'] : false,
+					'user'     => isset( $body['author_name'] ) ? $body['author_name'] : false,
+				);
+
+				set_transient( 'premium_vimeo_' . $video_id, $vimeo_data, WEEK_IN_SECONDS );
+
+				return $vimeo_data;
+
 			}
 		}
 
@@ -1370,10 +1372,10 @@ class Helper_Functions {
 
 		if ( count( $devices ) ) {
 			foreach ( $devices as $index => $device ) {
-				array_push( $classes, 'elementor-hidden-' . $device );
+				$classes[] = 'elementor-hidden-' . $device;
 			}
 
-			array_push( $classes, 'premium-addons-element' );
+			$classes[] = 'premium-addons-element';
 		}
 
 		return $classes;
@@ -2098,18 +2100,23 @@ class Helper_Functions {
 	 */
 	public static function get_enabled_widgets_names() {
 
+		static $names_list = null;
+
 		$enabled_elements = self::get_enabled_widgets();
 
 		$enabled_names = array();
 
-		$map_file = PREMIUM_ADDONS_PATH . 'includes/helpers/widget-name-map.php';
+		if ( null === $names_list ) {
 
-		if ( file_exists( $map_file ) ) {
+			$map_file = PREMIUM_ADDONS_PATH . 'includes/helpers/widget-name-map.php';
 
-			$map        = include $map_file;
-			$names_list = is_array( $map ) ? $map : array();
-		} else {
-			$names_list = array();
+			if ( file_exists( $map_file ) ) {
+
+				$map        = include $map_file;
+				$names_list = is_array( $map ) ? $map : array();
+			} else {
+				$names_list = array();
+			}
 		}
 
 		foreach ( $enabled_elements as $key ) {
@@ -2119,5 +2126,155 @@ class Helper_Functions {
 		}
 
 		return $enabled_names;
+	}
+
+	/**
+	 * Sanitize SVG
+	 *
+	 * Strips dangerous attributes (on* event handlers, javascript: hrefs) and
+	 * disallowed tags from a raw SVG string. Used as sanitize_callback for
+	 * custom_svg controls to prevent Stored XSS (CVE-2026-4790).
+	 *
+	 * @since 4.11.71
+	 * @access public
+	 *
+	 * @param string $svg Raw SVG input.
+	 * @return string Sanitized SVG string.
+	 */
+	public static function sanitize_svg( $svg ) {
+
+		$allowed_tags = array(
+			'svg'      => array(
+				'xmlns'       => array(),
+				'xmlns:xlink' => array(),
+				'viewbox'     => array(),
+				'width'       => array(),
+				'height'      => array(),
+				'fill'        => array(),
+				'stroke'      => array(),
+				'class'       => array(),
+				'id'          => array(),
+				'role'        => array(),
+				'aria-hidden' => array(),
+				'aria-label'  => array(),
+				'focusable'   => array(),
+				'style'       => array(),
+			),
+			'circle'   => array(
+				'cx'           => array(),
+				'cy'           => array(),
+				'r'            => array(),
+				'fill'         => array(),
+				'stroke'       => array(),
+				'stroke-width' => array(),
+				'class'        => array(),
+				'id'           => array(),
+				'style'        => array(),
+			),
+			'ellipse'  => array(
+				'cx'           => array(),
+				'cy'           => array(),
+				'rx'           => array(),
+				'ry'           => array(),
+				'fill'         => array(),
+				'stroke'       => array(),
+				'stroke-width' => array(),
+				'class'        => array(),
+				'id'           => array(),
+				'style'        => array(),
+			),
+			'rect'     => array(
+				'x'            => array(),
+				'y'            => array(),
+				'width'        => array(),
+				'height'       => array(),
+				'rx'           => array(),
+				'ry'           => array(),
+				'fill'         => array(),
+				'stroke'       => array(),
+				'stroke-width' => array(),
+				'class'        => array(),
+				'id'           => array(),
+				'style'        => array(),
+			),
+			'line'     => array(
+				'x1'           => array(),
+				'y1'           => array(),
+				'x2'           => array(),
+				'y2'           => array(),
+				'stroke'       => array(),
+				'stroke-width' => array(),
+				'class'        => array(),
+				'id'           => array(),
+				'style'        => array(),
+			),
+			'polyline' => array(
+				'points'       => array(),
+				'fill'         => array(),
+				'stroke'       => array(),
+				'stroke-width' => array(),
+				'class'        => array(),
+				'id'           => array(),
+				'style'        => array(),
+			),
+			'polygon'  => array(
+				'points'       => array(),
+				'fill'         => array(),
+				'stroke'       => array(),
+				'stroke-width' => array(),
+				'class'        => array(),
+				'id'           => array(),
+				'style'        => array(),
+			),
+			'path'     => array(
+				'd'            => array(),
+				'fill'         => array(),
+				'stroke'       => array(),
+				'stroke-width' => array(),
+				'fill-rule'    => array(),
+				'clip-rule'    => array(),
+				'class'        => array(),
+				'id'           => array(),
+				'style'        => array(),
+			),
+			'g'        => array(
+				'fill'      => array(),
+				'stroke'    => array(),
+				'transform' => array(),
+				'class'     => array(),
+				'id'        => array(),
+				'style'     => array(),
+			),
+			'defs'     => array(
+				'class' => array(),
+				'id'    => array(),
+			),
+			'text'     => array(
+				'x'           => array(),
+				'y'           => array(),
+				'dx'          => array(),
+				'dy'          => array(),
+				'fill'        => array(),
+				'font-size'   => array(),
+				'font-family' => array(),
+				'text-anchor' => array(),
+				'class'       => array(),
+				'id'          => array(),
+				'style'       => array(),
+			),
+			'tspan'    => array(
+				'x'     => array(),
+				'y'     => array(),
+				'dx'    => array(),
+				'dy'    => array(),
+				'class' => array(),
+				'id'    => array(),
+				'style' => array(),
+			),
+			'title'    => array(),
+			'desc'     => array(),
+		);
+
+		return wp_kses( $svg, $allowed_tags );
 	}
 }

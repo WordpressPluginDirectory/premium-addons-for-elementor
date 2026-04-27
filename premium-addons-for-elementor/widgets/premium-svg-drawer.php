@@ -124,7 +124,10 @@ class Premium_SVG_Drawer extends Widget_Base {
 			$settings = $this->get_settings();
 
 			if ( 'yes' === $settings['animate_icon'] ) {
-				array_push( $scripts, 'pa-tweenmax', 'pa-scrolltrigger', 'pa-gsap', 'pa-motionpath' );
+				$scripts[] = 'pa-tweenmax';
+				$scripts[] = 'pa-scrolltrigger';
+				$scripts[] = 'pa-gsap';
+				$scripts[] = 'pa-motionpath';
 			}
 		}
 
@@ -204,6 +207,9 @@ class Premium_SVG_Drawer extends Widget_Base {
 				'description' => 'You can use these sites to create SVGs: <a href="https://danmarshall.github.io/google-font-to-svg-path/" target="_blank">Google Fonts</a> and <a href="https://boxy-svg.com/" target="_blank">Boxy SVG</a>',
 				'condition'   => array(
 					'icon_type' => 'custom',
+				),
+				'ai'          => array(
+					'active' => false,
 				),
 			)
 		);
@@ -848,6 +854,9 @@ class Premium_SVG_Drawer extends Widget_Base {
 				'condition' => array(
 					'icon_adv_radius' => 'yes',
 				),
+				'ai'        => array(
+					'active' => false,
+				),
 			)
 		);
 
@@ -953,7 +962,7 @@ class Premium_SVG_Drawer extends Widget_Base {
 
 				<?php else : ?>
 
-					<?php $this->print_unescaped_setting( 'custom_svg' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+					<?php echo Helper_Functions::sanitize_svg( $this->get_settings_for_display( 'custom_svg' ) ); ?>
 
 				<?php endif; ?>
 

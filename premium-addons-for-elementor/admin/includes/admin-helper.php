@@ -573,7 +573,7 @@ class Admin_Helper {
 			$pro_link = sprintf( '<a href="%s" target="_blank" style="color: #FF6000; font-weight: bold;">%s</a>', $link, __( 'Save 20%', 'premium-addons-for-elementor' ) );
 
 			// Add the promotional link to the array.
-			array_push( $new_links, $pro_link );
+			$new_links[] = $pro_link;
 		}
 
 		// Merge the original links with our new custom links.
@@ -901,7 +901,7 @@ class Admin_Helper {
 
 		if ( ! Helper_Functions::check_papro_version() || ! $license_info ) {
 			return array(
-				'title' => __( 'VALENTINE SALE 2026', 'premium-addons-for-elementor' ),
+				'title' => __( 'Spring SALE 2026', 'premium-addons-for-elementor' ),
 				'desc'  => __( 'Supercharge your Elementor with PRO Widgets & Addons that you won\'t find anywhere else.', 'premium-addons-for-elementor' ) . '<span class="papro-sale-notice">' . __( 'save up to 20%!', 'premium-addons-for-elementor' ) . '</span>',
 				'btn'   => __( 'Get Pro', 'premium-addons-for-elementor' ),
 				'cta'   => 'https://premiumaddons.com/get/papro/#get-pa-pro',
@@ -1080,10 +1080,10 @@ class Admin_Helper {
 
 		foreach ( $elements as $elem ) {
 
-			array_push( $keys, $elem['key'] );
+			$keys[] = $elem['key'];
 
 			if ( isset( $elem['draw_svg'] ) ) {
-				array_push( $keys, 'svg_' . $elem['key'] );
+				$keys[] = 'svg_' . $elem['key'];
 			}
 		}
 
@@ -1105,6 +1105,12 @@ class Admin_Helper {
 	 */
 	public static function get_pro_elements() {
 
+		static $pro_elements = null;
+
+		if ( null !== $pro_elements ) {
+			return $pro_elements;
+		}
+
 		$elements = self::get_elements_list();
 
 		$pro_elements = array();
@@ -1115,7 +1121,7 @@ class Admin_Helper {
 			foreach ( $all_elements['elements'] as $elem ) {
 				if ( isset( $elem['is_pro'] ) && ! isset( $elem['is_global'] ) ) {
 					$elem['categories'] = '["premium-elements"]';
-					array_push( $pro_elements, $elem );
+					$pro_elements[]     = $elem;
 				}
 			}
 		}
@@ -1134,6 +1140,12 @@ class Admin_Helper {
 	 */
 	public static function get_free_widgets_names() {
 
+		static $pa_elements = null;
+
+		if ( null !== $pa_elements ) {
+			return $pa_elements;
+		}
+
 		$elements = self::get_elements_list()['cat-1']['elements'];
 
 		$pa_elements = array();
@@ -1141,7 +1153,7 @@ class Admin_Helper {
 		if ( count( $elements ) ) {
 			foreach ( $elements as $elem ) {
 				if ( ! isset( $elem['is_pro'] ) && ! isset( $elem['is_global'] ) && isset( $elem['name'] ) ) {
-					array_push( $pa_elements, $elem['name'] );
+					$pa_elements[] = $elem['name'];
 				}
 			}
 		}

@@ -129,7 +129,7 @@ class Admin_Notices {
 
 			$response = get_transient( $cache_key );
 
-			if ( false == $response ) {
+			if ( false === $response ) {
 				$this->show_review_notice();
 			}
 		}
@@ -155,7 +155,9 @@ class Admin_Notices {
 			return;
 		}
 
-		if ( 'opt_out' === $_GET['pa_review'] ) {
+		$pa_review = sanitize_text_field( wp_unslash( $_GET['pa_review'] ) );
+
+		if ( 'opt_out' === $pa_review ) {
 			check_admin_referer( 'opt_out' );
 
 			update_option( 'pa_review_notice', '1' );
@@ -308,7 +310,7 @@ class Admin_Notices {
 
 		<div class="error pa-notice-wrap pa-new-feature-notice pa-review-notice">
 			<div class="pa-img-wrap">
-				<img src="<?php echo PREMIUM_ADDONS_URL . 'admin/images/pa-logo-symbol.png'; ?>">
+				<img src="<?php echo esc_url( PREMIUM_ADDONS_URL . 'admin/images/pa-logo-symbol.png' ); ?>">
 			</div>
 			<div class="pa-text-wrap">
 				<p>
@@ -398,8 +400,9 @@ class Admin_Notices {
 			'pa-dashboard',
 			'PaNoticeSettings',
 			array(
-				'ajaxurl' => esc_url( admin_url( 'admin-ajax.php' ) ),
-				'nonce'   => wp_create_nonce( 'pa-notice-nonce' ),
+				'ajaxurl'        => esc_url( admin_url( 'admin-ajax.php' ) ),
+				'nonce'          => wp_create_nonce( 'pa-notice-nonce' ),
+				'feedback_nonce' => wp_create_nonce( 'pa-feedback-nonce' ),
 			)
 		);
 	}
@@ -458,7 +461,7 @@ class Admin_Notices {
 		if ( ! empty( $key ) && in_array( $key, self::$notices, true ) ) {
 
 			// Make sure new features notices will not appear again.
-			if ( false != strpos( $key, 'not' ) ) {
+			if ( false !== strpos( $key, 'not' ) ) {
 				update_option( $key, '1' );
 			} else {
 				set_transient( $key, true, 20 * DAY_IN_SECONDS );
@@ -491,7 +494,7 @@ class Admin_Notices {
 		);
 
 		$response = wp_remote_get(
-			'http://my.leap13.com',
+			'https://my.leap13.com',
 			array(
 				'timeout'   => 15,
 				'sslverify' => false,
@@ -596,7 +599,7 @@ class Admin_Notices {
 					$stories['posts'],
 					array(
 						'title' => 'Switch to Premium Addons Pro Lifetime, Pay the Difference & Save 20% Today!',
-						'link'  => Helper_Functions::get_campaign_link( 'https://premiumaddons.com/docs/upgrade-premium-addons-license/', 'wp-dash', 'val26-dash-widget', 'val26' ),
+						'link'  => Helper_Functions::get_campaign_link( 'https://premiumaddons.com/docs/upgrade-premium-addons-license/', 'wp-dash', 'spring26-dash-widget', 'spring26' ),
 					)
 				);
 
@@ -669,7 +672,7 @@ class Admin_Notices {
 							<div class="pa-story-img-container">
 								<img src="<?php echo esc_url( $banner['image'] ); ?>" alt="<?php echo esc_attr( $banner['description'] ); ?>">
 							</div>
-							<a href="<?php echo esc_url( Helper_Functions::get_campaign_link( $banner['link'], 'wp-dash', 'dash-widget', 'val26' ) ); ?>" target="_blank" title="<?php echo esc_attr( $banner['description'] ); ?>"></a>
+							<a href="<?php echo esc_url( Helper_Functions::get_campaign_link( $banner['link'], 'wp-dash', 'dash-widget', 'spring26' ) ); ?>" target="_blank" title="<?php echo esc_attr( $banner['description'] ); ?>"></a>
 						</div>
 
 					<?php endif; ?>

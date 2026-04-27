@@ -255,6 +255,9 @@ class Premium_Videobox extends Widget_Base {
 					'youtube_list'                 => 'yes',
 					'source'                       => 'playlist',
 				),
+				'ai'          => array(
+					'active' => false,
+				),
 			)
 		);
 
@@ -271,6 +274,9 @@ class Premium_Videobox extends Widget_Base {
 					'premium_video_box_video_type' => 'youtube',
 					'youtube_list'                 => 'yes',
 					'source'                       => 'channel',
+				),
+				'ai'          => array(
+					'active' => false,
 				),
 			)
 		);
@@ -407,6 +413,9 @@ class Premium_Videobox extends Widget_Base {
 							),
 						),
 					),
+				),
+				'ai'          => array(
+					'active' => false,
 				),
 			)
 		);
@@ -578,6 +587,9 @@ class Premium_Videobox extends Widget_Base {
 				'label_block' => true,
 				'condition'   => array(
 					'premium_video_box_video_type' => 'self',
+				),
+				'ai'          => array(
+					'active' => false,
 				),
 			)
 		);
@@ -1872,6 +1884,9 @@ class Premium_Videobox extends Widget_Base {
 				'condition' => array(
 					'adv_radius' => 'yes',
 				),
+				'ai'        => array(
+					'active' => false,
+				),
 			)
 		);
 
@@ -2859,10 +2874,10 @@ class Premium_Videobox extends Widget_Base {
 				$options .= '&cc_load_policy=' . ( 'yes' === $settings['cc_load_policy'] ? '1' : '0' );
 			} elseif ( 'vimeo' === $video_type ) {
 
-				// Filter any paramters after link to be added later.
+				// Filter any parameters after link to be added later.
 				$query_string = wp_parse_url( $link, PHP_URL_QUERY );
 
-				// If video link contains paramters.
+				// If video link contains parameters.
 				if ( false !== strpos( $link, '?' ) ) {
 					$link = strstr( $link, '?', true );
 				} else {
