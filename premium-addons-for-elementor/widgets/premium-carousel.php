@@ -106,7 +106,7 @@ class Premium_Carousel extends Widget_Base {
 
 		$is_edit = Helper_Functions::is_edit_mode();
 
-		if ( $is_edit || 'true' === $this->get_settings()['mouse_tilt'] ) {
+		if ( $is_edit || 'true' === $this->get_settings( 'mouse_tilt' ) ) {
 			$scripts[] = 'pa-tilt';
 		}
 
@@ -120,7 +120,7 @@ class Premium_Carousel extends Widget_Base {
 	 * @since  1.0.0
 	 * @access public
 	 *
-	 * @return string Widget keywords.
+	 * @return array Widget keywords.
 	 */
 	public function get_keywords() {
 		return array( 'pa', 'premium', 'premium carousel', 'slider', 'advanced', 'testimonial' );
@@ -508,13 +508,13 @@ class Premium_Carousel extends Widget_Base {
 						'title' => __( 'Center', 'premium-addons-for-elementor' ),
 						'icon'  => 'eicon-text-align-center',
 					),
-					'justify' => array(
-						'title' => __( 'Justify', 'premium-addons-for-elementor' ),
-						'icon'  => 'eicon-text-align-justify',
-					),
 					'end'     => array(
 						'title' => __( 'End', 'premium-addons-for-elementor' ),
 						'icon'  => is_rtl() ? 'eicon-text-align-left' : 'eicon-text-align-right',
+					),
+					'justify' => array(
+						'title' => __( 'Justify', 'premium-addons-for-elementor' ),
+						'icon'  => 'eicon-text-align-justify',
 					),
 				),
 				'default'    => 'center',
@@ -1437,6 +1437,7 @@ class Premium_Carousel extends Widget_Base {
 
 		$docs = array(
 			'https://premiumaddons.com/docs/carousel-widget-tutorial/' => __( 'Getting started »', 'premium-addons-for-elementor' ),
+			'https://www.youtube.com/watch?v=OiiN0WJbzng' => __( 'Video tutorial »', 'premium-addons-for-elementor' ),
 			'https://premiumaddons.com/docs/i-can-see-the-first-slide-only-in-carousel-widget' => __( 'Issue: I can see the first slide only »', 'premium-addons-for-elementor' ),
 			'https://premiumaddons.com/docs/how-to-create-elementor-template-to-be-used-with-premium-addons' => __( 'How to create an Elementor template to be used in Carousel widget »', 'premium-addons-for-elementor' ),
 			'https://premiumaddons.com/docs/why-im-not-able-to-see-elementor-font-awesome-5-icons-in-premium-add-ons/' => __( 'I\'m not able to see Font Awesome icons in the widget »', 'premium-addons-for-elementor' ),
@@ -3163,6 +3164,9 @@ class Premium_Carousel extends Widget_Base {
 		if ( $render_arrows ) {
 			$arrows = true;
 
+			$icon_prev_class = '';
+			$icon_next_class = '';
+
 			if ( $vertical_thumb_slider || ( ! $has_nav_slider && $vertical ) ) {
 				$vertical_alignment = 'ver-carousel-arrow';
 
@@ -3248,6 +3252,9 @@ class Premium_Carousel extends Widget_Base {
 			$arrows = false;
 		}
 
+		$dot_icon      = '';
+		$custom_paging = '';
+
 		if ( $mscroll_disabled && ! $has_nav_slider && 'dots' === $settings['premium_carousel_nav_options'] ) {
 			$dots = true;
 			if ( 'yes' !== $settings['custom_pagination_icon'] ) {
@@ -3270,7 +3277,7 @@ class Premium_Carousel extends Widget_Base {
 		}
 
 		// not available for thumbnail slider mode.
-		$carouselNavigation = $has_nav_slider ? false : $settings['premium_carousel_nav_options'];
+		$carousel_navigation = $has_nav_slider ? false : $settings['premium_carousel_nav_options'];
 
 		$extra_class = ! empty( $settings['premium_carousel_extra_class'] ) ? ' ' . $settings['premium_carousel_extra_class'] : '';
 
@@ -3307,7 +3314,7 @@ class Premium_Carousel extends Widget_Base {
 			'tabletBreak'        => $tablet_breakpoint,
 			'mobileBreak'        => $mobile_breakpoint,
 			'navigation'         => 'repeater' === $content_type ? $custom_navigation : array(),
-			'carouselNavigation' => $carouselNavigation,
+			'carouselNavigation' => $carousel_navigation,
 			'templatesNumber'    => $templates_count,
 			'hasNavSlider'       => $has_nav_slider,
 			'mouseTilt'          => 'true' === $settings['mouse_tilt'],
@@ -3415,7 +3422,7 @@ class Premium_Carousel extends Widget_Base {
 						$temp_src   = ! $is_gallery && is_array( $template_title ) ? $template_title['id'] : '';
 
 						?>
-						<div class="premium-carousel-template item-wrapper" <?php echo $temp_src ? 'data-template-src="' . esc_attr( $temp_src ) . '"' : ''; ?>>
+						<div class="premium-carousel-template item-wrapper" <?php echo $temp_src ? 'data-template-src="' . esc_attr( $temp_src ) . '"' : ''; // phpcs:ignore WordPressVIPMinimum.Security.ProperEscapingFunction.hrefSrcEscUrl -- data-template-src holds a template ID, not a URL. ?>>
 							<?php
 							if ( $is_gallery ) {
 								$image_url = Group_Control_Image_Size::get_attachment_image_src( $template_title['id'], 'thumbnail', $settings );
@@ -3424,7 +3431,7 @@ class Premium_Carousel extends Widget_Base {
 								<?php if ( ! empty( $links[ $index ]['carousel_img_link']['url'] ) ) : ?>
 										<a href="<?php echo esc_url( $links[ $index ]['carousel_img_link']['url'] ); ?>" <?php echo ! empty( $links[ $index ]['carousel_img_link']['is_external'] ) ? 'target="_blank"' : ''; ?> <?php echo ! empty( $links[ $index ]['carousel_img_link']['nofollow'] ) ? 'rel="nofollow"' : ''; ?>>
 									<?php endif; ?>
-										<img src="<?php echo esc_attr( $image_url ); ?>" alt="<?php echo esc_attr( Control_Media::get_image_alt( $template_title ) ); ?>">
+										<img src="<?php echo esc_url( $image_url ); ?>" alt="<?php echo esc_attr( Control_Media::get_image_alt( $template_title ) ); ?>">
 									<?php if ( ! empty( $links[ $index ]['carousel_img_link']['url'] ) ) : ?>
 										</a>
 									<?php endif; ?>
@@ -3472,7 +3479,7 @@ class Premium_Carousel extends Widget_Base {
 							<span id="currentSlide" class="fraction-pagination-current">1</span>
 							<span class="fraction-pagination-separator">/</span>
 							<span class="fraction-pagination-total">
-								<?php echo esc_attr( $templates_count ); ?>
+								<?php echo esc_html( $templates_count ); ?>
 							</span>
 						</div>
 					<?php } elseif ( 'progressbar' === $settings['premium_carousel_nav_options'] ) { ?>
