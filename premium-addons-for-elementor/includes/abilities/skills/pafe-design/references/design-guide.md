@@ -1,8 +1,3 @@
----
-name: pafe-design
-description: Design guidance for building Elementor pages through the Premium Addons abilities. Load before building or restyling any page or section so the result matches the site and reads as designed.
----
-
 # Premium Addons — Page Design Guide
 
 The job is a page that fits its site and looks deliberately made. The floor is avoiding the machine-built look — an ad-hoc color and size in every section, a centered mega-hero, three identical icon boxes, vague copy, filler images. Clearing it is the start, not the finish.
